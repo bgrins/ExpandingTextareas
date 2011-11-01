@@ -8,16 +8,17 @@
         'whiteSpace', 'wordWrap'
     ];
     
+    var containerCSSProperties = [
+        'margin-top', 'margin-bottom'
+    ];
+    
     var textareaCSS = {
         position: "absolute",
-        top: "0",
-        left: "0",
         height: "100%",
         resize: "none"
     };
     
     var preCSS = {
-        display: "block",
         visibility: "hidden"
     };
     
@@ -61,9 +62,15 @@
             var pre = container.find("pre").css(preCSS);
 
             textarea.css(textareaCSS);
-        
+            
             $.each(cloneCSSProperties, function (i, p) {
                 pre.css(p, textarea.css(p));
+            });
+            
+            $.each(containerCSSProperties, function (i, p) {
+                container.css(p, textarea.css(p));
+                pre.css(p, 0);
+                textarea.css(p, 0);
             });
             
             resize(this);

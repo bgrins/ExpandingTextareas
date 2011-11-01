@@ -39,7 +39,7 @@
             
             $(document).delegate(
                 ".expandingText textarea", 
-                "input onpropertychange", 
+                "input propertychange", 
                 function () {
                     resize(this);
                 }

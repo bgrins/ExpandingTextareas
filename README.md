@@ -1,8 +1,6 @@
 ## Expanding Textareas
 
-Based off of work by [Neil Jenkins](http://nmjenkins.com/)
-
-http://www.alistapart.com/articles/expanding-text-areas-made-elegant/
+Based off of work by [Neil Jenkins](http://nmjenkins.com/) that can be seen here: http://www.alistapart.com/articles/expanding-text-areas-made-elegant/
 
 Start with markup like this: 
 

@@ -29,3 +29,5 @@ You can style things how you'd like for the textarea, but it is best (especially
     }
     
 See the [original article](http://www.alistapart.com/articles/expanding-text-areas-made-elegant/) for a great explanation of how this technique works.
+
+See the [demo](http://bgrins.github.com/ExpandingTextareas/) to see the plugin in action.

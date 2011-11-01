@@ -4,7 +4,8 @@
 <style>
 body { background: #eee; }
 
-textarea, .textareaClone {
+textarea,
+.textareaClone {
   padding: 3%;
   background: transparent;
   font-family: Arial;
@@ -12,14 +13,25 @@ textarea, .textareaClone {
   font-size:33px;
   white-space: pre-wrap;
   word-wrap: break-word;
+  line-height: 1.5em;
+  min-height: 1.5em;
+  max-height: 15em;
 }
-textarea { font-size: 20px; }
+
+textarea {
+  font-size: 20px;
+}
+
 .expandingText > textarea {
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
       -ms-box-sizing: border-box;
           box-sizing: border-box;
   width: 100%;
+}
+
+.expandingText pre > div {
+  padding-bottom: 5px;
 }
 </style>
 <script type='text/javascript' src='jquery-1.6.4.js'></script>

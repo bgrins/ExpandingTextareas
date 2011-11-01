@@ -2,6 +2,8 @@
 
 Based off of work by [Neil Jenkins](http://nmjenkins.com/) that can be seen here: http://www.alistapart.com/articles/expanding-text-areas-made-elegant/
 
+### How To Use
+
 Start with markup like this: 
 
     <textarea class='expanding'></textarea>
@@ -29,3 +31,7 @@ You can style things how you'd like for the textarea, but it is best (especially
 See the [original article](http://www.alistapart.com/articles/expanding-text-areas-made-elegant/) for a great explanation of how this technique works.
 
 See the [demo](http://bgrins.github.com/ExpandingTextareas/) to see the plugin in action.
+
+### Browser Support
+
+At the moment, I have not tested this in IE.  I believe the technique will work, but it probably is not yet.  I will update this when IE is definitely supported. 

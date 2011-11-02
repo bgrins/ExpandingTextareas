@@ -35,8 +35,6 @@ textarea {
   word-wrap: break-word;
   font-size: 1em;
   line-height: 1.5em;
-  min-height: 1.5em;
-  max-height: 15em;
   margin: .5em 0;
 }
 
@@ -54,12 +52,13 @@ textarea {
   font-size: 1.75em;
 }
 
-.exampleMinHeight textarea {
-  padding: 1em;
-  min-height: 4em;
-  font-size: 1.75em;
+.exampleMinHeight textarea, .exampleMinHeight .expandingText {
+  min-height: 6em;
 }
 
+.exampleMaxHeight textarea, .exampleMaxHeight .expandingText {
+  max-height: 8em;
+}
 .exampleBorder textarea {
     border: double 8px #333;
     border-radius: 5px;
@@ -109,6 +108,21 @@ See the <a href='http://github.com/bgrins/ExpandingTextareas'>project page</a> f
   <textarea class='expanding'>Resize your browser window to make this switch from one line to two, or two lines to three.  Try copying and pasting more content in then resizing.  Awesome!</textarea>
 </div>
 
+<div class='example exampleMinHeight'>
+  <p>
+    Extra initial height by increasing the <code>min-height</code>:
+  </p>
+
+  <textarea class='expanding' placeholder='Enter Some Text'></textarea>
+</div>
+<div class='example exampleMaxHeight'>
+  <p>
+    Set a <code>max-height</code> on the textarea to get scrolling after a certain size:
+  </p>
+
+  <textarea class='expanding' placeholder='Enter Some Text'></textarea>
+</div>
+
 
 <div class='example exampleBigText'>
   <p>
@@ -117,8 +131,6 @@ See the <a href='http://github.com/bgrins/ExpandingTextareas'>project page</a> f
 
   <textarea class='expanding' placeholder='Enter Some Text'></textarea>
 </div>
-
-
 <div class='example exampleBorder'>
   <p>
     Custom border sizes on the textarea are handled as well
@@ -134,13 +146,6 @@ See the <a href='http://github.com/bgrins/ExpandingTextareas'>project page</a> f
   <textarea class='expanding' placeholder='Enter Some Text'></textarea>
 </div>
 
-<div class='example exampleMinHeight'>
-  <p>
-    Extra initial height by increasing the <code>min-height</code>:
-  </p>
-
-  <textarea class='expanding' placeholder='Enter Some Text'></textarea>
-</div>
 
 </div>
 

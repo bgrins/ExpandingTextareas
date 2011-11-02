@@ -5,6 +5,22 @@
 
 body {
   background: #eee;
+  margin:20px;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.example {
+    margin: 10px 0;
+    padding: 10px 0;
+    border-bottom: solid 1px;
+}
+.example p {
+    padding:0;
+    margin: 5px 0;
 }
 
 .expandingText textarea,
@@ -60,14 +76,37 @@ body {
 </head>
 <body>
 
-<h1>Expanding Textareas</h1>
-<a href='https://github.com/bgrins/ExpandingTextareas'>Project Page</a>
 
-<div class='example0'>
-  <textarea class='expanding' placeholder='Enter Some Text'></textarea>
+<a href="http://github.com/bgrins/ExpandingTextareas"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+
+<div class='container'>
+
+
+<h1>Expanding Textareas jQuery Plugin</h1>
+
+<div class='example example0'>
+  <textarea class='expanding' placeholder='Enter Some Text And Watch the Textarea Grow'></textarea>
 </div>
 
-<div class='example1'>
+<h2>Usage</h2>
+<p>
+See the <a href='http://github.com/bgrins/ExpandingTextareas'>project page</a> for usage.
+</p>
+
+
+<h2>More Examples</h2>
+
+<div class='example exampleResize'>
+  <p>
+    Content automatically resizes <em>without using the window.resize event</em>!
+  </p>
+
+  <textarea class='expanding'>Resize your browser window to make this switch from one line to two, or two lines to three.  Try copying and pasting more content in then resizing.  Awesome!</textarea>
+</div>
+
+
+<div class='example example1'>
   <p>
     Larger font size:
   </p>
@@ -76,7 +115,7 @@ body {
 </div>
 
 
-<div class='example3'>
+<div class='example example3'>
   <p>
     Custom borders on the textarea are handled as well
   </p>
@@ -84,7 +123,7 @@ body {
   <textarea class='expanding' placeholder='Enter Some Text'></textarea>
 </div>
 
-<div class='example2'>
+<div class='example example2'>
   <p>
     Extra initial height by increasing the <code>min-height</code>:
   </p>
@@ -92,7 +131,7 @@ body {
   <textarea class='expanding' placeholder='Enter Some Text'></textarea>
 </div>
 
-
+</div>
 
 
 </body>

@@ -38,7 +38,6 @@
 
         return this.filter("textarea").not(".expanding-init").each(function () {
             
-            
             var textarea = $(this).addClass("expanding-init");
 
             textarea.wrap("<div class='expandingText'></div>");

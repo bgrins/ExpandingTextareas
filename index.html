@@ -5,8 +5,18 @@
 <style>
 
 body {
-  background: #eee;
+  background-color: #f4f4f4;
+  background-image: -webkit-linear-gradient(0, transparent 50%, rgba(255,255,255,.3) 50%);
+  background-image: -moz-linear-gradient(0, transparent 50%, rgba(255,255,255,.3) 50%);
+  background-image: linear-gradient(0, transparent 50%, rgba(255,255,255,.3) 50%);
+  background-size: 50px;
+  color: #333;
+  font-family: Lucida Sans, Droid Sans, Arial;
   margin:20px;
+}
+
+h1, h2, h3 {
+    font-family: Georgia, serif;
 }
 
 .container {
@@ -15,15 +25,24 @@ body {
 }
 
 .example {
-    margin: 10px 0;
-    padding: 10px 0;
-    border-bottom: solid 1px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    margin-left: 15px;
+    border-bottom: dotted 1px;
 }
 .example p {
     padding:0;
     margin: 5px 0;
 }
-
+.group {
+    background: rgba(128, 128, 128, .1);
+    padding:0 4px;
+    border: solid 2px #fff;
+    border-radius: 4px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 2px #001;
+}
 
 /* Note: None of these rules are necessary to have this plugin work! */
 
@@ -100,109 +119,141 @@ textarea {
   <textarea class='expanding' placeholder='Enter Some Text And Watch the Textarea Grow'></textarea>
 </div>
 
-<h2>Usage</h2>
-<p>
+<div class='group'>
+
+    <h2>Usage</h2>
+    <div class='example'>
+    <p>
+
 <pre><code>&lt;script src='expanding.js&gt;&lt;/script&gt;
 &lt;textarea class='expanding'&gt;&lt;/textarea&gt;</code></pre>
-
-No extra JavaScript calls needed if you already have the 'expanding class' on the textarea. 
- If you'd like to manually call the plugin instead, use:
- 
+    
+    No extra JavaScript calls needed if you already have the 'expanding class' on the textarea. 
+     If you'd like to manually call the plugin instead, use:
+     
 <pre><code>&lt;script&gt;
 $("#element").expandingTextarea();
 &lt;/script&gt;</code></pre>
+    
+    See the <a href='http://github.com/bgrins/ExpandingTextareas'>project page</a> for an explanation of how it works.
+    </p>
+    </div>
 
-See the <a href='http://github.com/bgrins/ExpandingTextareas'>project page</a> for an explanation of how it works.
-</p>
-
-
-<h2>Examples</h2>
-
-<div class='example exampleResize'>
-  <h3>Resize friendly</h3>
-  <p>
-    Content automatically resizes <em>without using the window.resize event</em>!
-  </p>
-
-  <textarea class='expanding'>Resize your browser window to make this switch from one line to two, or two lines to three.  Try copying and pasting more content in then resizing.</textarea>
 </div>
 
-<div class='example exampleMinHeight'>
-  <h3>Minimum Height</h3>
-  <p>
-    Sometimes you may want to start off with a couple of lines to make it obvious that there is a textarea.
-    This is easy - just use CSS to add a min height to the textarea and the .textareaClone, like so:
-  </p>
+
+<div class='group'>
+    
+    <h2>Highlights</h2>
+    <p>What makes this plugin cool?</p>
+    <div class='example exampleResize'>
+      <h3>Resize friendly</h3>
+      <p>
+        Content automatically resizes <em>without using the window.resize event</em>!
+      </p>
+    
+      <textarea class='expanding'>Resize your browser window to make this switch from one line to two, or two lines to three.  Try copying and pasting more content in then resizing.</textarea>
+    </div>
+
+</div>
+
+
+<div class='group'>
+    
+    <h2>Examples</h2>
+    <p>
+    Almost all customization of the expandingTextareas plugin is simply done in CSS.
+    Here are some of the things you can do:
+    </p>
+    
+    <div class='example exampleMinHeight'>
+      <h3>Minimum Height</h3>
+      <p>
+        Sometimes you may want to start off with a couple of lines to make it obvious that there is a textarea.
+        This is easy - just use CSS to add a min height to the textarea and the .textareaClone, like so:
+      </p>
 <pre><code>
 textarea, .textareaClone {
     min-height: 6em;
 }</code></pre>
-
-
-  <textarea class='expanding' placeholder='Enter Some Text'></textarea>
-</div>
-<div class='example exampleMaxHeight'>
-  <p>
-    Set a <code>max-height</code> on the textarea to get scrolling after a certain size.  
-    This is done just like the min height example above:
-  </p>
+    
+    
+      <textarea class='expanding' placeholder='Enter Some Text'></textarea>
+    </div>
+    <div class='example exampleMaxHeight'>
+      <h3>Maximum Height</h3>
+      <p>
+        Set a <code>max-height</code> on the textarea to get scrolling after a certain size.  
+        This is done just like the min height example above:
+      </p>
 <pre><code>
 textarea, .textareaClone {
     max-height: 8em;
 }</code></pre>
-
-  <textarea class='expanding' placeholder='Enter Some Text'></textarea>
-</div>
-
-
-<div class='example exampleFonts'>
-  <h3>
-    Custom font properties
-  </h3>
-    <p>
-        All fonts, colors, and spacings can be set to whatever you want, and the plugin will automatically copy the styles over to the invisible pre tag.
-    </p>
-  <textarea class='expanding'>This font is styled differently, but the resizing still works</textarea>
-</div>
-
-<div class='example exampleBorder'>
-  <h3>Custom borders</h3>
-  <p>
-    Custom border sizes on the textarea are handled as well
-  </p>
-
-  <textarea class='expanding' placeholder='Enter Some Text'></textarea>
-</div>
-
-<div class='example exampleProportional'>
-  <h3>Proportional paddings, margins, and widths</h3>
-  <p>
-    Percentages are a little tricky.  <em>Firefox seems to have some problems rendering percentage paddings and margins on textareas, it is probably best if you avoid this technique.</em>  Using ems for margin and padding seems to work fine.
     
-    You can use percentages on widths in all browsers, as you place the CSS rule on both elements, like so:
-  </p>
+      <textarea class='expanding' placeholder='Enter Some Text'></textarea>
+    </div>
+    
+    
+    <div class='example exampleFonts'>
+      <h3>
+        Custom font properties
+      </h3>
+        <p>
+            All fonts, colors, and spacings can be set to whatever you want, and the plugin will automatically copy the styles over to the invisible pre tag.
+        </p>
+      <textarea class='expanding'>This font is styled differently, but the resizing still works</textarea>
+    </div>
+    
+    <div class='example exampleBorder'>
+      <h3>Custom borders</h3>
+      <p>
+        Custom border sizes on the textarea are handled as well
+      </p>
+    
+      <textarea class='expanding' placeholder='Enter Some Text'></textarea>
+    </div>
+    
+    <div class='example exampleProportional'>
+      <h3>Proportional paddings, margins, and widths</h3>
+      <p>
+        Percentages are a little tricky.  <em>Firefox seems to have some problems rendering percentage paddings and margins on textareas, it is probably best if you avoid this technique.</em>  Using ems for margin and padding seems to work fine.
+        
+        You can use percentages on widths in all browsers, as you place the CSS rule on both elements, like so:
+      </p>
 <pre><code>
 textarea, .textareaClone {
     padding: 1em;
     margin: 1em;
     width: 50%;
 }</code></pre>
-  <textarea class='expanding' placeholder='Enter Some Text'></textarea>
-</div>
-
-
-<div class='example exampleCentered'>
-  <h3>Centering</h3>
-  <p>Centering the textarea is actually pretty easy, just set a width and a <code>margin: 0 auto;</code> on the container</p>
-  
+      <textarea class='expanding' placeholder='Enter Some Text'></textarea>
+    </div>
+    
+    
+    <div class='example exampleCentered'>
+      <h3>Centering</h3>
+      <p>Centering the textarea is actually pretty easy, just set a width and a <code>margin: 0 auto;</code> on the container.  Make sure your textarea has 100% width with border-box sizing too!</p>
+      
 <pre><code>
 .expandingText {
     width: 75%;
     margin: 0 auto;
+}
+
+textarea {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+      -ms-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 100%;
 }</code></pre>
 
-  <textarea class='expanding' placeholder='Enter Some Text'></textarea>
+      <textarea class='expanding' placeholder='Enter Some Text'></textarea>
+    </div>
+
 </div>
+
 </div>
 
 

@@ -30,8 +30,8 @@
         position: "relative"
     };
     
-    function resize(textarea) {
-        $(textarea).parent().find("div").text(textarea.value + ' ');
+    function resize() {
+        $(this).parent().find("div").text(this.value + ' ');
     }
   
     $.fn.expandingTextarea = function (o) {
@@ -47,10 +47,6 @@
             textarea.wrap("<div class='expandingText'></div>");
             textarea.after("<pre class='textareaClone'><div></div></pre>");
             
-            textarea.bind("input.expanding propertychange.expanding", function() {
-                resize(this);
-            });
-
             var container = textarea.parent().css(containerCSS);
             var pre = container.find("pre").css(preCSS);
 
@@ -65,7 +61,8 @@
                 }
             });
             
-            resize(this);
+            textarea.bind("input.expanding propertychange.expanding", resize);
+            resize.apply(this);
         });
         
         return this;

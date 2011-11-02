@@ -74,7 +74,7 @@
                 var val = textarea.css(p);
                 
                 // Only set if different to prevent overriding percentage css values
-                if (pre.css(p) != val) {
+                if (pre.css(p) !== val) {
                     pre.css(p, val);
                 }
             });

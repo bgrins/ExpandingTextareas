@@ -5,7 +5,9 @@
         'fontSize', 'fontFamily', 'fontStyle', 
         'fontWeight', 'textTransform', 'textAlign', 
         'direction', 'wordSpacing', 'fontSizeAdjust', 
-        'whiteSpace', 'wordWrap'
+        'whiteSpace', 'wordWrap', 
+        'borderLeftWidth', 'borderRightWidth',
+        'borderTopWidth','borderBottomWidth'
     ];
     
     var textareaCSS = {
@@ -17,7 +19,8 @@
     
     var preCSS = {
         visibility: "hidden",
-        margin: "0"
+        margin: "0",
+        border: "0 solid"
     };
     
     var containerCSS = {

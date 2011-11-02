@@ -2,6 +2,7 @@
 <html>
 <head>
 <style>
+
 body {
   background: #eee;
 }
@@ -27,15 +28,6 @@ body {
   width: 100%;
 }
 
-.expandingText .textareaClone {
-  /**
-   * Removes the scrollbar unless it is needed for the max-height
-   * Unknown what measurement to base it off of...
-   * Generally: textarea padding + x???
-   */
-  padding-bottom: .65em;
-}
-
 .example1 textarea {
   font-family: Arial;
   font-style: italic;
@@ -58,6 +50,10 @@ body {
   padding-bottom: 1.55em;
 }
 
+
+.example3 textarea {
+    border: dotted 5px #333;
+}
 </style>
 <script type='text/javascript' src='jquery-1.6.4.js'></script>
 <script type='text/javascript' src='expanding.js'></script>
@@ -79,6 +75,15 @@ body {
   <textarea class='expanding' placeholder='Enter Some Text'></textarea>
 </div>
 
+
+<div class='example3'>
+  <p>
+    Custom borders on the textarea are handled as well
+  </p>
+
+  <textarea class='expanding' placeholder='Enter Some Text'></textarea>
+</div>
+
 <div class='example2'>
   <p>
     Extra initial height by increasing the <code>min-height</code>:
@@ -86,6 +91,9 @@ body {
 
   <textarea class='expanding' placeholder='Enter Some Text'></textarea>
 </div>
+
+
+
 
 </body>
 </html>

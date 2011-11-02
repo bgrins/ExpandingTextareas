@@ -52,11 +52,11 @@
 
     $.fn.expandingTextarea = function () {
 
-        return this.filter("textarea").each(function () {
+        return this.filter("textarea").not(".expanding-init").each(function () {
             
             initialize(this.ownerDocument || document);
             
-            var textarea = $(this);
+            var textarea = $(this).addClass("expanding-init");
 
             textarea.wrap("<div class='expandingText'></div>");
             textarea.after("<pre class='textareaClone'><div></div></pre>");

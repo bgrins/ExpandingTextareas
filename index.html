@@ -27,8 +27,8 @@ body {
 
 /* Note: None of these rules are necessary to have this plugin work! */
 
-.expandingText textarea,
-.expandingText .textareaClone {
+
+textarea {
   padding: .5em;
   background: #fff;
   white-space: pre-wrap;
@@ -40,7 +40,7 @@ body {
   margin: .5em 0;
 }
 
-.expandingText textarea {
+textarea {
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
       -ms-box-sizing: border-box;
@@ -54,8 +54,7 @@ body {
   font-size: 1.75em;
 }
 
-.exampleMinHeight textarea,
-.exampleMinHeight .textareaClone  {
+.exampleMinHeight textarea {
   padding: 1em;
   min-height: 4em;
   font-size: 1.75em;
@@ -66,6 +65,8 @@ body {
     border-radius: 5px;
 }
 
+/* Need to include .textareaClone if the rule uses percentages.
+   This way everything can stay in sync without extra javascript */
 .examplePercentage textarea,
 .examplePercentage .textareaClone {
     padding: 3%;

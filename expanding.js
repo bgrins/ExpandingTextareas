@@ -9,7 +9,6 @@
     ];
     
     var textareaCSS = {
-        overflow: "hidden",
         position: "absolute",
         top: "0",
         left: "0",
@@ -29,7 +28,7 @@
     var initializedDocuments = { };
     
     function resize(textarea) {  
-        $(textarea).parent().find("span").text(textarea.value);
+        $(textarea).parent().find("div").text(textarea.value + '&nbsp;');
     }
   
     function initialize(document) {
@@ -56,7 +55,7 @@
             var textarea = $(this);
 
             textarea.wrap("<div class='expandingText'></div>");
-            textarea.after("<pre class='textareaClone'><span></span><br /></pre>");
+            textarea.after("<pre class='textareaClone'><div></div></pre>");
 
             var container = textarea.parent().css(containerCSS);
             var pre = container.find("pre").css(preCSS);

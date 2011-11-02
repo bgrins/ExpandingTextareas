@@ -40,7 +40,7 @@ body {
   margin: .5em 0;
 }
 
-.expandingText > textarea {
+.expandingText textarea {
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
       -ms-box-sizing: border-box;
@@ -54,7 +54,6 @@ body {
   font-size: 1.75em;
 }
 
-
 .exampleMinHeight textarea,
 .exampleMinHeight .textareaClone  {
   padding: 1em;
@@ -66,6 +65,13 @@ body {
     border: double 8px #333;
     border-radius: 5px;
 }
+
+.examplePercentage textarea,
+.examplePercentage .textareaClone {
+    padding: 10%;
+    width: 50%;
+}
+
 </style>
 <script type='text/javascript' src='jquery-1.6.4.js'></script>
 <script type='text/javascript' src='expanding.js'></script>
@@ -116,6 +122,13 @@ See the <a href='http://github.com/bgrins/ExpandingTextareas'>project page</a> f
     Custom border sizes on the textarea are handled as well
   </p>
 
+  <textarea class='expanding' placeholder='Enter Some Text'></textarea>
+</div>
+
+<div class='example examplePercentage'>
+  <p>
+    Percentages work (if placed on both textarea and .textareaClone)
+  </p>
   <textarea class='expanding' placeholder='Enter Some Text'></textarea>
 </div>
 

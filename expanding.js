@@ -30,37 +30,23 @@
         position: "relative"
     };
     
-    var initializedDocuments = { };
-    
     function resize(textarea) {
         $(textarea).parent().find("div").text(textarea.value + ' ');
     }
   
-    function initialize(document) {
-        // Only need to initialize events once per document
-        if (!initializedDocuments[document]) {
-            initializedDocuments[document] = true;
-            
-            $(document).delegate(
-                ".expandingText textarea", 
-                "input propertychange", 
-                function () {
-                    resize(this);
-                }
-            );
-        }
-    }
-
     $.fn.expandingTextarea = function () {
 
         return this.filter("textarea").not(".expanding-init").each(function () {
             
-            initialize(this.ownerDocument || document);
             
             var textarea = $(this).addClass("expanding-init");
 
             textarea.wrap("<div class='expandingText'></div>");
             textarea.after("<pre class='textareaClone'><div></div></pre>");
+            
+            textarea.bind("input propertychange", function() {
+                resize(this);
+            });
 
             var container = textarea.parent().css(containerCSS);
             var pre = container.find("pre").css(preCSS);

@@ -34,16 +34,20 @@
         $(textarea).parent().find("div").text(textarea.value + ' ');
     }
   
-    $.fn.expandingTextarea = function () {
-
-        return this.filter("textarea").not(".expanding-init").each(function () {
+    $.fn.expandingTextarea = function (o) {
+        
+        if (o === "resize") {
+            return this.trigger("input.expanding");
+        }
+        
+        this.filter("textarea").not(".expanding-init").each(function () {
             
             var textarea = $(this).addClass("expanding-init");
 
             textarea.wrap("<div class='expandingText'></div>");
             textarea.after("<pre class='textareaClone'><div></div></pre>");
             
-            textarea.bind("input propertychange", function() {
+            textarea.bind("input.expanding propertychange.expanding", function() {
                 resize(this);
             });
 
@@ -63,6 +67,8 @@
             
             resize(this);
         });
+        
+        return this;
     };
 
     $.fn.expandingTextarea.initialSelector = "textarea.expanding";

@@ -11,26 +11,23 @@
         'paddingLeft', 'paddingRight',
         'paddingTop','paddingBottom',
         'marginLeft', 'marginRight',
-        'marginTop','marginBottom'
+        'marginTop','marginBottom',
+        'boxSizing', 'webkitBoxSizing', 'mozBoxSizing', 'msBoxSizing'
     ];
     
     var textareaCSS = {
         position: "absolute",
         height: "100%",
-        resize: "none",
-        margin: "0"
+        resize: "none"
     };
     
     var preCSS = {
         visibility: "hidden",
-        margin: "0",
         border: "0 solid"
     };
     
     var containerCSS = {
-        position: "relative",
-        margin: "0",
-        padding: "0"
+        position: "relative"
     };
     
     var initializedDocuments = { };

@@ -1,8 +1,8 @@
-## Expanding Textareas
+# Expanding Textareas jQuery Plugin
 
 Based off of work by [Neil Jenkins](http://nmjenkins.com/) that can be seen here: http://www.alistapart.com/articles/expanding-text-areas-made-elegant/
 
-### How To Use
+## How To Use
 
 Start with markup like this: 
 
@@ -19,7 +19,7 @@ If you'd like to change the initial selector to grab ALL textareas on load, you 
 
     $.fn.expandingTextarea.initialSelector = "textarea";
         
-### How it works
+## How it works
 
 See the [original article](http://www.alistapart.com/articles/expanding-text-areas-made-elegant/) for a great explanation of how this technique works.
 
@@ -38,7 +38,7 @@ The way it works is that as the user types, the text content is copied into the 
       Was Entered</div></pre>
     </div>
 
-### Styling
+## Styling
 
 You can style things how you'd like for the textarea, and they will automatically be copied over to the invisible pre tag.
 
@@ -73,6 +73,6 @@ If you'd prefer to center the content, set the width to 100% on the textarea, an
 
 See the [demo](http://bgrins.github.com/ExpandingTextareas/) to see the plugin in action.
 
-### Browser Support
+## Browser Support
 
 I have checked this in Chrome, Safari, Firefox, IE7, and mobile Safari and it works in all of them.

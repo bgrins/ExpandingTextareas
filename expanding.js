@@ -7,7 +7,11 @@
         'direction', 'wordSpacing', 'fontSizeAdjust', 
         'whiteSpace', 'wordWrap', 
         'borderLeftWidth', 'borderRightWidth',
-        'borderTopWidth','borderBottomWidth'
+        'borderTopWidth','borderBottomWidth',
+        'paddingLeft', 'paddingRight',
+        'paddingTop','paddingBottom',
+        'marginLeft', 'marginRight',
+        'marginTop','marginBottom'
     ];
     
     var textareaCSS = {
@@ -67,7 +71,12 @@
             textarea.css(textareaCSS);
             
             $.each(cloneCSSProperties, function (i, p) {
-                pre.css(p, textarea.css(p));
+                var val = textarea.css(p);
+                
+                // Only set if different to prevent overriding percentage css values
+                if (pre.css(p) != val) {
+                    pre.css(p, val);
+                }
             });
             
             resize(this);

@@ -10,14 +10,11 @@
     
     var textareaCSS = {
         position: "absolute",
-        top: "0",
-        left: "0",
         height: "100%",
         resize: "none"
     };
     
     var preCSS = {
-        display: "block",
         visibility: "hidden"
     };
     
@@ -27,8 +24,8 @@
     
     var initializedDocuments = { };
     
-    function resize(textarea) {  
-        $(textarea).parent().find("div").text(textarea.value + '&nbsp;');
+    function resize(textarea) {
+        $(textarea).parent().find("div").text(textarea.value + ' ');
     }
   
     function initialize(document) {
@@ -61,7 +58,7 @@
             var pre = container.find("pre").css(preCSS);
 
             textarea.css(textareaCSS);
-        
+            
             $.each(cloneCSSProperties, function (i, p) {
                 pre.css(p, textarea.css(p));
             });

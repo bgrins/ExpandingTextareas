@@ -2,24 +2,21 @@
 <html>
 <head>
 <style>
-body { background: #eee; }
+body {
+  background: #eee;
+}
 
-textarea,
-.textareaClone {
-  padding: 3%;
-  background: transparent;
-  font-family: Arial;
-  font-style: italic;
-  font-size:33px;
+.expandingText textarea,
+.expandingText .textareaClone {
+  padding: .5em;
+  background: #fff;
   white-space: pre-wrap;
   word-wrap: break-word;
+  font-size: 1em;
   line-height: 1.5em;
   min-height: 1.5em;
   max-height: 15em;
-}
-
-textarea {
-  font-size: 20px;
+  margin: .5em 0;
 }
 
 .expandingText > textarea {
@@ -30,9 +27,37 @@ textarea {
   width: 100%;
 }
 
-.expandingText pre > div {
-  padding-bottom: 5px;
+.expandingText .textareaClone {
+  /**
+   * Removes the scrollbar unless it is needed for the max-height
+   * Unknown what measurement to base it off of...
+   * Generally: textarea padding + x???
+   */
+  padding-bottom: .65em;
 }
+
+.example1 textarea {
+  font-family: Arial;
+  font-style: italic;
+  font-size: 1.75em;
+}
+
+.example1 .expandingText .textareaClone {
+  /* See note above */
+  padding-bottom: .65em;
+}
+
+.example2 textarea {
+  padding: 1em;
+  min-height: 5em;
+  font-size: 2.5em;
+}
+
+.example2 .expandingText .textareaClone {
+  /* See note above */
+  padding-bottom: 1.55em;
+}
+
 </style>
 <script type='text/javascript' src='jquery-1.6.4.js'></script>
 <script type='text/javascript' src='expanding.js'></script>
@@ -42,7 +67,25 @@ textarea {
 <h1>Expanding Textareas</h1>
 <a href='https://github.com/bgrins/ExpandingTextareas'>Project Page</a>
 
-<textarea class='expanding' placeholder='Enter Some Text'></textarea>
+<div class='example0'>
+  <textarea class='expanding' placeholder='Enter Some Text'></textarea>
+</div>
+
+<div class='example1'>
+  <p>
+    Larger font size:
+  </p>
+
+  <textarea class='expanding' placeholder='Enter Some Text'></textarea>
+</div>
+
+<div class='example2'>
+  <p>
+    Extra initial height by increasing the <code>min-height</code>:
+  </p>
+
+  <textarea class='expanding' placeholder='Enter Some Text'></textarea>
+</div>
 
 </body>
 </html>

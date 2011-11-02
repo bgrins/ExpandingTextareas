@@ -11,7 +11,7 @@ body {
 
 .container {
     width: 80%;
-    margin: 10px auto;
+    margin: 5px auto;
 }
 
 .example {
@@ -46,19 +46,22 @@ textarea {
   width: 100%;
 }
 
-.exampleBigText textarea {
+.exampleFonts textarea {
   font-family: Arial;
+  color: orange;
+  letter-spacing: 2px;
   font-style: italic;
   font-size: 1.75em;
 }
 
-.exampleMinHeight textarea, .exampleMinHeight .expandingText {
+.exampleMinHeight textarea, .exampleMinHeight .textareaClone {
   min-height: 6em;
 }
 
-.exampleMaxHeight textarea, .exampleMaxHeight .expandingText {
+.exampleMaxHeight textarea, .exampleMaxHeight .textareaClone {
   max-height: 8em;
 }
+
 .exampleBorder textarea {
     border: double 8px #333;
     border-radius: 5px;
@@ -98,40 +101,57 @@ See the <a href='http://github.com/bgrins/ExpandingTextareas'>project page</a> f
 </p>
 
 
-<h2>More Examples</h2>
+<h2>Examples</h2>
 
 <div class='example exampleResize'>
+  <h3>Resize friendly</h3>
   <p>
     Content automatically resizes <em>without using the window.resize event</em>!
   </p>
 
-  <textarea class='expanding'>Resize your browser window to make this switch from one line to two, or two lines to three.  Try copying and pasting more content in then resizing.  Awesome!</textarea>
+  <textarea class='expanding'>Resize your browser window to make this switch from one line to two, or two lines to three.  Try copying and pasting more content in then resizing.</textarea>
 </div>
 
 <div class='example exampleMinHeight'>
+  <h3>Minimum Height</h3>
   <p>
-    Extra initial height by increasing the <code>min-height</code>:
+    Sometimes you may want to start off with a couple of lines to make it obvious that there is a textarea.
+    This is easy - just use CSS to add a min height to the textarea and the .textareaClone, like so:
   </p>
+<pre><code>
+textarea, .textareaClone {
+    min-height: 6em;
+}</code></pre>
+
 
   <textarea class='expanding' placeholder='Enter Some Text'></textarea>
 </div>
 <div class='example exampleMaxHeight'>
   <p>
-    Set a <code>max-height</code> on the textarea to get scrolling after a certain size:
+    Set a <code>max-height</code> on the textarea to get scrolling after a certain size.  
+    This is done just like the min height example above:
   </p>
+<pre><code>
+textarea, .textareaClone {
+    max-height: 8em;
+}</code></pre>
 
   <textarea class='expanding' placeholder='Enter Some Text'></textarea>
 </div>
 
 
-<div class='example exampleBigText'>
-  <p>
-    Larger font size:
-  </p>
-
-  <textarea class='expanding' placeholder='Enter Some Text'></textarea>
+<div class='example exampleFonts'>
+  <h3>
+    Custom font properties
+  </h3>
+    <p>
+        All fonts, colors, and spacings can be set to whatever you want, and the plugin will automatically copy the styles over to the invisible pre tag.
+    </p>
+  <textarea class='expanding'>This font is styled differently, but the resizing still works</textarea>
 </div>
+
 <div class='example exampleBorder'>
+  <h3>Custom borders</h3>
   <p>
     Custom border sizes on the textarea are handled as well
   </p>
@@ -140,9 +160,16 @@ See the <a href='http://github.com/bgrins/ExpandingTextareas'>project page</a> f
 </div>
 
 <div class='example examplePercentage'>
+  <h3>Percentage paddings and margins</h3>
   <p>
-    Percentages work (if placed on both textarea and .textareaClone)
+    Percentages are a little tricky, but they work fine, as long as you place the CSS rule on both elements, like so:
   </p>
+<pre><code>
+textarea, .textareaClone {
+    padding: 3%;
+    margin: 3%;
+    width: 50%;
+}</code></pre>
   <textarea class='expanding' placeholder='Enter Some Text'></textarea>
 </div>
 

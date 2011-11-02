@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 <head>
+<title>Expanding Textareas jQuery Plugin</title>
 <style>
 
 body {
@@ -10,7 +11,7 @@ body {
 
 .container {
     width: 80%;
-    margin: 0 auto;
+    margin: 10px auto;
 }
 
 .example {
@@ -22,6 +23,9 @@ body {
     padding:0;
     margin: 5px 0;
 }
+
+
+/* Note: None of these rules are necessary to have this plugin work! */
 
 .expandingText textarea,
 .expandingText .textareaClone {
@@ -44,30 +48,21 @@ body {
   width: 100%;
 }
 
-.example1 textarea {
+.exampleBigText textarea {
   font-family: Arial;
   font-style: italic;
   font-size: 1.75em;
 }
 
-.example1 .expandingText .textareaClone {
-  /* See note above */
-  padding-bottom: .65em;
-}
 
-.example2 textarea {
+.exampleMinHeight textarea,
+.exampleMinHeight .textareaClone  {
   padding: 1em;
-  min-height: 5em;
-  font-size: 2.5em;
+  min-height: 4em;
+  font-size: 1.75em;
 }
 
-.example2 .expandingText .textareaClone {
-  /* See note above */
-  padding-bottom: 1.55em;
-}
-
-
-.example3 textarea {
+.exampleBorder textarea {
     border: dotted 5px #333;
 }
 </style>
@@ -85,7 +80,7 @@ body {
 
 <h1>Expanding Textareas jQuery Plugin</h1>
 
-<div class='example example0'>
+<div class='example'>
   <textarea class='expanding' placeholder='Enter Some Text And Watch the Textarea Grow'></textarea>
 </div>
 
@@ -106,7 +101,7 @@ See the <a href='http://github.com/bgrins/ExpandingTextareas'>project page</a> f
 </div>
 
 
-<div class='example example1'>
+<div class='example exampleBigText'>
   <p>
     Larger font size:
   </p>
@@ -115,7 +110,7 @@ See the <a href='http://github.com/bgrins/ExpandingTextareas'>project page</a> f
 </div>
 
 
-<div class='example example3'>
+<div class='example exampleBorder'>
   <p>
     Custom borders on the textarea are handled as well
   </p>
@@ -123,7 +118,7 @@ See the <a href='http://github.com/bgrins/ExpandingTextareas'>project page</a> f
   <textarea class='expanding' placeholder='Enter Some Text'></textarea>
 </div>
 
-<div class='example example2'>
+<div class='example exampleMinHeight'>
   <p>
     Extra initial height by increasing the <code>min-height</code>:
   </p>

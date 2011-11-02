@@ -69,11 +69,16 @@ textarea {
 
 /* Need to include .textareaClone if the rule uses percentages.
    This way everything can stay in sync without extra javascript */
-.examplePercentage textarea,
-.examplePercentage .textareaClone {
-    padding: 3%;
-    margin: 3%;
+.exampleProportional textarea,
+.exampleProportional .textareaClone {
+    padding: 1em;
+    margin: 1em;
     width: 50%;
+}
+
+.exampleCentered .expandingText {
+    width: 75%;
+    margin: 0 auto;
 }
 
 </style>
@@ -159,21 +164,35 @@ textarea, .textareaClone {
   <textarea class='expanding' placeholder='Enter Some Text'></textarea>
 </div>
 
-<div class='example examplePercentage'>
-  <h3>Percentage paddings and margins</h3>
+<div class='example exampleProportional'>
+  <h3>Proportional paddings, margins, and widths</h3>
   <p>
-    Percentages are a little tricky, but they work fine, as long as you place the CSS rule on both elements, like so:
+    Percentages are a little tricky.  <em>Firefox seems to have some problems rendering percentage paddings and margins on textareas, it is probably best if you avoid this technique.</em>  Using ems for margin and padding seems to work fine.
+    
+    You can use percentages on widths in all browsers, as you place the CSS rule on both elements, like so:
   </p>
 <pre><code>
 textarea, .textareaClone {
-    padding: 3%;
-    margin: 3%;
+    padding: 1em;
+    margin: 1em;
     width: 50%;
 }</code></pre>
   <textarea class='expanding' placeholder='Enter Some Text'></textarea>
 </div>
 
 
+<div class='example exampleCentered'>
+  <h3>Centering</h3>
+  <p>Centering the textarea is actually pretty easy, just set a width and a <code>margin: 0 auto;</code> on the container</p>
+  
+<pre><code>
+.expandingText {
+    width: 75%;
+    margin: 0 auto;
+}</code></pre>
+
+  <textarea class='expanding' placeholder='Enter Some Text'></textarea>
+</div>
 </div>
 
 

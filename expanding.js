@@ -8,10 +8,6 @@
         'whiteSpace', 'wordWrap'
     ];
     
-    var containerCSSProperties = [
-        'margin-top', 'margin-bottom'
-    ];
-    
     var textareaCSS = {
         position: "absolute",
         height: "100%",
@@ -65,12 +61,6 @@
             
             $.each(cloneCSSProperties, function (i, p) {
                 pre.css(p, textarea.css(p));
-            });
-            
-            $.each(containerCSSProperties, function (i, p) {
-                container.css(p, textarea.css(p));
-                pre.css(p, 0);
-                textarea.css(p, 0);
             });
             
             resize(this);

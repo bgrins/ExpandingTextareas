@@ -28,8 +28,8 @@
     
     var initializedDocuments = { };
     
-    function resize(textarea) {  
-        $(textarea).parent().find("div").text(textarea.value + '&nbsp;');
+    function resize(textarea) {
+        $(textarea).parent().find("div").text(textarea.value + ' ');
     }
   
     function initialize(document) {

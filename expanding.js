@@ -11,15 +11,19 @@
     var textareaCSS = {
         position: "absolute",
         height: "100%",
-        resize: "none"
+        resize: "none",
+        margin: "0"
     };
     
     var preCSS = {
-        visibility: "hidden"
+        visibility: "hidden",
+        margin: "0"
     };
     
     var containerCSS = {
-        position: "relative"
+        position: "relative",
+        margin: "0",
+        padding: "0"
     };
     
     var initializedDocuments = { };

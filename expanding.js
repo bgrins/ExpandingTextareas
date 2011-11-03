@@ -1,5 +1,9 @@
 (function ($) {
-
+    $.expandingTextarea = $.extend({
+        autoInitialize: true,
+        initialSelector: "textarea.expanding"
+    }, $.expandingTextarea || {});
+    
     var cloneCSSProperties = [
         'lineHeight', 'textDecoration', 'letterSpacing',
         'fontSize', 'fontFamily', 'fontStyle', 
@@ -68,10 +72,10 @@
         return this;
     };
 
-    $.fn.expandingTextarea.initialSelector = "textarea.expanding";
-
     $(function () {
-        $($.fn.expandingTextarea.initialSelector).expandingTextarea();
+        if ($.expandingTextarea.autoInitialize) {
+            $($.expandingTextarea.initialSelector).expandingTextarea();
+        }
     });
 
 })(jQuery);

@@ -132,7 +132,7 @@ textarea {
      If you'd like to manually call the plugin instead, use:
      
 <pre><code>&lt;script&gt;
-$("#element").expandingTextarea();
+    $("#element").expandingTextarea();
 &lt;/script&gt;</code></pre>
     
     See the <a href='http://github.com/bgrins/ExpandingTextareas'>project page</a> for an explanation of how it works.
@@ -254,6 +254,25 @@ textarea {
 }</code></pre>
 
       <textarea class='expanding' placeholder='Enter Some Text'></textarea>
+    </div>
+    
+    <div class='example destroy'>
+      <h3>Destroying</h3>
+      <p>Allows for removing the expanding functionality.</p>
+      
+<pre><code>&lt;script&gt;
+    $("#element").expandingTextarea('destroy');
+&lt;/script&gt;</code></pre>
+
+      <textarea class='expanding' placeholder='Enter Some Text'></textarea>
+      
+      <script type='text/javascript'>
+        (function($){
+            $(function(){
+                $('.example.destroy .expanding').expandingTextarea('destroy');
+            });
+        }(jQuery));
+      </script>
     </div>
 
 </div>

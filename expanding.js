@@ -65,7 +65,7 @@
                 }
             });
             
-            textarea.on("input.expanding propertychange.expanding", resize);
+            textarea.bind("input.expanding propertychange.expanding", resize);
             resize.apply(this);
         });
         

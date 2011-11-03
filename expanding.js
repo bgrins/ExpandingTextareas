@@ -20,18 +20,18 @@
     ];
     
     var textareaCSS = {
-        position : "absolute",
-        height : "100%",
-        resize : "none"
+        position: "absolute",
+        height: "100%",
+        resize: "none"
     };
     
     var preCSS = {
-        visibility : "hidden",
-        border : "0 solid"
+        visibility: "hidden",
+        border: "0 solid"
     };
     
     var containerCSS = {
-        position : "relative"
+        position: "relative"
     };
     
     function resize() {

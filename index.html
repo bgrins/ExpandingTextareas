@@ -101,7 +101,7 @@ textarea {
 }
 
 .exampleDestroy textarea {
-    height: 150px;
+    height: 120px;
 }
 
 </style>
@@ -268,7 +268,12 @@ textarea {
     $("#element").expandingTextarea('destroy');
 &lt;/script&gt;</code></pre>
 
-      <textarea class='expanding' placeholder='Enter Some Text'></textarea>
+      <textarea class='expanding'>This textarea
+        is currently
+            expaning...
+        But you 
+            can change that.
+        &darr;</textarea>
       <button>Remove the expanding functionality.  Right now.</button>
       <script type='text/javascript'>
         $(function() {

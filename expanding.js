@@ -54,8 +54,7 @@
                     .css(textarea.data('originalCss') || {})
                     .attr('style', textarea.data('originalStyle') || '')
                     .removeClass('expanding-init')
-                    .removeData('originalCss')
-                    .removeData('originalStyle');
+                    .removeData('originalCss originalStyle');
                 
                 container.remove();
             });

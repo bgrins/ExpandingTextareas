@@ -67,7 +67,7 @@
             var container = textarea.parent().css(containerCSS);
             var pre = container.find("pre").css(preCSS);
             
-            // Store the original styles for destroying later before setting expanding styles.
+            // Store the original styles in case of destroying.
             textarea.data('expanding-styles', textarea.attr('style'));
             textarea.css(textareaCSS);
             

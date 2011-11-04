@@ -51,8 +51,8 @@
                 
                 textarea
                     .insertBefore(container)
-                    .attr('style', textarea.data('originalStyle') || '')
-                    .removeData('originalStyle');
+                    .attr('style', textarea.data('expanding-styles') || '')
+                    .removeData('expanding-styles');
                 
                 container.remove();
             });
@@ -70,9 +70,8 @@
             var container = textarea.parent().css(containerCSS);
             var pre = container.find("pre").css(preCSS);
             
-            // Store the original styles for destroying
-            textarea.data('originalStyle', textarea.attr('style'));
-            
+            // Store the original styles for destroying later.
+            textarea.data('expanding-styles', textarea.attr('style'));
             textarea.css(textareaCSS);
             
             $.each(cloneCSSProperties, function(i, p) {

@@ -35,7 +35,7 @@
     };
     
     function resize() {
-        $(this).parent().find("div").text(this.value + ' ');
+        $(this).closest('.expandingText').find("div").text(this.value + ' ');
     }
     
     $.fn.expandingTextarea = function(o) {

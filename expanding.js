@@ -45,16 +45,14 @@
         }
         
         if (o === "destroy") {
-            this.filter(".expanding-init").removeClass('expanding-init').each(function() {
-                var textarea = $(this);
+            this.filter(".expanding-init").each(function() {
+                var textarea = $(this).removeClass('expanding-init');
                 var container = textarea.closest('.expandingText');
                 
+                container.before(textarea).remove();
                 textarea
-                    .insertBefore(container)
                     .attr('style', textarea.data('expanding-styles') || '')
                     .removeData('expanding-styles');
-                
-                container.remove();
             });
             
             return this;
@@ -63,22 +61,20 @@
         this.filter("textarea").not(".expanding-init").each(function() {
             var textarea = $(this).addClass("expanding-init");
             
-            
             textarea.wrap("<div class='expandingText'></div>");
             textarea.after("<pre class='textareaClone'><div></div></pre>");
             
             var container = textarea.parent().css(containerCSS);
             var pre = container.find("pre").css(preCSS);
             
-            // Store the original styles for destroying later.
+            // Store the original styles for destroying later before setting expanding styles.
             textarea.data('expanding-styles', textarea.attr('style'));
             textarea.css(textareaCSS);
             
             $.each(cloneCSSProperties, function(i, p) {
                 var val = textarea.css(p);
                 
-                // Only set if different to prevent overriding percentage css
-                // values
+                // Only set if different to prevent overriding percentage css values.
                 if (pre.css(p) !== val) {
                     pre.css(p, val);
                 }

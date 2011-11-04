@@ -45,7 +45,7 @@
         }
         
         if (o === "destroy") {
-            this.filter(".expanding-init").each(function() {
+            this.filter(".expanding-init").removeClass('expanding-init').each(function() {
                 var textarea = $(this);
                 var container = textarea.parents('.expandingText').first();
                 
@@ -53,7 +53,6 @@
                     .insertBefore(container)
                     .css(textarea.data('originalCss') || {})
                     .attr('style', textarea.data('originalStyle') || '')
-                    .removeClass('expanding-init')
                     .removeData('originalCss originalStyle');
                 
                 container.remove();

@@ -49,7 +49,7 @@
                 var textarea = $(this);
                 var container = textarea.parents('.expandingText').first();
                 
-                textarea = textarea.detach();
+                //textarea = textarea.detach();
                 
                 textarea
                     .insertBefore(container)

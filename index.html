@@ -100,6 +100,10 @@ textarea {
     margin: 0 auto;
 }
 
+.exampleDestroy textarea {
+    height: 150px;
+}
+
 </style>
 <script type='text/javascript' src='jquery-1.6.4.js'></script>
 <script type='text/javascript' src='expanding.js'></script>
@@ -256,7 +260,7 @@ textarea {
       <textarea class='expanding' placeholder='Enter Some Text'></textarea>
     </div>
     
-    <div class='example destroy'>
+    <div class='example exampleDestroy'>
       <h3>Destroying</h3>
       <p>Allows for removing the expanding functionality.</p>
       
@@ -268,15 +272,15 @@ textarea {
       <button>Remove the expanding functionality.  Right now.</button>
       <script type='text/javascript'>
         $(function() {
-            $('.example.destroy button').click(function() {
-                var textarea = $('.example.destroy .expanding');
+            $('.exampleDestroy button').click(function() {
+                var textarea = $('.exampleDestroy .expanding');
                 if (textarea.hasClass("expanding-init")) {
                     textarea.expandingTextarea('destroy');
                     $(this).text("Renable...");
                 }
                 else {
                     textarea.expandingTextarea();
-                    $(this).text("Remove again...");
+                    $(this).text("Remove...");
                 }
             });
         });

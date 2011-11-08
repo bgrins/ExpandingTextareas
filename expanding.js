@@ -9,7 +9,7 @@
         'fontSize', 'fontFamily', 'fontStyle', 
         'fontWeight', 'textTransform', 'textAlign', 
         'direction', 'wordSpacing', 'fontSizeAdjust', 
-        'whiteSpace', 'wordWrap', 
+        'wordWrap', 
         'borderLeftWidth', 'borderRightWidth',
         'borderTopWidth','borderBottomWidth',
         'paddingLeft', 'paddingRight',
@@ -27,7 +27,8 @@
     
     var preCSS = {
         visibility: "hidden",
-        border: "0 solid"
+        border: "0 solid",
+        whiteSpace: "pre-wrap" 
     };
     
     var containerCSS = {

@@ -1,8 +1,5 @@
 (function(factory) {
-    if (typeof exports === 'object') {
-        // Node/CommonJS
-        factory(require('jquery'));
-    } else if (typeof define === 'function' && define.amd) {
+    if (typeof define === 'function' && define.amd) {
         // AMD Registration
         define([ 'jquery' ], factory);
     } else {

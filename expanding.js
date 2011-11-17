@@ -1,4 +1,12 @@
-(function ($) {
+(function(factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD Registration
+        define([ 'jquery' ], factory);
+    } else {
+        // Browser globals
+        factory(jQuery);
+    }
+}(function ($) {
     $.expandingTextarea = $.extend({
         autoInitialize: true,
         initialSelector: "textarea.expanding"
@@ -94,4 +102,4 @@
         }
     });
     
-})(jQuery);
+}));

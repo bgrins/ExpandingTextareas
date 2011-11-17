@@ -1,4 +1,15 @@
-(function ($) {
+(function(factory) {
+    if (typeof exports === 'object') {
+        // Node/CommonJS
+        factory(require('jquery'));
+    } else if (typeof define === 'function' && define.amd) {
+        // AMD Registration
+        define('expandingTextarea', [ 'jquery' ], factory);
+    } else {
+        // Browser globals
+        factory(jQuery);
+    }
+}(function ($) {
     $.expandingTextarea = $.extend({
         autoInitialize: true,
         initialSelector: "textarea.expanding"
@@ -94,4 +105,4 @@
         }
     });
     
-})(jQuery);
+}));

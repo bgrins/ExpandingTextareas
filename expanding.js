@@ -4,7 +4,7 @@
         factory(require('jquery'));
     } else if (typeof define === 'function' && define.amd) {
         // AMD Registration
-        define('expandingTextarea', [ 'jquery' ], factory);
+        define([ 'jquery' ], factory);
     } else {
         // Browser globals
         factory(jQuery);

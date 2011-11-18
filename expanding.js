@@ -1,9 +1,9 @@
 (function(factory) {
+    // Add jQuery via AMD registration or browser globals
     if (typeof define === 'function' && define.amd) {
-        // AMD Registration
         define([ 'jquery' ], factory);
-    } else {
-        // Browser globals
+    }
+    else {
         factory(jQuery);
     }
 }(function ($) {

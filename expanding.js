@@ -47,7 +47,7 @@
     };
     
     function resize() {
-        $(this).closest('.expandingText').find("div").text(this.value + ' ');
+        $(this).closest('.expandingText').find('expander').text(this.value + ' ');
     }
     
     $.fn.expandingTextarea = function(o) {
@@ -74,7 +74,7 @@
             var textarea = $(this).addClass("expanding-init");
             
             textarea.wrap("<div class='expandingText'></div>");
-            textarea.after("<pre class='textareaClone'><div></div></pre>");
+            textarea.after("<pre class='textareaClone'><expander></expander><br /></pre>");
             
             var container = textarea.parent().css(containerCSS);
             var pre = container.find("pre").css(preCSS);

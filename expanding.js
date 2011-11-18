@@ -83,7 +83,8 @@
             var textarea = $(this).addClass("expanding-init");
             
             textarea.wrap("<div class='expandingText'><div style='position:relative;'></div></div>");
-            textarea.after("<pre class='textareaClone'><expander></expander><br /></pre>");
+            textarea.before("<pre class='textareaClone'><expander></expander><br /></pre>");
+            resize.apply(this);
             
             var container = textarea.parent().css(containerCSS);
             var pre = container.find("pre").css(preCSS);

@@ -1,3 +1,6 @@
+// Expanding Textareas
+// https://github.com/bgrins/ExpandingTextareas
+
 (function(factory) {
     // Add jQuery via AMD registration or browser globals
     if (typeof define === 'function' && define.amd) {

@@ -33,13 +33,22 @@
     var textareaCSS = {
         position: "absolute",
         height: "100%",
-        resize: "none"
+        width: "100%",
+        resize: "none",
+        margin: 0,
+        "-webkit-box-sizing": "border-box",
+        "-moz-box-sizing": "border-box",
+        "box-sizing": "border-box"
     };
     
     var preCSS = {
         visibility: "hidden",
         border: "0 solid",
-        whiteSpace: "pre-wrap" 
+        whiteSpace: "pre-wrap",
+        margin: 0,
+        "-webkit-box-sizing": "border-box",
+        "-moz-box-sizing": "border-box",
+        "box-sizing": "border-box" 
     };
     
     var containerCSS = {

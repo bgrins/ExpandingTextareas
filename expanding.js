@@ -82,7 +82,7 @@
         this.filter("textarea").not(".expanding-init").each(function() {
             var textarea = $(this).addClass("expanding-init");
             
-            textarea.wrap("<div class='expandingText'></div>");
+            textarea.wrap("<div class='expandingText'><div style='position:relative;'></div></div>");
             textarea.after("<pre class='textareaClone'><expander></expander><br /></pre>");
             
             var container = textarea.parent().css(containerCSS);

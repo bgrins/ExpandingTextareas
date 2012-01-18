@@ -47,27 +47,35 @@
     };
     
     function resize() {
-        $(this).closest('.expandingText').find("div").text(this.value + ' ');
+        var $self = $(this),
+            onResize = $self.data('onResize');
+
+        $self.closest('.expandingText').find("div").text(this.value + ' ');
+        if (onResize) onResize($self.height());
     }
     
     $.fn.expandingTextarea = function(o) {
         
-        if (o === "resize") {
-            return this.trigger("input.expanding");
-        }
-        
-        if (o === "destroy") {
-            this.filter(".expanding-init").each(function() {
-                var textarea = $(this).removeClass('expanding-init');
-                var container = textarea.closest('.expandingText');
-                
-                container.before(textarea).remove();
-                textarea
-                    .attr('style', textarea.data('expanding-styles') || '')
-                    .removeData('expanding-styles');
-            });
-            
-            return this;
+        if (typeof o === 'string') {
+            if (o === "resize") {
+                return this.trigger("input.expanding");
+            }
+
+            if (o === "destroy") {
+                this.filter(".expanding-init").each(function() {
+                    var textarea = $(this).removeClass('expanding-init');
+                    var container = textarea.closest('.expandingText');
+
+                    container.before(textarea).remove();
+                    textarea
+                        .attr('style', textarea.data('expanding-styles') || '')
+                        .removeData('expanding-styles');
+                });
+
+                return this;
+            }
+        } else if (typeof o === 'object') {
+            if (o.onResize) $(this).data('onResize', o.onResize);
         }
         
         this.filter("textarea").not(".expanding-init").each(function() {

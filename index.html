@@ -289,6 +289,17 @@ textarea {
         });
       </script>
     </div>
+    
+    <div class='example'>
+        <h3><code>onResize</code> Callback</h3>
+        <p>Sometimes other parts of your application need to be notified when a textarea changes its height (e.g., to move out of its way!).  You can dispatch such notifications by passing a callback function to the <code>onResize</code> option when you first initialize the plug-in, like so:</p>
+<pre><code>&lt;script&gt;
+    $("#element").expandingTextarea({
+        onResize: myCallbackFunction
+    });
+&lt;/script&gt;</code></pre>
+        <p>Your callback function will be sent one argument, the new height of the <code>textarea</code> element.</p>
+    </div>
 
 </div>
 

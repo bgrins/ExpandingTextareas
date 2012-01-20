@@ -51,7 +51,7 @@
             onResize = $self.data('onResize');
 
         $self.closest('.expandingText').find("div").text(this.value + ' ');
-        if (onResize) onResize($self.height());
+        if (onResize) onResize($self);
     }
     
     $.fn.expandingTextarea = function(o) {

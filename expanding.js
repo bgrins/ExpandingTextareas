@@ -12,7 +12,10 @@
 }(function ($) {
     $.expandingTextarea = $.extend({
         autoInitialize: true,
-        initialSelector: "textarea.expanding"
+        initialSelector: "textarea.expanding",
+        opts: {
+            resize: function() { }
+        }
     }, $.expandingTextarea || {});
     
     var cloneCSSProperties = [
@@ -48,9 +51,12 @@
     
     function resize() {
         $(this).closest('.expandingText').find("div").text(this.value + ' ');
+        $(this).trigger("resize.expanding");
     }
     
     $.fn.expandingTextarea = function(o) {
+        
+        var opts = $.extend({ }, $.expandingTextarea.opts, o);
         
         if (o === "resize") {
             return this.trigger("input.expanding");
@@ -94,6 +100,10 @@
             
             textarea.bind("input.expanding propertychange.expanding", resize);
             resize.apply(this);
+            
+            if (opts.resize) {
+                textarea.bind("resize.expanding", opts.resize);
+            }
         });
         
         return this;

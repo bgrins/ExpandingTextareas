@@ -103,6 +103,10 @@ textarea {
     height: 120px;
 }
 
+#afterLog, #beforeLog {
+    display: none;
+}
+
 </style>
 <script type='text/javascript' src='jquery-1.7.js'></script>
 <script type='text/javascript' src='expanding.js'></script>
@@ -284,6 +288,33 @@ textarea {
                 else {
                     textarea.expandingTextarea();
                     $(this).text("Remove...");
+                }
+            });
+        });
+      </script>
+    </div>
+    
+    <div class='example exampleEvents'>
+        <h3>Callbacks</h3>
+        <h4><code>resize</code></h4>
+        <p>Sometimes other parts of your application need to be notified when a textarea changes its height (e.g., to move out of its way!).  You can dispatch such notifications through callback functions passed in when you first initialize the plug-in, like so:</p>
+<pre><code>&lt;script&gt;
+    $("#element").expandingTextarea({
+        resize: callback
+    });
+&lt;/script&gt;</code></pre>
+
+
+      <textarea>This textarea
+        will log changes below
+        &darr; </textarea>
+      <br />
+      <div id='resizeLog'>Current Height (once resized): <em></em></div>
+      <script type='text/javascript'>
+        $(function() {
+            $('.exampleEvents textarea').expandingTextarea({
+                resize: function(h) {
+                    $("#resizeLog").show().find("em").text($(this).height() + "px");
                 }
             });
         });

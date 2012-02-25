@@ -76,8 +76,8 @@
             return this;
         }
         
-        this.filter("textarea").not(".expanding-init").each(function() {
-            var textarea = $(this).addClass("expanding-init");
+        this.filter("textarea").not(".expanding-init").addClass("expanding-init").each(function() {
+            var textarea = $(this);
             
             textarea.wrap("<div class='expandingText'></div>");
             textarea.after("<pre class='textareaClone'><div></div></pre>");

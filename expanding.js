@@ -98,7 +98,7 @@
                 }
             });
             
-            textarea.bind("input.expanding propertychange.expanding", resize);
+            textarea.bind("input.expanding propertychange.expanding keyup.expanding", resize);
             resize.apply(this);
             
             if (opts.resize) {

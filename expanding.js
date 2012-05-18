@@ -23,7 +23,7 @@
         'fontSize', 'fontFamily', 'fontStyle', 
         'fontWeight', 'textTransform', 'textAlign', 
         'direction', 'wordSpacing', 'fontSizeAdjust', 
-        'wordWrap', 
+        'wordWrap', 'word-break',
         'borderLeftWidth', 'borderRightWidth',
         'borderTopWidth','borderBottomWidth',
         'paddingLeft', 'paddingRight',

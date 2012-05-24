@@ -30,8 +30,7 @@
         'paddingTop','paddingBottom',
         'marginLeft', 'marginRight',
         'marginTop','marginBottom',
-        'boxSizing', 'webkitBoxSizing', 'mozBoxSizing', 'msBoxSizing',
-        'width'
+        'boxSizing', 'webkitBoxSizing', 'mozBoxSizing', 'msBoxSizing'
     ];
     
     var textareaCSS = {

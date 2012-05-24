@@ -64,6 +64,10 @@ textarea {
   width: 100%;
 }
 
+.exampleStaticWidth textarea {
+    width: 400px;
+}
+
 .exampleFonts textarea {
   font-family: Arial;
   color: orange;
@@ -205,6 +209,20 @@ textarea, .textareaClone {
       <textarea class='expanding' placeholder='Enter Some Text'></textarea>
     </div>
     
+    <div class='example exampleStaticWidth'>
+      <h3>Static Width</h3>
+      <p>
+        Just set a static width on the textarea, and the pre tag will snap to fit it!
+        
+      </p>
+<pre><code>
+textarea {
+    width: 400px;
+}</code></pre>
+    
+    
+      <textarea class='expanding' placeholder='Enter Some Text'></textarea>
+    </div>
     
     <div class='example exampleFonts'>
       <h3>

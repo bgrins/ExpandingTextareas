@@ -23,7 +23,7 @@
         'fontSize', 'fontFamily', 'fontStyle', 
         'fontWeight', 'textTransform', 'textAlign', 
         'direction', 'wordSpacing', 'fontSizeAdjust', 
-        'wordWrap', 'word-break',
+        'word-break',
         'borderLeftWidth', 'borderRightWidth',
         'borderTopWidth','borderBottomWidth',
         'paddingLeft', 'paddingRight',
@@ -81,6 +81,7 @@
 
             var container = $("<div class='expandingText'></div>").css(containerCSS);
             var pre = $("<pre class='textareaClone'><div></div></pre>").css(preCSS);
+            pre.find('div').css('wordWrap', 'break-word');
 
             textarea.wrap(container);
             textarea.after(pre);

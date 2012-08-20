@@ -78,12 +78,12 @@
         
         this.filter("textarea").not(".expanding-init").addClass("expanding-init").each(function() {
             var textarea = $(this);
-            
-            textarea.wrap("<div class='expandingText'></div>");
-            textarea.after("<pre class='textareaClone'><div></div></pre>");
-            
-            var container = textarea.parent().css(containerCSS);
-            var pre = container.find("pre").css(preCSS);
+
+            var container = $("<div class='expandingText'></div>").css(containerCSS);
+            var pre = $("<pre class='textareaClone'><div></div></pre>").css(preCSS);
+
+            textarea.wrap(container);
+            textarea.after(pre);
             
             // Store the original styles in case of destroying.
             textarea.data('expanding-styles', textarea.attr('style'));

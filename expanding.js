@@ -50,7 +50,7 @@
     };
     
     function resize() {
-        $(this).closest('.expandingText').find("div").text(this.value + ' ');
+        $(this).closest('.expandingText').find("div").text(this.value.replace(/\r\n/g, "\n") + ' ');
         $(this).trigger("resize.expanding");
     }
     

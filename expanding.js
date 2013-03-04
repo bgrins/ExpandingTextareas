@@ -64,10 +64,10 @@
         
         if (o === "val") {
             if (arguments.length === 1) {
-                return $(this).find("textarea").val();
+                return $(this).val();
             }
             else if (arguments.length === 2) {
-                $(this).find("textarea").val(arguments[1]);
+                $(this).val(arguments[1]);
                 return $(this).trigger("input-expanding")
             }
             else {

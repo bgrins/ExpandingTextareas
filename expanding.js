@@ -68,7 +68,7 @@
             }
             else if (arguments.length === 2) {
                 $(this).val(arguments[1]);
-                return $(this).trigger("input-expanding")
+                return $(this).trigger("input.expanding")
             }
             else {
                 throw Error("'val' expects zero or one additional arguments")

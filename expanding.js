@@ -41,8 +41,7 @@
     
     var preCSS = {
         visibility: "hidden",
-        border: "0 solid",
-        whiteSpace: "pre-wrap" 
+        border: "0 solid"
     };
     
     var containerCSS = {
@@ -84,6 +83,8 @@
             
             var container = textarea.parent().css(containerCSS);
             var pre = container.find("pre").css(preCSS);
+            
+            pre.css(textarea.attr("wrap") === "off" ? {overflowX: "scroll"} : {whiteSpace: "pre-wrap"});
             
             // Store the original styles in case of destroying.
             textarea.data('expanding-styles', textarea.attr('style'));

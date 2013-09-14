@@ -99,6 +99,8 @@
                 }
             });
             
+            container.css({"min-height": textarea.outerHeight(true)});
+            
             textarea.bind("input.expanding propertychange.expanding keyup.expanding", resize);
             resize.apply(this);
             

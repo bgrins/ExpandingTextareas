@@ -20,9 +20,9 @@
     
     var cloneCSSProperties = [
         'lineHeight', 'textDecoration', 'letterSpacing',
-        'fontSize', 'fontFamily', 'fontStyle', 
-        'fontWeight', 'textTransform', 'textAlign', 
-        'direction', 'wordSpacing', 'fontSizeAdjust', 
+        'fontSize', 'fontFamily', 'fontStyle',
+        'fontWeight', 'textTransform', 'textAlign',
+        'direction', 'wordSpacing', 'fontSizeAdjust',
         'wordWrap', 'word-break',
         'borderLeftWidth', 'borderRightWidth',
         'borderTopWidth','borderBottomWidth',
@@ -99,7 +99,7 @@
                 }
             });
             
-            textarea.bind("input.expanding propertychange.expanding keyup.expanding", resize);
+            textarea.bind("input.expanding propertychange.expanding keyup.expanding change.expanding", resize);
             resize.apply(this);
             
             if (opts.resize) {

@@ -61,6 +61,19 @@
             return this.trigger("input.expanding");
         }
         
+        if (o === "val") {
+            if (arguments.length === 1) {
+                return $(this).val();
+            }
+            else if (arguments.length === 2) {
+                $(this).val(arguments[1]);
+                return $(this).trigger("input.expanding")
+            }
+            else {
+                throw Error("'val' expects zero or one additional arguments")
+            }
+        }
+        
         if (o === "destroy") {
             this.filter(".expanding-init").each(function() {
                 var textarea = $(this).removeClass('expanding-init');

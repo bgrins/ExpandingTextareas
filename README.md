@@ -15,6 +15,10 @@ Start with markup like this:
         $("#element").expandingTextarea();
     </script>
 
+The textareas will automatically resize now as the user changes the value.  If you'd like to change the value by code and have it resize manually, you can do:
+
+    $('textarea').val('New\nValue!').change()
+
 If you'd like to change the initial selector to grab ALL textareas on load, you can change this property:
 
     $.fn.expandingTextarea.initialSelector = "textarea";

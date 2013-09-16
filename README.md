@@ -4,7 +4,7 @@ Based off of work by [Neil Jenkins](http://nmjenkins.com/) that can be seen here
 
 ## How To Use
 
-Start with markup like this: 
+Start with markup like this:
 
     <script src='expanding.js' type='text/javascript'></script>
     <textarea class='expanding'></textarea>
@@ -22,7 +22,7 @@ The textareas will automatically resize now as the user changes the value.  If y
 If you'd like to change the initial selector to grab ALL textareas on load, you can change this property:
 
     $.fn.expandingTextarea.initialSelector = "textarea";
-        
+
 ## How it works
 
 See the [original article](http://www.alistapart.com/articles/expanding-text-areas-made-elegant/) for a great explanation of how this technique works.
@@ -54,7 +54,7 @@ You can style things how you'd like for the textarea, and they will automaticall
       font-size:20px;
     }
 
-If you'd like to use percentage widths, there are two options.  One is to apply the rule to both the textarea and the invisible pre, like this: 
+If you'd like to use percentage widths, there are two options.  One is to apply the rule to both the textarea and the invisible pre, like this:
 
     textarea, .textareaClone {
        width: 50%;

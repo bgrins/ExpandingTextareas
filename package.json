@@ -18,7 +18,7 @@
     "name": "Brian Grinstead",
     "web": "http://briangrinstead.com/"
   },
-  "main": ".expanding.js",
+  "main": "./expanding.js",
   "scripts": {
     "test": "grunt test"
   },

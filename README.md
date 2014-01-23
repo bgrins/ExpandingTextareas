@@ -83,7 +83,7 @@ I have checked this in Chrome, Safari, Firefox, IE7, and mobile Safari and it wo
 
 ## Running Tests
 
-**Browser**: open `/test/index.html`
+**Browser**: open `test/index.html`
 
 **Command line**: make sure you have installed [node.js](http://nodejs.org/), then run:
     

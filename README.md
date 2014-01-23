@@ -80,3 +80,15 @@ See the [demo](http://bgrins.github.com/ExpandingTextareas/) to see the plugin i
 ## Browser Support
 
 I have checked this in Chrome, Safari, Firefox, IE7, and mobile Safari and it works in all of them.
+
+## Running Tests
+
+**Browser**: open `test/index.html`
+
+**Command line**: make sure you have installed [node.js](http://nodejs.org/), then run:
+    
+    $ npm install
+
+Followed by:
+
+    $ grunt test

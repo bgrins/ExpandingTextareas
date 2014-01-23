@@ -18,7 +18,7 @@ test('Ignores non-textarea elements', 1, function() {
 
 test('Returns the jQuery object', 1, function() {
     var $textarea = $('<textarea />');
-    equal($textarea.expandingTextarea(), $textarea)
+    equal($textarea.expandingTextarea(), $textarea);
 });
 
 test('Wraps the textarea', function() {
@@ -122,7 +122,7 @@ test('Destroy resets the textarea attributes', function() {
     equal($textarea[0].style.height, height,
         'Textarea’s CSS `height` property reset to ' + height + ' on destroy');
     ok(!$textarea.data('expanding-styles'),
-        '`expanding-styles` data removed on destroy')
+        '`expanding-styles` data removed on destroy');
 });
 
 test('Destroy removes the clone', 1, function() {

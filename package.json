@@ -1,0 +1,32 @@
+{
+  "name": "ExpandingTextareas",
+  "version": "0.0.1",
+  "description": "jQuery plugin for elegant expanding textareas",
+  "homepage": "http://bgrins.github.com/ExpandingTextareas/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bgrins/ExpandingTextareas.git"
+  },
+  "bugs": "https://github.com/bgrins/ExpandingTextareas/issues",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://mit-license.org/"
+    }
+  ],
+  "author": {
+    "name": "Brian Grinstead",
+    "web": "http://briangrinstead.com/"
+  },
+  "main": ".expanding.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "qunit": "~0.5.15",
+    "grunt-contrib-jshint": "~0.4.3",
+    "grunt-contrib-qunit": "~0.2.1",
+    "qunitjs": "~1.11.0"
+  }
+}

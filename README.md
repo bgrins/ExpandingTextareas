@@ -92,3 +92,7 @@ This has been checked in Chrome, Safari, Firefox, IE7, and mobile Safari and it 
 Followed by:
 
     $ grunt test
+
+## Continuous Deployment
+
+View tests online at: https://travis-ci.org/bgrins/ExpandingTextareas.

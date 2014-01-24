@@ -32,11 +32,11 @@ test('Sets the textarea wrapper CSS', 1, function() {
         'Textarea wrapper CSS `position` set to `relative`');
 });
 
-test('Ensures wrapper is at least as tall as the textarea', 1, function() {
-    var $textarea = $('<textarea />').appendTo('#qunit-fixture');
-    expected = $textarea.outerHeight(true) + 'px'; // cache textarea height
+test('Ensures the clone is at least as tall as the textarea', 1, function() {
+    var $textarea = $('<textarea rows="10" />').appendTo('#qunit-fixture');
+    expected = $textarea.outerHeight(); // cache textarea height
     $textarea.expandingTextarea();
-    equal($textarea.parent().css('min-height'), expected,
+    equal($textarea.siblings('pre').outerHeight(), expected,
         'Textarea wrapper CSS `min-height` set to textarea outer height');
 });
 

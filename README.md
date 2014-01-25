@@ -68,7 +68,7 @@ See the [demo](http://bgrins.github.com/ExpandingTextareas/) to see the plugin i
 
 ## Browser Support
 
-This has been checked in Chrome, Safari, Firefox, IE7, and mobile Safari and it works in all of them.
+This has been checked in Chrome, Safari, Firefox, IE8, and mobile Safari and it works in all of them.
 
 ## Running Tests
 

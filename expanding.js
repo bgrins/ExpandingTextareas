@@ -84,6 +84,7 @@
 
             textarea.wrap("<div class='expandingText'></div>");
             textarea.after("<pre class='textareaClone'><div></div></pre>");
+            textarea.css('margin', 0);
 
             var container = textarea.parent().css(containerCSS);
             var pre = container.find("pre").css($.extend(preCSS, {"min-height": textarea.outerHeight()}));

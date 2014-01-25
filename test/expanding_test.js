@@ -99,6 +99,18 @@ test('Sets the textarea CSS', 3, function() {
       'Textarea CSS `resize` property set to `none`');
 });
 
+test('Textarea maintains its coordinates after expandingTextarea init', function() {
+    var $textarea = $('<textarea style="margin: 0" />').appendTo('#qunit-fixture'),
+        expected = $textarea.offset();
+    $textarea.expandingTextarea();
+    deepEqual($textarea.offset(), expected,
+        'Textarea offset remained the same after init');
+});
+
+test('Clone occupies the same coordinates as the textarea', function() {
+    deepEqual(this.$textarea.offset(), this.$textarea.siblings('pre').offset());
+});
+
 test('Clone dimensions match those of the textarea', 2, function() {
     var $clone = this.$textarea.siblings('pre');
     equal(this.$textarea.outerHeight(true), $clone.outerHeight(true));

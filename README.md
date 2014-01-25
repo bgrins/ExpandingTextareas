@@ -54,26 +54,13 @@ You can style things how you'd like for the textarea, and they will automaticall
       font-size:20px;
     }
 
-If you'd like to use percentage widths, there are two options.  One is to apply the rule to both the textarea and the invisible pre, like this:
+By default, the textarea will behave like a block-level element: its width will expand to fill its container.
 
-    textarea, .textareaClone {
+To restrict the textarea width, simply apply a width declaration to a parent element e.g. the textarea container:
+
+    .expandingText {
        width: 50%;
     }
-
-If you'd prefer to center the content, set the width to 100% on the textarea, and specify the width on the expandingText container:
-
-    textarea {
-      -webkit-box-sizing: border-box;
-         -moz-box-sizing: border-box;
-          -ms-box-sizing: border-box;
-              box-sizing: border-box;
-      width: 100%;
-    }
-    .expandingText {
-      width: 50%;
-      margin: 0 auto;
-    }
-
 
 See the [demo](http://bgrins.github.com/ExpandingTextareas/) to see the plugin in action.
 

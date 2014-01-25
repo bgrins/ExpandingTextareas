@@ -99,11 +99,31 @@ test('Sets the textarea CSS', 3, function() {
       'Textarea CSS `resize` property set to `none`');
 });
 
+test('Clone dimensions match those of the textarea', 2, function() {
+    var $clone = this.$textarea.siblings('pre');
+    equal(this.$textarea.outerHeight(true), $clone.outerHeight(true));
+    equal(this.$textarea.outerWidth(true), $clone.outerWidth(true));
+});
+
 test('Updates the clone text on input', 1, function() {
     var text = 'Hello world!';
     this.$textarea.val(text).trigger('input');
     equal(this.$textarea.siblings('pre').find('div').text(), text+' ',
         'Clone’s `div` element updated with the textarea’s value (plus blank space)');
+});
+
+test('Clone and wrapper grow with textarea when long text inserted', 4, function() {
+    var $clone = this.$textarea.siblings('pre'),
+        $wrapper = this.$textarea.parent(),
+        longText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+    for (var i = 0; i < 5; i++) {
+        longText += longText + longText;
+    }
+    this.$textarea.val(longText).trigger('input');
+    equal(this.$textarea.outerHeight(true), $clone.outerHeight(true));
+    equal(this.$textarea.outerWidth(true), $clone.outerWidth(true));
+    equal(this.$textarea.outerHeight(true), $wrapper.outerHeight());
+    equal(this.$textarea.outerWidth(true), $wrapper.outerWidth());
 });
 
 test('Invokes `options.resize` callback called on input', 1, function() {

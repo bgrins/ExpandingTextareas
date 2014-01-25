@@ -35,6 +35,10 @@
 
     var textareaCSS = {
         position: "absolute",
+        webkitBoxSizing: "border-box",
+        mozBoxSizing: "border-box",
+        boxSizing: "border-box",
+        width: '100%',
         height: "100%",
         resize: "none"
     };
@@ -80,9 +84,10 @@
 
             textarea.wrap("<div class='expandingText'></div>");
             textarea.after("<pre class='textareaClone'><div></div></pre>");
+            textarea.css('margin', 0);
 
             var container = textarea.parent().css(containerCSS);
-            var pre = container.find("pre").css(preCSS);
+            var pre = container.find("pre").css($.extend(preCSS, {"min-height": textarea.outerHeight()}));
 
             pre.css(textarea.attr("wrap") === "off" ? {overflowX: "scroll"} : {whiteSpace: "pre-wrap"});
 
@@ -98,7 +103,6 @@
                     pre.css(p, val);
                 }
             });
-            container.css({"min-height": textarea.outerHeight(true)});
 
             textarea.bind("input.expanding propertychange.expanding keyup.expanding change.expanding", resize);
             resize.apply(this);

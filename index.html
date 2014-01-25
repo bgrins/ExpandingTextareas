@@ -44,8 +44,18 @@ h1, h2, h3 {
     box-shadow: 0 0 2px #001;
 }
 
-/* Note: None of these rules are necessary to have this plugin work! */
+/*
+  Make expanding textareas behave like block level elements.
+  These properties are also set by the plugin, but are set here for fallback. */
 
+textarea.expanding {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Note: None of these rules are necessary to have this plugin work! */
 
 textarea {
   padding: .5em;
@@ -57,14 +67,7 @@ textarea {
   margin: .5em 0;
 }
 
-textarea {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  width: 100%;
-}
-
-.exampleStaticWidth textarea, .exampleStaticWidth .textareaClone {
+.exampleStaticWidth .expandingText {
     width: 400px;
 }
 
@@ -89,13 +92,13 @@ textarea {
     border-radius: 5px;
 }
 
-/* Need to include .textareaClone if the rule uses percentages.
-   This way everything can stay in sync without extra javascript */
+.exampleProportional .expandingText {
+    width: 50%;
+}
 .exampleProportional textarea,
 .exampleProportional .textareaClone {
     padding: 1em;
     margin: 1em;
-    width: 50%;
 }
 
 .exampleCentered .expandingText {
@@ -116,7 +119,7 @@ textarea {
 }
 
 </style>
-<script type='text/javascript' src='libs/jquery-1.7.js'></script>
+<script type='text/javascript' src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type='text/javascript' src='expanding.js'></script>
 </head>
 <body>
@@ -195,10 +198,10 @@ textarea {
       <h3>Minimum Height</h3>
       <p>
         Sometimes you may want to start off with a couple of lines to make it obvious that there is a textarea.
-        This is easy - just use CSS to add a min height to the textarea and the .textareaClone, like so:
+        This is easy - just use CSS to add a min height to the textarea, like so:
       </p>
 <pre><code>
-textarea, .textareaClone {
+textarea {
     min-height: 6em;
 }</code></pre>
 
@@ -209,7 +212,7 @@ textarea, .textareaClone {
       <h3>Maximum Height</h3>
       <p>
         Set a <code>max-height</code> on the textarea to get scrolling after a certain size.
-        This is done just like the min height example above:
+        This is done by applying a max height declaration to both the textarea and clone:
       </p>
 <pre><code>
 textarea, .textareaClone {
@@ -222,11 +225,11 @@ textarea, .textareaClone {
     <div class='example exampleStaticWidth'>
       <h3>Static Width</h3>
       <p>
-        Just set a static width on the textarea, and the pre tag will snap to fit it!
+        Just set a static width on the container:
 
       </p>
 <pre><code>
-textarea, .textareaClone {
+.expandingText {
     width: 400px;
 }</code></pre>
 
@@ -258,13 +261,15 @@ textarea, .textareaClone {
       <p>
         Percentages are a little tricky.  <em>Firefox seems to have some problems rendering percentage paddings and margins on textareas, it is probably best if you avoid this technique.</em>  Using ems for margin and padding seems to work fine.
 
-        You can use percentages on widths in all browsers, as you place the CSS rule on both elements, like so:
+        You can use percentages on widths in all browsers, as you place the CSS rule on the container, like so:
       </p>
 <pre><code>
-textarea, .textareaClone {
+.expandingText {
+    width: 50%;
+}
+textarea {
     padding: 1em;
     margin: 1em;
-    width: 50%;
 }</code></pre>
       <textarea class='expanding' placeholder='Enter Some Text'></textarea>
     </div>
@@ -272,19 +277,12 @@ textarea, .textareaClone {
 
     <div class='example exampleCentered'>
       <h3>Centering</h3>
-      <p>Centering the textarea is actually pretty easy, just set a width and a <code>margin: 0 auto;</code> on the container.  Make sure your textarea has 100% width with border-box sizing too!</p>
+      <p>Centering the textarea is actually pretty easy, just set a width and a <code>margin: 0 auto;</code> on the container.</p>
 
 <pre><code>
 .expandingText {
     width: 75%;
     margin: 0 auto;
-}
-
-textarea {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  width: 100%;
 }</code></pre>
 
       <textarea class='expanding' placeholder='Enter Some Text'></textarea>
@@ -320,6 +318,13 @@ textarea {
             });
         });
       </script>
+    </div>
+
+    <div class='example exampleEvents'>
+      <h3>Rows</h3>
+      <p>The plugin respects the <code>rows</code> attribute, adjusting the clone's min height accordingly:</p>
+      <textarea class="expanding" rows="10">Textarea with 10 rows</textarea>
+      <textarea class="expanding" rows="1">Textarea with 1 row</textarea>
     </div>
 
     <div class='example exampleEvents'>

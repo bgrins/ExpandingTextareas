@@ -23,6 +23,8 @@ If you'd like to change the initial selector to grab ALL textareas on load, you 
 
     $.fn.expandingTextarea.initialSelector = "textarea";
 
+**Requires jQuery 1.9+**.
+
 ## How it works
 
 See the [original article](http://www.alistapart.com/articles/expanding-text-areas-made-elegant/) for a great explanation of how this technique works.
@@ -44,42 +46,29 @@ The way it works is that as the user types, the text content is copied into the 
 
 ## Styling
 
-You can style things how you'd like for the textarea, and they will automatically be copied over to the invisible pre tag.
+You can style things how you'd like for the textarea, and they will automatically be copied over to the invisible pre tag, **with the exception of margins** (which are reset to 0, to ensure that the clone maintains the correct size and positioning).
 
-    textarea {
-      padding: 10px;
-      background: transparent;
-      font-family: Arial;
-      font-style: italic;
-      font-size:20px;
-    }
+**[Flash of unstyled content](http://en.wikipedia.org/wiki/Flash_of_unstyled_content) (FOUC)** can be avoided by adding the following styles to your stylesheet (adjust the selector if necessary):
 
-If you'd like to use percentage widths, there are two options.  One is to apply the rule to both the textarea and the invisible pre, like this:
-
-    textarea, .textareaClone {
-       width: 50%;
-    }
-
-If you'd prefer to center the content, set the width to 100% on the textarea, and specify the width on the expandingText container:
-
-    textarea {
+    textarea.expanding {
+      margin: 0;
       -webkit-box-sizing: border-box;
          -moz-box-sizing: border-box;
-          -ms-box-sizing: border-box;
               box-sizing: border-box;
       width: 100%;
     }
-    .expandingText {
-      width: 50%;
-      margin: 0 auto;
-    }
 
+By default, the textarea will behave like a block-level element: its width will expand to fill its container. To restrict the textarea width, simply apply a width declaration to a parent element e.g. the textarea container:
+
+    .expandingText {
+       width: 50%;
+    }
 
 See the [demo](http://bgrins.github.com/ExpandingTextareas/) to see the plugin in action.
 
 ## Browser Support
 
-This has been checked in Chrome, Safari, Firefox, IE7, and mobile Safari and it works in all of them.
+This has been checked in Chrome, Safari, Firefox, IE8, and mobile Safari and it works in all of them.
 
 ## Running Tests
 

@@ -46,19 +46,19 @@ The way it works is that as the user types, the text content is copied into the 
 
 ## Styling
 
-You can style things how you'd like for the textarea, and they will automatically be copied over to the invisible pre tag.
+You can style things how you'd like for the textarea, and they will automatically be copied over to the invisible pre tag, **with the exception of margins** (which are reset to 0, to ensure that the clone maintains the correct size and positioning).
 
-    textarea {
-      padding: 10px;
-      background: transparent;
-      font-family: Arial;
-      font-style: italic;
-      font-size:20px;
+**[Flash of unstyled content](http://en.wikipedia.org/wiki/Flash_of_unstyled_content) (FOUC)** can be avoided by adding the following styles to your stylesheet (adjust the selector if necessary):
+
+    textarea.expanding {
+      margin: 0;
+      -webkit-box-sizing: border-box;
+         -moz-box-sizing: border-box;
+              box-sizing: border-box;
+      width: 100%;
     }
 
-By default, the textarea will behave like a block-level element: its width will expand to fill its container.
-
-To restrict the textarea width, simply apply a width declaration to a parent element e.g. the textarea container:
+By default, the textarea will behave like a block-level element: its width will expand to fill its container. To restrict the textarea width, simply apply a width declaration to a parent element e.g. the textarea container:
 
     .expandingText {
        width: 50%;

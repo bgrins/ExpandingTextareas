@@ -23,6 +23,8 @@ If you'd like to change the initial selector to grab ALL textareas on load, you 
 
     $.fn.expandingTextarea.initialSelector = "textarea";
 
+**Requires jQuery 1.9+**.
+
 ## How it works
 
 See the [original article](http://www.alistapart.com/articles/expanding-text-areas-made-elegant/) for a great explanation of how this technique works.

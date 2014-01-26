@@ -90,8 +90,11 @@
             this.$textarea
                 .unwrap()
                 .attr('style', this._oldTextareaStyles || '');
+            delete this._oldTextareaStyles;
             var index = $.inArray(this, Expanding._registry);
             if (index > -1) Expanding._registry.splice(index, 1);
+            this.$textarea.unbind(
+                'input.expanding change.expanding keyup.expanding update.expanding');
         },
 
         _resetStyles: function() {

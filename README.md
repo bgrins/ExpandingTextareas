@@ -72,7 +72,7 @@ You can style things how you'd like for the textarea, and they will automaticall
       width: 100%;
     }
 
-By default, the textarea will behave like a block-level element: its width will expand to fill its container. To restrict the textarea width, simply apply a width declaration to a parent element e.g. the textarea container:
+By default, the textarea will behave like a block-level element: its width will expand to fill its container. To restrict the textarea width, simply apply a width declaration to a parent element e.g. the textarea wrapper:
 
     .expanding-wrapper {
        width: 50%;

@@ -152,7 +152,7 @@ test('Invokes `options.resize` callback called on input', 1, function() {
     $textarea.trigger('input');
 });
 
-test('Destroy resets the textarea attributes', function() {
+test('Destroy resets the textarea attributes', 2, function() {
     var height = '100px',
         $textarea = $('<textarea style="height: '+ height +'" />').expandingTextarea();
 
@@ -161,12 +161,8 @@ test('Destroy resets the textarea attributes', function() {
         'Textarea’s CSS `height` property set to 100% on init');
     
     $textarea.expandingTextarea('destroy');
-    ok(!$textarea.hasClass('expanding-init'),
-        'Init textarea class name removed on destroy');
     equal($textarea[0].style.height, height,
         'Textarea’s CSS `height` property reset to ' + height + ' on destroy');
-    ok(!$textarea.data('expanding-styles'),
-        '`expanding-styles` data removed on destroy');
 });
 
 test('Destroy removes the clone', 1, function() {

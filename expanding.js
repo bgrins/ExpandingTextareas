@@ -16,7 +16,7 @@
 
         this.$textarea = $textarea;
         this.$textCopy = $("<span />");
-        this.$clone = $("<pre><br /></pre>").prepend(this.$textCopy);
+        this.$clone = $("<pre class='expanding-clone'><br /></pre>").prepend(this.$textCopy);
 
         this._resetStyles();
         this._setCloneStyles();

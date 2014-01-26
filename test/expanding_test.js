@@ -30,9 +30,10 @@ test('Wraps the textarea', function() {
         'Textarea wrapped in `div.expanding-wrapper`');
 });
 
-test('Creates a textarea clone', 3, function() {
+test('Creates a textarea clone', 4, function() {
     var $pre = this.$textarea.siblings('pre');
     equal($pre.length, 1, 'Textarea has a `pre` sibling (clone)');
+    ok($pre.hasClass('expanding-clone'), 'Clone has `expanding-clone` class');
     equal($pre.find('span').length, 1, 'Textarea clone contains a span');
     equal($pre.find('br').length, 1, 'Textarea clone contains a br');
 });

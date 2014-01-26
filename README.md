@@ -14,7 +14,7 @@ Start with markup like this:
 *And that's it*.  The plugin finds textareas with the 'expanding' class on page load and initializes them for you.  If you would prefer to initialize the textareas on your own, do something like this:
 
     <script type='text/javascript'>
-        $("#element").expandingTextarea();
+        $("#element").expanding();
     </script>
 
 The textareas will automatically resize now as the user changes the value.  If you'd like to change the value by code and have it resize manually, you can do:
@@ -23,19 +23,19 @@ The textareas will automatically resize now as the user changes the value.  If y
 
 If you'd like to change the initial selector to grab ALL textareas on load, you can change this property:
 
-    $.fn.expandingTextarea.initialSelector = "textarea";
+    $.fn.expanding.initialSelector = "textarea";
 
 ### destroy
 
 Once attached, the expanding behaviour can be removed as follows:
 
-    $(".element").expandingTextarea('destroy');
+    $(".element").expanding('destroy');
 
 ### isExpanding
 
 To test whether a jQuery selection has expanding behaviour:
 
-    $(".element").expandingTextarea('isExpanding');
+    $(".element").expanding('isExpanding');
 
 Note: this behaves like `.hasClass()`: it will return `true` is _any_ of the nodes in the selection have expanding behaviour.
 

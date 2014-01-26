@@ -124,15 +124,15 @@
         }
     };
 
-    $.expandingTextarea = $.extend({
+    $.expanding = $.extend({
         autoInitialize: true,
         initialSelector: "textarea.expanding",
         opts: {
             resize: function() { }
         }
-    }, $.expandingTextarea || {});
+    }, $.expanding || {});
 
-    $.fn.expandingTextarea = function(o) {
+    $.fn.expanding = function(o) {
 
         if (o === "resize") return this.trigger("input.expanding");
 
@@ -151,7 +151,7 @@
             return $.inArray(true, instances) > -1 ? true : false;
         }
 
-        var opts = $.extend({ }, $.expandingTextarea.opts, o);
+        var opts = $.extend({ }, $.expanding.opts, o);
 
         this.filter("textarea").each(function() {
             if(!Expanding.getExpandingInstance(this)) {
@@ -162,8 +162,8 @@
     };
 
     $(function () {
-        if ($.expandingTextarea.autoInitialize) {
-            $($.expandingTextarea.initialSelector).expandingTextarea();
+        if ($.expanding.autoInitialize) {
+            $($.expanding.initialSelector).expanding();
         }
     });
 

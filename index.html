@@ -156,7 +156,7 @@ textarea {
     If you'd like to manually call the plugin instead, use:
 
 <pre><code>&lt;script&gt;
-    $("#element").expandingTextarea();
+    $("#element").expanding();
 &lt;/script&gt;</code></pre>
 
     See the <a href='http://github.com/bgrins/ExpandingTextareas'>project page</a> for an explanation of how it works.
@@ -190,7 +190,7 @@ textarea {
 
     <h2>Examples</h2>
     <p>
-    Almost all customization of the expandingTextareas plugin is simply done in CSS.
+    Almost all customization of the expanding plugin is simply done in CSS.
     Here are some of the things you can do:
     </p>
 
@@ -293,7 +293,7 @@ textarea {
       <p>Allows for removing the expanding functionality.</p>
 
 <pre><code>&lt;script&gt;
-    $("#element").expandingTextarea('destroy');
+    $("#element").expanding('destroy');
 &lt;/script&gt;</code></pre>
 
       <textarea class='expanding'>This textarea
@@ -307,12 +307,12 @@ textarea {
         $(function() {
             $('.exampleDestroy button').click(function() {
                 var textarea = $('.exampleDestroy .expanding');
-                if (textarea.expandingTextarea("isExpanding")) {
-                    textarea.expandingTextarea('destroy');
+                if (textarea.expanding("isExpanding")) {
+                    textarea.expanding('destroy');
                     $(this).text("Renable...");
                 }
                 else {
-                    textarea.expandingTextarea();
+                    textarea.expanding();
                     $(this).text("Remove...");
                 }
             });
@@ -332,7 +332,7 @@ textarea {
         <h4><code>resize</code></h4>
         <p>Sometimes other parts of your application need to be notified when a textarea changes its height (e.g., to move out of its way!).  You can dispatch such notifications through callback functions passed in when you first initialize the plug-in, like so:</p>
 <pre><code>&lt;script&gt;
-    $("#element").expandingTextarea({
+    $("#element").expanding({
         resize: callback
     });
 &lt;/script&gt;</code></pre>
@@ -345,7 +345,7 @@ textarea {
       <div id='resizeLog'>Current Height: <em></em></div>
       <script type='text/javascript'>
         $(function() {
-            $('.exampleEvents textarea').expandingTextarea({
+            $('.exampleEvents textarea').expanding({
                 resize: function(h) {
                     $("#resizeLog").show().find("em").text($(this).height() + "px");
                 }
@@ -361,7 +361,7 @@ textarea {
 <pre><code>
 &lt;textarea wrap="off"&gt;&lt;/textarea&gt;
 &lt;script&gt;
-    $("#element").expandingTextarea();
+    $("#element").expanding();
 &lt;/script&gt;</code></pre>
 
 
@@ -371,7 +371,7 @@ No word wrap going to happen here, even if the line is extremely long... No word
       <br />
       <script type='text/javascript'>
         $(function() {
-            $('.exampleWrapOff textarea').expandingTextarea();
+            $('.exampleWrapOff textarea').expanding();
         });
       </script>
     </div>

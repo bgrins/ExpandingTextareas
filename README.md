@@ -47,14 +47,14 @@ The plugin will automatically find this textarea, and turn it into an expanding 
 
     <div class="expanding-wrapper">
       <textarea class="expanding"></textarea>
-      <pre class="textareaClone"><div></div></pre>
+      <pre class="expanding-clone"><div></div></pre>
     </div>
 
 The way it works is that as the user types, the text content is copied into the div inside the pre (which is actually providing the height of the textarea).  So it could look like this:
 
     <div class="expanding-wrapper">
       <textarea class="expanding">Some Content\nWas Entered</textarea>
-      <pre class="textareaClone"><div>Some Content
+      <pre class="expanding-clone"><div>Some Content
       Was Entered</div></pre>
     </div>
 

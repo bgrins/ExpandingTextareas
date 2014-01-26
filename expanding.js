@@ -10,6 +10,116 @@
         factory(jQuery);
     }
 }(function ($) {
+
+    var Expanding = function($textarea, opts) {
+        Expanding._registry.push(this);
+
+        this.$textarea = $textarea;
+        this.$textCopy = $("<span />");
+        this.$clone = $("<pre><br /></pre>").prepend(this.$textCopy);
+
+        this._resetStyles();
+        this._setCloneStyles();
+        this._setTextareaStyles();
+
+        $textarea
+            .wrap($("<div class='expandingText' style='position:relative' />"))
+            .after(this.$clone)
+            .bind("input.expanding propertychange.expanding keyup.expanding change.expanding",
+                $.proxy(this.update, this));
+
+        this.update();
+        if (opts.resize) $textarea.bind("resize.expanding", opts.resize);
+    };
+
+    Expanding._registry = [];
+
+    Expanding.getExpandingInstance = function(textarea) {
+        var $textareas = $.map(Expanding._registry, function(instance) {
+                return instance.$textarea[0];
+            }),
+            index = $.inArray(textarea, $textareas);
+        return index > -1 ? Expanding._registry[index] : null;
+    };
+
+    Expanding.prototype = {
+
+        update: function() {
+            this.$textCopy.text(this.$textarea.val().replace(/\r\n/g, "\n"));
+            this.$textarea.trigger("resize.expanding");
+        },
+
+        destroy: function() {
+            this.$clone.remove();
+            this.$textarea
+                .unwrap()
+                .attr('style', this._oldTextareaStyles || '');
+            var index = $.inArray(this, Expanding._registry);
+            if (index > -1) Expanding._registry.splice(index, 1);
+        },
+
+        _resetStyles: function() {
+            // Store the original styles in case of destroying.
+            this._oldTextareaStyles = this.$textarea.attr('style');
+
+            this.$textarea.add(this.$clone).css({
+                margin: 0,
+                webkitBoxSizing: "border-box",
+                mozBoxSizing: "border-box",
+                boxSizing: "border-box",
+                width: "100%"
+            });
+        },
+
+        _setCloneStyles: function() {
+            var css = {
+                display: 'block',
+                border: '0 solid',
+                visibility: 'hidden',
+                minHeight: this.$textarea.outerHeight()
+            };
+            if(this.$textarea.attr("wrap") === "off") css.overflowX = "scroll";
+            else css.whiteSpace = "pre-wrap";
+
+            this.$clone.css(css);
+            this._copyTextareaStylesToClone();
+        },
+
+        _copyTextareaStylesToClone: function() {
+            var _this = this,
+                properties = [
+                    'lineHeight', 'textDecoration', 'letterSpacing',
+                    'fontSize', 'fontFamily', 'fontStyle',
+                    'fontWeight', 'textTransform', 'textAlign',
+                    'direction', 'wordSpacing', 'fontSizeAdjust',
+                    'wordWrap', 'word-break',
+                    'borderTopStyle', 'borderBottomStyle',
+                    'borderLeftWidth', 'borderRightWidth',
+                    'borderTopWidth','borderBottomWidth',
+                    'paddingLeft', 'paddingRight',
+                    'paddingTop','paddingBottom'];
+
+            $.each(properties, function(i, property) {
+                var val = _this.$textarea.css(property);
+
+                // Prevent overriding percentage css values.
+                if(_this.$clone.css(property) !== val) {
+                    _this.$clone.css(property, val);
+                }
+            });
+        },
+
+        _setTextareaStyles: function() {
+            this.$textarea.css({
+                position: "absolute",
+                top: 0,
+                left: 0,
+                height: "100%",
+                resize: "none"
+            });
+        }
+    };
+
     $.expandingTextarea = $.extend({
         autoInitialize: true,
         initialSelector: "textarea.expanding",
@@ -18,100 +128,24 @@
         }
     }, $.expandingTextarea || {});
 
-    var cloneCSSProperties = [
-        'lineHeight', 'textDecoration', 'letterSpacing',
-        'fontSize', 'fontFamily', 'fontStyle',
-        'fontWeight', 'textTransform', 'textAlign',
-        'direction', 'wordSpacing', 'fontSizeAdjust',
-        'wordWrap', 'word-break',
-        'borderLeftWidth', 'borderRightWidth',
-        'borderTopWidth','borderBottomWidth',
-        'paddingLeft', 'paddingRight',
-        'paddingTop','paddingBottom',
-        'marginLeft', 'marginRight',
-        'marginTop','marginBottom',
-        'boxSizing', 'webkitBoxSizing', 'mozBoxSizing', 'msBoxSizing'
-    ];
-
-    var textareaCSS = {
-        position: "absolute",
-        webkitBoxSizing: "border-box",
-        mozBoxSizing: "border-box",
-        boxSizing: "border-box",
-        width: '100%',
-        height: "100%",
-        resize: "none"
-    };
-
-    var preCSS = {
-        visibility: "hidden",
-        border: "0 solid"
-    };
-
-    var containerCSS = {
-        position: "relative"
-    };
-
-    function resize() {
-        $(this).closest('.expandingText').find("div").text(this.value.replace(/\r\n/g, "\n") + ' ');
-        $(this).trigger("resize.expanding");
-    }
-
     $.fn.expandingTextarea = function(o) {
 
-        var opts = $.extend({ }, $.expandingTextarea.opts, o);
-
-        if (o === "resize") {
-            return this.trigger("input.expanding");
-        }
+        if (o === "resize") return this.trigger("input.expanding");
 
         if (o === "destroy") {
-            this.filter(".expanding-init").each(function() {
-                var textarea = $(this).removeClass('expanding-init');
-                var container = textarea.closest('.expandingText');
-
-                container.before(textarea).remove();
-                textarea
-                    .attr('style', textarea.data('expanding-styles') || '')
-                    .removeData('expanding-styles');
+            this.each(function() {
+                Expanding.getExpandingInstance(this).destroy();
             });
-
             return this;
         }
 
-        this.filter("textarea").not(".expanding-init").addClass("expanding-init").each(function() {
-            var textarea = $(this);
+        var opts = $.extend({ }, $.expandingTextarea.opts, o);
 
-            textarea.wrap("<div class='expandingText'></div>");
-            textarea.after("<pre class='textareaClone'><div></div></pre>");
-            textarea.css('margin', 0);
-
-            var container = textarea.parent().css(containerCSS);
-            var pre = container.find("pre").css($.extend(preCSS, {"min-height": textarea.outerHeight()}));
-
-            pre.css(textarea.attr("wrap") === "off" ? {overflowX: "scroll"} : {whiteSpace: "pre-wrap"});
-
-            // Store the original styles in case of destroying.
-            textarea.data('expanding-styles', textarea.attr('style'));
-            textarea.css(textareaCSS);
-
-            $.each(cloneCSSProperties, function(i, p) {
-                var val = textarea.css(p);
-
-                // Only set if different to prevent overriding percentage css values.
-                if (pre.css(p) !== val) {
-                    pre.css(p, val);
-                }
-            });
-
-            textarea.bind("input.expanding propertychange.expanding keyup.expanding change.expanding", resize);
-            resize.apply(this);
-
-            if (opts.resize) {
-                textarea.bind("resize.expanding", opts.resize);
+        this.filter("textarea").each(function() {
+            if(!Expanding.getExpandingInstance(this)) {
+                new Expanding($(this), opts);
             }
         });
-
         return this;
     };
 

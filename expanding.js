@@ -142,7 +142,7 @@
             var instances = this.map(function() {
                 return !!Expanding.getExpandingInstance(this);
             });
-            return $.inArray(true, instances) > -1 ? true : false;
+            return $.inArray(true, instances) > -1;
         }
 
         var opts = $.extend({ }, $.expanding.opts, o);

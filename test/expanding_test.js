@@ -103,7 +103,7 @@ test('Clone dimensions match those of the textarea', 2, function() {
     equal(this.$textarea.outerWidth(true), $clone.outerWidth(true));
 });
 
-test('Sets the textarea CSS', 3, function() {
+test('Sets the textarea CSS', 4, function() {
     var style = this.$textarea[0].style;
     equal(style.position, 'absolute',
         'Textarea CSS `position` property set to `absolute`');
@@ -111,6 +111,8 @@ test('Sets the textarea CSS', 3, function() {
         'Textarea CSS `height` property set to 100%');
     equal(style.resize, 'none',
       'Textarea CSS `resize` property set to `none`');
+    equal(style.overflow, 'auto',
+      'Textarea CSS `overflow` property set to `auto`');
 });
 
 test('Sets the textarea wrapper CSS', 1, function() {

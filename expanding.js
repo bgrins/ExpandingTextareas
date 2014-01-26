@@ -154,7 +154,8 @@
                 top: 0,
                 left: 0,
                 height: "100%",
-                resize: "none"
+                resize: "none",
+                overflow: "auto"
             });
         }
     };

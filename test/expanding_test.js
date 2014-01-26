@@ -152,10 +152,10 @@ test('Clone and wrapper grow with textarea when long text inserted', 4, function
     equal(this.$textarea.outerWidth(true), $wrapper.outerWidth());
 });
 
-test('Invokes `options.resize` callback called on input', 1, function() {
+test('Invokes `options.update` callback called on input', 1, function() {
     var $textarea = $('<textarea />').expanding({
         resize: function callback() {
-            ok(true, '`options.resize` callback called');
+            ok(true, '`options.update` callback called');
         }
     });
     $textarea.trigger('input');

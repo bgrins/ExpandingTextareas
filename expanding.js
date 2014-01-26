@@ -29,7 +29,7 @@
                 $.proxy(this.update, this));
 
         this.update();
-        if (opts.resize) $textarea.bind("resize.expanding", opts.resize);
+        if (opts.update) $textarea.bind("update.expanding", opts.update);
     };
 
     Expanding._registry = [];
@@ -46,7 +46,7 @@
 
         update: function() {
             this.$textCopy.text(this.$textarea.val().replace(/\r\n/g, "\n"));
-            this.$textarea.trigger("resize.expanding");
+            this.$textarea.trigger("update.expanding");
         },
 
         destroy: function() {
@@ -124,13 +124,11 @@
         autoInitialize: true,
         initialSelector: "textarea.expanding",
         opts: {
-            resize: function() { }
+            update: function() { }
         }
     }, $.expanding || {});
 
     $.fn.expanding = function(o) {
-
-        if (o === "resize") return this.trigger("input.expanding");
 
         if (o === "destroy") {
             this.each(function() {

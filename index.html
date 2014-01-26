@@ -114,7 +114,7 @@ textarea {
   word-wrap: normal;
 }
 
-#resizeLog {
+#updateLog {
     display: none;
 }
 
@@ -329,11 +329,11 @@ textarea {
 
     <div class='example exampleEvents'>
         <h3>Callbacks</h3>
-        <h4><code>resize</code></h4>
+        <h4><code>update</code></h4>
         <p>Sometimes other parts of your application need to be notified when a textarea changes its height (e.g., to move out of its way!).  You can dispatch such notifications through callback functions passed in when you first initialize the plug-in, like so:</p>
 <pre><code>&lt;script&gt;
     $("#element").expanding({
-        resize: callback
+        update: callback
     });
 &lt;/script&gt;</code></pre>
 
@@ -342,12 +342,12 @@ textarea {
         will log changes below
         &darr; </textarea>
       <br />
-      <div id='resizeLog'>Current Height: <em></em></div>
+      <div id='updateLog'>Current Height: <em></em></div>
       <script type='text/javascript'>
         $(function() {
             $('.exampleEvents textarea').expanding({
-                resize: function(h) {
-                    $("#resizeLog").show().find("em").text($(this).height() + "px");
+                update: function(h) {
+                    $("#updateLog").show().find("em").text($(this).height() + "px");
                 }
             });
         });

@@ -4,11 +4,14 @@ module('ExpandingTextareas', {
     }
 });
 
-test('Prevents initializing more than once', 1, function() {
-    this.$textarea.expandingTextarea();
-    equal(this.$textarea.parents('div.expandingText').length, 1,
-        'Textarea has a single `div.expandingText` parent when `expandingTextarea()` called twice');
+test('Returns the jQuery object', 1, function() {
+    var $textarea = $('<textarea />');
+    equal($textarea.expandingTextarea(), $textarea);
 });
+
+// ========
+// = Init =
+// ========
 
 test('Ignores non-textarea elements', 1, function() {
     var $input = $('<input />').expandingTextarea();
@@ -16,32 +19,15 @@ test('Ignores non-textarea elements', 1, function() {
         'Non-textarea element not wrapped');
 });
 
-test('Returns the jQuery object', 1, function() {
-    var $textarea = $('<textarea />');
-    equal($textarea.expandingTextarea(), $textarea);
+test('Prevents initializing more than once', 1, function() {
+    this.$textarea.expandingTextarea();
+    equal(this.$textarea.parents('div.expandingText').length, 1,
+        'Textarea has a single `div.expandingText` parent when `expandingTextarea()` called twice');
 });
 
 test('Wraps the textarea', function() {
     ok(this.$textarea.parent().is('div.expandingText'),
         'Textarea wrapped in `div.expandingText`');
-});
-
-test('Sets the textarea wrapper CSS', 1, function() {
-    var $wrapper = this.$textarea.parent();
-    equal($wrapper.css('position'), 'relative',
-        'Textarea wrapper CSS `position` set to `relative`');
-});
-
-test('Ensures the clone is at least as tall as the textarea', 1, function() {
-    var $textarea = $('<textarea rows="10" />').appendTo('#qunit-fixture');
-    expected = $textarea.outerHeight(); // cache textarea height
-    $textarea.expandingTextarea();
-    equal($textarea.siblings('pre').outerHeight(), expected,
-        'Textarea wrapper CSS `min-height` set to textarea outer height');
-});
-
-test('Texarea’s value is copied to the clone on init', function() {
-    equal(this.$textarea.siblings('pre').text(), this.$textarea.val());
 });
 
 test('Creates a textarea clone', 3, function() {
@@ -51,23 +37,14 @@ test('Creates a textarea clone', 3, function() {
     equal($pre.find('br').length, 1, 'Textarea clone contains a br');
 });
 
+test('Sets the clone’s initial text value', function() {
+    equal(this.$textarea.siblings('pre').text(), this.$textarea.val());
+});
+
 test('Sets the clone CSS `visibility` property', 1, function() {
     var $pre = this.$textarea.siblings('pre');
     equal($pre.css('visibility'), 'hidden',
         'Clone CSS `visibility` property set to `hidden`');
-});
-
-test('Sets clone CSS `white-space` property when `textarea[wrap]` is not "off"', 2, function() {
-    ok(this.$textarea.attr('wrap') !== 'off');
-    equal(this.$textarea.siblings('pre').css('white-space'), 'pre-wrap',
-        'Clone CSS `white-space` property set to `pre-wrap`');
-});
-
-test('Sets the clone CSS `overflow-x` property when `textarea[wrap=off]`', 1, function() {
-    var $textarea = $('<textarea wrap="off" />').expandingTextarea(),
-        $pre = $textarea.siblings('pre');
-    equal($pre.css('overflow-x'), 'scroll',
-        'Clone CSS `overflow-x` property to `scroll`');
 });
 
 test('Copies the textarea CSS on to the clone', function() {
@@ -94,22 +71,25 @@ test('Copies the textarea CSS on to the clone', function() {
     });
 });
 
-test('Sets the textarea CSS', 3, function() {
-    var style = this.$textarea[0].style;
-    equal(style.position, 'absolute',
-        'Textarea CSS `position` property set to `absolute`');
-    equal(style.height, '100%',
-        'Textarea CSS `height` property set to 100%');
-    equal(style.resize, 'none',
-      'Textarea CSS `resize` property set to `none`');
+test('Ensures the clone is at least as tall as the textarea', 1, function() {
+    var $textarea = $('<textarea rows="10" />').appendTo('#qunit-fixture');
+    expected = $textarea.outerHeight(); // cache textarea height
+    $textarea.expandingTextarea();
+    equal($textarea.siblings('pre').outerHeight(), expected,
+        'Textarea wrapper CSS `min-height` set to textarea outer height');
 });
 
-test('Textarea maintains its coordinates after expandingTextarea init', function() {
-    var $textarea = $('<textarea style="margin: 0" />').appendTo('#qunit-fixture'),
-        expected = $textarea.offset();
-    $textarea.expandingTextarea();
-    deepEqual($textarea.offset(), expected,
-        'Textarea offset remained the same after init');
+test('Sets clone CSS `white-space` property when `textarea[wrap]` is not "off"', 2, function() {
+    ok(this.$textarea.attr('wrap') !== 'off');
+    equal(this.$textarea.siblings('pre').css('white-space'), 'pre-wrap',
+        'Clone CSS `white-space` property set to `pre-wrap`');
+});
+
+test('Sets the clone CSS `overflow-x` property when `textarea[wrap=off]`', 1, function() {
+    var $textarea = $('<textarea wrap="off" />').expandingTextarea(),
+        $pre = $textarea.siblings('pre');
+    equal($pre.css('overflow-x'), 'scroll',
+        'Clone CSS `overflow-x` property to `scroll`');
 });
 
 test('Clone occupies the same coordinates as the textarea', function() {
@@ -121,6 +101,34 @@ test('Clone dimensions match those of the textarea', 2, function() {
     equal(this.$textarea.outerHeight(true), $clone.outerHeight(true));
     equal(this.$textarea.outerWidth(true), $clone.outerWidth(true));
 });
+
+test('Sets the textarea CSS', 3, function() {
+    var style = this.$textarea[0].style;
+    equal(style.position, 'absolute',
+        'Textarea CSS `position` property set to `absolute`');
+    equal(style.height, '100%',
+        'Textarea CSS `height` property set to 100%');
+    equal(style.resize, 'none',
+      'Textarea CSS `resize` property set to `none`');
+});
+
+test('Sets the textarea wrapper CSS', 1, function() {
+    var $wrapper = this.$textarea.parent();
+    equal($wrapper.css('position'), 'relative',
+        'Textarea wrapper CSS `position` set to `relative`');
+});
+
+test('Textarea maintains its coordinates after expandingTextarea init', function() {
+    var $textarea = $('<textarea style="margin: 0" />').appendTo('#qunit-fixture'),
+        expected = $textarea.offset();
+    $textarea.expandingTextarea();
+    deepEqual($textarea.offset(), expected,
+        'Textarea offset remained the same after init');
+});
+
+// ==========
+// = Update =
+// ==========
 
 test('Updates the clone text on input', 1, function() {
     var text = 'Hello world!';
@@ -151,6 +159,10 @@ test('Invokes `options.resize` callback called on input', 1, function() {
     });
     $textarea.trigger('input');
 });
+
+// ===========
+// = Destroy =
+// ===========
 
 test('Destroy resets the textarea attributes', 2, function() {
     var height = '100px',

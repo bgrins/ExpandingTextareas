@@ -189,6 +189,11 @@ test('Destroy removes the textarea wrapper', 1, function() {
         'Textarea wrapper removed');
 });
 
+test('Destroy called on an uninitialized node', function() {
+    $('<textarea />').expandingTextarea('destroy');
+    ok(true, 'Calling destroy on an uninitialized jQuery object should not raise an exception');
+});
+
 // ===============
 // = IsExpanding =
 // ===============

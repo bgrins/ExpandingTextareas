@@ -138,7 +138,8 @@
 
         if (o === "destroy") {
             this.each(function() {
-                Expanding.getExpandingInstance(this).destroy();
+                var instance = Expanding.getExpandingInstance(this);
+                if (instance) instance.destroy();
             });
             return this;
         }

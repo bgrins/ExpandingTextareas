@@ -152,14 +152,53 @@ test('Clone and wrapper grow with textarea when long text inserted', 4, function
     equal(this.$textarea.outerWidth(true), $wrapper.outerWidth());
 });
 
-test('Invokes `options.update` callback called on input', 1, function() {
-    var $textarea = $('<textarea />').expanding({
-        update: function callback() {
-            ok(true, '`options.update` callback called');
+// ============
+// = Callback =
+// ============
+
+(function() {
+    // Returns the version of Internet Explorer or -1
+    var ieVersion = (function() {
+        var v = -1;
+        if (navigator.appName === "Microsoft Internet Explorer") {
+            var ua = navigator.userAgent;
+            var re = new RegExp("MSIE ([0-9]{1,}[\\.0-9]{0,})");
+            if (re.exec(ua) !== null) v = parseFloat(RegExp.$1);
         }
-    });
-    $textarea.trigger('input');
-});
+        return v;
+    })();
+
+    var inputSupported = "oninput" in document.body && ieVersion !== 9;
+
+    if(inputSupported) {
+        test('Invokes `options.update` callback called once on keypress', 1, function() {
+            var $textarea = $('<textarea />').expanding({
+                update: function callback() {
+                    ok(true, '`options.update` callback called');
+                }
+            });
+            // Simulate keypress
+            $textarea
+                .trigger('keydown')
+                .trigger('input')
+                .trigger('keyup');
+        });
+    }
+    else {
+        test('Invokes `options.update` callback called once on keyup', 1, function() {
+            var $textarea = $('<textarea />').expanding({
+                update: function callback() {
+                    ok(true, '`options.update` callback called');
+                }
+            });
+            // Simulate keypress for browesers that do no support oninput
+            $textarea
+                .trigger('keydown')
+                .trigger('keyup');
+        });
+    }
+
+})();
 
 // ===========
 // = Destroy =

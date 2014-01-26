@@ -21,13 +21,13 @@ test('Ignores non-textarea elements', 1, function() {
 
 test('Prevents initializing more than once', 1, function() {
     this.$textarea.expanding();
-    equal(this.$textarea.parents('div.expandingText').length, 1,
-        'Textarea has a single `div.expandingText` parent when `expanding()` called twice');
+    equal(this.$textarea.parents('div.expanding-wrapper').length, 1,
+        'Textarea has a single `div.expanding-wrapper` parent when `expanding()` called twice');
 });
 
 test('Wraps the textarea', function() {
-    ok(this.$textarea.parent().is('div.expandingText'),
-        'Textarea wrapped in `div.expandingText`');
+    ok(this.$textarea.parent().is('div.expanding-wrapper'),
+        'Textarea wrapped in `div.expanding-wrapper`');
 });
 
 test('Creates a textarea clone', 3, function() {
@@ -185,7 +185,7 @@ test('Destroy removes the clone', 1, function() {
 
 test('Destroy removes the textarea wrapper', 1, function() {
     this.$textarea.expanding('destroy');
-    ok(!this.$textarea.parent().hasClass('expandingText'),
+    ok(!this.$textarea.parent().hasClass('expanding-wrapper'),
         'Textarea wrapper removed');
 });
 

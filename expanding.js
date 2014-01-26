@@ -23,7 +23,7 @@
         this._setTextareaStyles();
 
         $textarea
-            .wrap($("<div class='expandingText' style='position:relative' />"))
+            .wrap($("<div class='expanding-wrapper' style='position:relative' />"))
             .after(this.$clone)
             .bind("input.expanding propertychange.expanding keyup.expanding change.expanding",
                 $.proxy(this.update, this));

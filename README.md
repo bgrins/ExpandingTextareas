@@ -45,14 +45,14 @@ See the [original article](http://www.alistapart.com/articles/expanding-text-are
 
 The plugin will automatically find this textarea, and turn it into an expanding one.  The final (generated) markup will look something like this:
 
-    <div class="expandingText">
+    <div class="expanding-wrapper">
       <textarea class="expanding"></textarea>
       <pre class="textareaClone"><div></div></pre>
     </div>
 
 The way it works is that as the user types, the text content is copied into the div inside the pre (which is actually providing the height of the textarea).  So it could look like this:
 
-    <div class="expandingText">
+    <div class="expanding-wrapper">
       <textarea class="expanding">Some Content\nWas Entered</textarea>
       <pre class="textareaClone"><div>Some Content
       Was Entered</div></pre>
@@ -74,7 +74,7 @@ You can style things how you'd like for the textarea, and they will automaticall
 
 By default, the textarea will behave like a block-level element: its width will expand to fill its container. To restrict the textarea width, simply apply a width declaration to a parent element e.g. the textarea container:
 
-    .expandingText {
+    .expanding-wrapper {
        width: 50%;
     }
 

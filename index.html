@@ -307,7 +307,7 @@ textarea {
         $(function() {
             $('.exampleDestroy button').click(function() {
                 var textarea = $('.exampleDestroy .expanding');
-                if (textarea.hasClass("expanding-init")) {
+                if (textarea.expandingTextarea("isExpanding")) {
                     textarea.expandingTextarea('destroy');
                     $(this).text("Renable...");
                 }

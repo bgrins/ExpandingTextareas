@@ -188,3 +188,15 @@ test('Destroy removes the textarea wrapper', 1, function() {
     ok(!this.$textarea.parent().hasClass('expandingText'),
         'Textarea wrapper removed');
 });
+
+// ===============
+// = IsExpanding =
+// ===============
+
+test('isExpanding returns true when expandingTextarea initialized', function() {
+    equal(this.$textarea.expandingTextarea('isExpanding'), true);
+});
+
+test('isExpanding returns false when expandingTextarea is not initialized', function() {
+    equal($('<textarea />').expandingTextarea('isExpanding'), false);
+});

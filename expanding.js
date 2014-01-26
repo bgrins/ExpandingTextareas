@@ -58,6 +58,10 @@
             if (index > -1) Expanding._registry.splice(index, 1);
         },
 
+        isExpanding: function(textarea) {
+
+        },
+
         _resetStyles: function() {
             // Store the original styles in case of destroying.
             this._oldTextareaStyles = this.$textarea.attr('style');
@@ -137,6 +141,13 @@
                 Expanding.getExpandingInstance(this).destroy();
             });
             return this;
+        }
+
+        if (o === 'isExpanding') {
+            var instances = this.map(function() {
+                return !!Expanding.getExpandingInstance(this);
+            });
+            return $.inArray(true, instances) > -1 ? true : false;
         }
 
         var opts = $.extend({ }, $.expandingTextarea.opts, o);

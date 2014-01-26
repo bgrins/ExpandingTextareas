@@ -40,10 +40,15 @@ test('Ensures the clone is at least as tall as the textarea', 1, function() {
         'Textarea wrapper CSS `min-height` set to textarea outer height');
 });
 
-test('Creates a textarea clone', function() {
+test('Texarea’s value is copied to the clone on init', function() {
+    equal(this.$textarea.siblings('pre').text(), this.$textarea.val());
+});
+
+test('Creates a textarea clone', 3, function() {
     var $pre = this.$textarea.siblings('pre');
     equal($pre.length, 1, 'Textarea has a `pre` sibling (clone)');
-    equal($pre.find('div').length, 1, 'Textarea clone contains a div');
+    equal($pre.find('span').length, 1, 'Textarea clone contains a span');
+    equal($pre.find('br').length, 1, 'Textarea clone contains a br');
 });
 
 test('Sets the clone CSS `visibility` property', 1, function() {
@@ -120,8 +125,8 @@ test('Clone dimensions match those of the textarea', 2, function() {
 test('Updates the clone text on input', 1, function() {
     var text = 'Hello world!';
     this.$textarea.val(text).trigger('input');
-    equal(this.$textarea.siblings('pre').find('div').text(), text+' ',
-        'Clone’s `div` element updated with the textarea’s value (plus blank space)');
+    equal(this.$textarea.siblings('pre').find('span').text(), text,
+        'Clone’s `span` element updated with the textarea’s value');
 });
 
 test('Clone and wrapper grow with textarea when long text inserted', 4, function() {

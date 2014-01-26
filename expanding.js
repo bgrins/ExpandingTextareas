@@ -24,10 +24,9 @@
 
         $textarea
             .wrap($("<div class='expanding-wrapper' style='position:relative' />"))
-            .after(this.$clone)
-            .bind("input.expanding propertychange.expanding keyup.expanding change.expanding",
-                $.proxy(this.update, this));
+            .after(this.$clone);
 
+        this.attach();
         this.update();
         if (opts.update) $textarea.bind("update.expanding", opts.update);
     };
@@ -42,7 +41,44 @@
         return index > -1 ? Expanding._registry[index] : null;
     };
 
+    // Returns the version of Internet Explorer or -1
+    // (indicating the use of another browser).
+    // From: http://msdn.microsoft.com/en-us/library/ms537509(v=vs.85).aspx#ParsingUA
+    var ieVersion = (function() {
+        var v = -1;
+        if (navigator.appName === "Microsoft Internet Explorer") {
+            var ua = navigator.userAgent;
+            var re = new RegExp("MSIE ([0-9]{1,}[\\.0-9]{0,})");
+            if (re.exec(ua) !== null) v = parseFloat(RegExp.$1);
+        }
+        return v;
+    })();
+
+    // Check for oninput support
+    // IE9 supports oninput, but not when deleting text, so keyup is used.
+    // onpropertychange _is_ supported by IE8/9, but may not be fired unless
+    // attached with `attachEvent`
+    // (see: http://stackoverflow.com/questions/18436424/ie-onpropertychange-event-doesnt-fire),
+    // and so is avoided altogether.
+     var inputSupported = (function () {
+        var supported;
+        return function() {
+            if (!supported) {
+                if ("oninput" in document.body && ieVersion !== 9)
+                    supported = true;
+            }
+            return supported;
+        };
+    })();
+
     Expanding.prototype = {
+
+        attach: function() {
+            var events = 'input.expanding change.expanding',
+                _this = this;
+            if(!inputSupported()) events += ' keyup.expanding';
+            this.$textarea.bind(events, function() { _this.update() });
+        },
 
         update: function() {
             this.$textCopy.text(this.$textarea.val().replace(/\r\n/g, "\n"));

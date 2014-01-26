@@ -2,11 +2,13 @@
 
 Based off of work by [Neil Jenkins](http://nmjenkins.com/) that can be seen here: http://www.alistapart.com/articles/expanding-text-areas-made-elegant/
 
-## How To Use
+## Usage
 
 Start with markup like this:
-
-    <script src='expanding.js' type='text/javascript'></script>
+    
+    <!-- jQuery 1.9+ required for best performance -->
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src='PATH/TO/expanding.js'></script>
     <textarea class='expanding'></textarea>
 
 *And that's it*.  The plugin finds textareas with the 'expanding' class on page load and initializes them for you.  If you would prefer to initialize the textareas on your own, do something like this:
@@ -23,7 +25,19 @@ If you'd like to change the initial selector to grab ALL textareas on load, you 
 
     $.fn.expandingTextarea.initialSelector = "textarea";
 
-**Requires jQuery 1.9+**.
+### destroy
+
+Once attached, the expanding behaviour can be removed as follows:
+
+    $(".element").expandingTextarea('destroy');
+
+### isExpanding
+
+To test whether a jQuery selection has expanding behaviour:
+
+    $(".element").expandingTextarea('isExpanding');
+
+Note: this behaves like `.hasClass()`: it will return `true` is _any_ of the nodes in the selection have expanding behaviour.
 
 ## How it works
 

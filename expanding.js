@@ -77,7 +77,7 @@
             var events = 'input.expanding change.expanding',
                 _this = this;
             if(!inputSupported()) events += ' keyup.expanding';
-            this.$textarea.bind(events, function() { _this.update() });
+            this.$textarea.bind(events, function() { _this.update(); });
         },
 
         update: function() {

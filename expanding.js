@@ -31,8 +31,11 @@
         if (opts.update) $textarea.bind("update.expanding", opts.update);
     };
 
+    // Stores (active) `Expanding` instances
+    // Destroyed instances are removed
     Expanding._registry = [];
 
+    // Returns the `Expanding` instance given a DOM node
     Expanding.getExpandingInstance = function(textarea) {
         var $textareas = $.map(Expanding._registry, function(instance) {
                 return instance.$textarea[0];
@@ -61,7 +64,7 @@
     // (see: http://stackoverflow.com/questions/18436424/ie-onpropertychange-event-doesnt-fire),
     // and so is avoided altogether.
      var inputSupported = (function () {
-        var supported;
+        var supported; 
         return function() {
             if (!supported) {
                 if ("oninput" in document.body && ieVersion !== 9)
@@ -73,6 +76,8 @@
 
     Expanding.prototype = {
 
+        // Attaches input events
+        // Only attaches `keyup` events if `input` is not fully suported
         attach: function() {
             var events = 'input.expanding change.expanding',
                 _this = this;
@@ -80,11 +85,15 @@
             this.$textarea.bind(events, function() { _this.update(); });
         },
 
+        // Updates the clone with the textarea value
         update: function() {
             this.$textCopy.text(this.$textarea.val().replace(/\r\n/g, "\n"));
             this.$textarea.trigger("update.expanding");
         },
 
+        // Tears down the plugin: removes generated elements, applies styles 
+        // that were prevously present, removes instance from registry,
+        // unbinds events
         destroy: function() {
             this.$clone.remove();
             this.$textarea
@@ -97,8 +106,9 @@
                 'input.expanding change.expanding keyup.expanding update.expanding');
         },
 
+        // Applies reset styles to the textarea and clone
+        // Stores the original textarea styles in case of destroying
         _resetStyles: function() {
-            // Store the original styles in case of destroying.
             this._oldTextareaStyles = this.$textarea.attr('style');
 
             this.$textarea.add(this.$clone).css({
@@ -110,6 +120,7 @@
             });
         },
 
+        // Sets the basic clone styles and copies styles over from the textarea
         _setCloneStyles: function() {
             var css = {
                 display: 'block',
@@ -178,6 +189,8 @@
             return this;
         }
 
+        // Checks to see if any of the given DOM nodes have the
+        // expanding behaviour.
         if (o === 'isExpanding') {
             var instances = this.map(function() {
                 return !!Expanding.getExpandingInstance(this);

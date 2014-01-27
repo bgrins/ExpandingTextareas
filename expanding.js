@@ -143,7 +143,6 @@
                     'fontWeight', 'textTransform', 'textAlign',
                     'direction', 'wordSpacing', 'fontSizeAdjust',
                     'wordWrap', 'word-break',
-                    'borderTopStyle', 'borderBottomStyle',
                     'borderLeftWidth', 'borderRightWidth',
                     'borderTopWidth','borderBottomWidth',
                     'paddingLeft', 'paddingRight',

@@ -63,7 +63,7 @@
   // attached with `attachEvent`
   // (see: http://stackoverflow.com/questions/18436424/ie-onpropertychange-event-doesnt-fire),
   // and so is avoided altogether.
-   var inputSupported = (function () {
+  var inputSupported = (function () {
     var supported;
     return function() {
       if (!supported) {

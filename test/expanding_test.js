@@ -65,7 +65,7 @@ test('Copies the textarea CSS on to the clone', function() {
     'marginLeft', 'marginRight',
     'marginTop','marginBottom',
     'boxSizing', 'webkitBoxSizing', 'mozBoxSizing', 'msBoxSizing'];
-  
+
   $.each(properties, function(i, property) {
     equal($pre.css(property), _this.$textarea.css(property),
       'Clone CSS `' + property + '` property equal to that of the textarea');
@@ -213,7 +213,7 @@ test('Destroy resets the textarea attributes', 2, function() {
   // Prevent false positives
   equal($textarea[0].style.height, '100%',
     'Textarea’s CSS `height` property set to 100% on init');
-  
+
   $textarea.expanding('destroy');
   equal($textarea[0].style.height, height,
     'Textarea’s CSS `height` property reset to ' + height + ' on destroy');

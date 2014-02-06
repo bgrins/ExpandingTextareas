@@ -64,7 +64,7 @@
   // (see: http://stackoverflow.com/questions/18436424/ie-onpropertychange-event-doesnt-fire),
   // and so is avoided altogether.
    var inputSupported = (function () {
-    var supported; 
+    var supported;
     return function() {
       if (!supported) {
         if ("oninput" in document.body && ieVersion !== 9)
@@ -91,7 +91,7 @@
       this.$textarea.trigger("update.expanding");
     },
 
-    // Tears down the plugin: removes generated elements, applies styles 
+    // Tears down the plugin: removes generated elements, applies styles
     // that were prevously present, removes instance from registry,
     // unbinds events
     destroy: function() {

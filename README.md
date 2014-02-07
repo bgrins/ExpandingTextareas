@@ -31,11 +31,11 @@ Once attached, the expanding behaviour can be removed as follows:
 
     $(".element").expanding('destroy');
 
-### isExpanding
+### active
 
 To test whether a jQuery selection has expanding behaviour:
 
-    $(".element").expanding('isExpanding');
+    $(".element").expanding('active');
 
 Note: this behaves like `.hasClass()`: it will return `true` if _any_ of the nodes in the selection have expanding behaviour.
 

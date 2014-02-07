@@ -246,10 +246,10 @@ test('Destroy called on an uninitialized node', function() {
 // = IsExpanding =
 // ===============
 
-test('isExpanding returns true when expanding initialized', function() {
-  equal(this.$textarea.expanding('isExpanding'), true);
+test('active returns true when expanding initialized', function() {
+  equal(this.$textarea.expanding('active'), true);
 });
 
-test('isExpanding returns false when expanding is not initialized', function() {
-  equal($('<textarea />').expanding('isExpanding'), false);
+test('active returns false when expanding is not initialized', function() {
+  equal($('<textarea />').expanding('active'), false);
 });

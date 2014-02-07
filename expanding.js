@@ -190,11 +190,10 @@
 
     // Checks to see if any of the given DOM nodes have the
     // expanding behaviour.
-    if (o === 'isExpanding') {
-      var instances = this.map(function() {
+    if (o === "active") {
+      return !!this.filter(function() {
         return !!Expanding.getExpandingInstance(this);
-      });
-      return $.inArray(true, instances) > -1;
+      }).length;
     }
 
     var opts = $.extend({ }, $.expanding.opts, o);

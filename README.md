@@ -37,7 +37,7 @@ To test whether a jQuery selection has expanding behaviour:
 
     $(".element").expanding('isExpanding');
 
-Note: this behaves like `.hasClass()`: it will return `true` is _any_ of the nodes in the selection have expanding behaviour.
+Note: this behaves like `.hasClass()`: it will return `true` if _any_ of the nodes in the selection have expanding behaviour.
 
 ## How it works
 

@@ -88,7 +88,9 @@
     // Updates the clone with the textarea value
     update: function() {
       this.$textCopy.text(this.$textarea.val().replace(/\r\n/g, "\n"));
-      this.$textarea.trigger("update.expanding");
+
+      // Use `triggerHandler` to prevent conflicts with `update` in Prototype.js
+      this.$textarea.triggerHandler("update.expanding");
     },
 
     // Tears down the plugin: removes generated elements, applies styles

@@ -4,7 +4,7 @@ Based off of work by [Neil Jenkins](http://nmjenkins.com/) that can be seen here
 
 ## How To Use
 
-Start with markup like this: 
+Start with markup like this:
 
     <script src='expanding.js' type='text/javascript'></script>
     <textarea class='expanding'></textarea>
@@ -15,10 +15,14 @@ Start with markup like this:
         $("#element").expandingTextarea();
     </script>
 
+The textareas will automatically resize now as the user changes the value.  If you'd like to change the value by code and have it resize manually, you can do:
+
+    $('textarea').val('New\nValue!').change()
+
 If you'd like to change the initial selector to grab ALL textareas on load, you can change this property:
 
     $.fn.expandingTextarea.initialSelector = "textarea";
-        
+
 ## How it works
 
 See the [original article](http://www.alistapart.com/articles/expanding-text-areas-made-elegant/) for a great explanation of how this technique works.
@@ -50,7 +54,7 @@ You can style things how you'd like for the textarea, and they will automaticall
       font-size:20px;
     }
 
-If you'd like to use percentage widths, there are two options.  One is to apply the rule to both the textarea and the invisible pre, like this: 
+If you'd like to use percentage widths, there are two options.  One is to apply the rule to both the textarea and the invisible pre, like this:
 
     textarea, .textareaClone {
        width: 50%;
@@ -75,4 +79,20 @@ See the [demo](http://bgrins.github.com/ExpandingTextareas/) to see the plugin i
 
 ## Browser Support
 
-I have checked this in Chrome, Safari, Firefox, IE7, and mobile Safari and it works in all of them.
+This has been checked in Chrome, Safari, Firefox, IE7, and mobile Safari and it works in all of them.
+
+## Running Tests
+
+**Browser**: open `test/index.html`
+
+**Command line**: make sure you have installed [node.js](http://nodejs.org/), and [grunt-cli](http://gruntjs.com/getting-started), then run:
+
+    $ npm install
+
+Followed by:
+
+    $ grunt test
+
+## Continuous Deployment
+
+View tests online at: https://travis-ci.org/bgrins/ExpandingTextareas.

@@ -243,7 +243,7 @@ test('Destroy called on an uninitialized node', function() {
 });
 
 // ===============
-// = IsExpanding =
+// = Active =
 // ===============
 
 test('active returns true when expanding initialized', function() {

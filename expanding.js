@@ -63,16 +63,7 @@
   // attached with `attachEvent`
   // (see: http://stackoverflow.com/questions/18436424/ie-onpropertychange-event-doesnt-fire),
   // and so is avoided altogether.
-  var inputSupported = (function () {
-    var supported;
-    return function() {
-      if (!supported) {
-        if ("oninput" in document.body && ieVersion !== 9)
-          supported = true;
-      }
-      return supported;
-    };
-  })();
+  var inputSupported = "oninput" in document.createElement("input") && ieVersion !== 9;
 
   Expanding.prototype = {
 
@@ -81,7 +72,7 @@
     attach: function() {
       var events = 'input.expanding change.expanding',
         _this = this;
-      if(!inputSupported()) events += ' keyup.expanding';
+      if(!inputSupported) events += ' keyup.expanding';
       this.$textarea.bind(events, function() { _this.update(); });
     },
 

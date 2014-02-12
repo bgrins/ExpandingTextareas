@@ -170,7 +170,7 @@ test('Clone and wrapper grow with textarea when long text inserted', 4, function
     return v;
   })();
 
-  var inputSupported = "oninput" in document.body && ieVersion !== 9;
+  var inputSupported = "oninput" in document.createElement("input") && ieVersion !== 9;
 
   if(inputSupported) {
     test('Invokes `options.update` callback called once on keypress', 1, function() {

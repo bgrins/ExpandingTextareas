@@ -123,10 +123,9 @@
         minHeight: this.$textarea.outerHeight()
       };
 
-      var maxHeight = parseInt(this.$textarea.css('max-height'))
       if(this.$textarea.css('max-height')) {
         css.maxHeight = this.$textarea.css('max-height');
-        css.overflow = "-";
+        css.overflow = "hidden";
       }
 
       if(this.$textarea.attr("wrap") === "off") css.overflowX = "scroll";

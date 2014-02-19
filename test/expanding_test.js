@@ -162,6 +162,12 @@ test('Clone and wrapper grow with textarea when long text inserted', 4, function
   equal(this.$textarea.outerWidth(true), $wrapper.outerWidth());
 });
 
+test('Max height css propert skiip updating when height reached', function(){
+  var text = 'Hello world!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n';
+  this.$textarea.val(text).trigger('input');
+  equal(this.$textarea.height(), this.$textarea.siblings('pre').height());
+});
+
 // ============
 // = Callback =
 // ============

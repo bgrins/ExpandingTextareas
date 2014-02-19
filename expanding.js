@@ -122,6 +122,13 @@
         visibility: 'hidden',
         minHeight: this.$textarea.outerHeight()
       };
+
+      var maxHeight = parseInt(this.$textarea.css('max-height'))
+      if(this.$textarea.css('max-height')) {
+        css.maxHeight = this.$textarea.css('max-height');
+        css.overflow = "-";
+      }
+
       if(this.$textarea.attr("wrap") === "off") css.overflowX = "scroll";
       else css.whiteSpace = "pre-wrap";
 

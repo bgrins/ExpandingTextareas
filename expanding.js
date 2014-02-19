@@ -1,120 +1,209 @@
-// Expanding Textareas
+// Expanding Textareas v0.1.0
+// MIT License
 // https://github.com/bgrins/ExpandingTextareas
 
 (function(factory) {
-    // Add jQuery via AMD registration or browser globals
-    if (typeof define === 'function' && define.amd) {
-        define([ 'jquery' ], factory);
-    }
-    else {
-        factory(jQuery);
-    }
+  // Add jQuery via AMD registration or browser globals
+  if (typeof define === 'function' && define.amd) {
+    define([ 'jquery' ], factory);
+  }
+  else {
+    factory(jQuery);
+  }
 }(function ($) {
-    $.expandingTextarea = $.extend({
-        autoInitialize: true,
-        initialSelector: "textarea.expanding",
-        opts: {
-            resize: function() { }
+
+  var Expanding = function($textarea, opts) {
+    Expanding._registry.push(this);
+
+    this.$textarea = $textarea;
+    this.$textCopy = $("<span />");
+    this.$clone = $("<pre class='expanding-clone'><br /></pre>").prepend(this.$textCopy);
+
+    this._resetStyles();
+    this._setCloneStyles();
+    this._setTextareaStyles();
+
+    $textarea
+      .wrap($("<div class='expanding-wrapper' style='position:relative' />"))
+      .after(this.$clone);
+
+    this.attach();
+    this.update();
+    if (opts.update) $textarea.bind("update.expanding", opts.update);
+  };
+
+  // Stores (active) `Expanding` instances
+  // Destroyed instances are removed
+  Expanding._registry = [];
+
+  // Returns the `Expanding` instance given a DOM node
+  Expanding.getExpandingInstance = function(textarea) {
+    var $textareas = $.map(Expanding._registry, function(instance) {
+        return instance.$textarea[0];
+      }),
+      index = $.inArray(textarea, $textareas);
+    return index > -1 ? Expanding._registry[index] : null;
+  };
+
+  // Returns the version of Internet Explorer or -1
+  // (indicating the use of another browser).
+  // From: http://msdn.microsoft.com/en-us/library/ms537509(v=vs.85).aspx#ParsingUA
+  var ieVersion = (function() {
+    var v = -1;
+    if (navigator.appName === "Microsoft Internet Explorer") {
+      var ua = navigator.userAgent;
+      var re = new RegExp("MSIE ([0-9]{1,}[\\.0-9]{0,})");
+      if (re.exec(ua) !== null) v = parseFloat(RegExp.$1);
+    }
+    return v;
+  })();
+
+  // Check for oninput support
+  // IE9 supports oninput, but not when deleting text, so keyup is used.
+  // onpropertychange _is_ supported by IE8/9, but may not be fired unless
+  // attached with `attachEvent`
+  // (see: http://stackoverflow.com/questions/18436424/ie-onpropertychange-event-doesnt-fire),
+  // and so is avoided altogether.
+  var inputSupported = "oninput" in document.createElement("input") && ieVersion !== 9;
+
+  Expanding.prototype = {
+
+    // Attaches input events
+    // Only attaches `keyup` events if `input` is not fully suported
+    attach: function() {
+      var events = 'input.expanding change.expanding',
+        _this = this;
+      if(!inputSupported) events += ' keyup.expanding';
+      this.$textarea.bind(events, function() { _this.update(); });
+    },
+
+    // Updates the clone with the textarea value
+    update: function() {
+      this.$textCopy.text(this.$textarea.val().replace(/\r\n/g, "\n"));
+
+      // Use `triggerHandler` to prevent conflicts with `update` in Prototype.js
+      this.$textarea.triggerHandler("update.expanding");
+    },
+
+    // Tears down the plugin: removes generated elements, applies styles
+    // that were prevously present, removes instance from registry,
+    // unbinds events
+    destroy: function() {
+      this.$clone.remove();
+      this.$textarea
+        .unwrap()
+        .attr('style', this._oldTextareaStyles || '');
+      delete this._oldTextareaStyles;
+      var index = $.inArray(this, Expanding._registry);
+      if (index > -1) Expanding._registry.splice(index, 1);
+      this.$textarea.unbind(
+        'input.expanding change.expanding keyup.expanding update.expanding');
+    },
+
+    // Applies reset styles to the textarea and clone
+    // Stores the original textarea styles in case of destroying
+    _resetStyles: function() {
+      this._oldTextareaStyles = this.$textarea.attr('style');
+
+      this.$textarea.add(this.$clone).css({
+        margin: 0,
+        webkitBoxSizing: "border-box",
+        mozBoxSizing: "border-box",
+        boxSizing: "border-box",
+        width: "100%"
+      });
+    },
+
+    // Sets the basic clone styles and copies styles over from the textarea
+    _setCloneStyles: function() {
+      var css = {
+        display: 'block',
+        border: '0 solid',
+        visibility: 'hidden',
+        minHeight: this.$textarea.outerHeight()
+      };
+      if(this.$textarea.attr("wrap") === "off") css.overflowX = "scroll";
+      else css.whiteSpace = "pre-wrap";
+
+      this.$clone.css(css);
+      this._copyTextareaStylesToClone();
+    },
+
+    _copyTextareaStylesToClone: function() {
+      var _this = this,
+        properties = [
+          'lineHeight', 'textDecoration', 'letterSpacing',
+          'fontSize', 'fontFamily', 'fontStyle',
+          'fontWeight', 'textTransform', 'textAlign',
+          'direction', 'wordSpacing', 'fontSizeAdjust',
+          'wordWrap', 'word-break',
+          'borderLeftWidth', 'borderRightWidth',
+          'borderTopWidth','borderBottomWidth',
+          'paddingLeft', 'paddingRight',
+          'paddingTop','paddingBottom'];
+
+      $.each(properties, function(i, property) {
+        var val = _this.$textarea.css(property);
+
+        // Prevent overriding percentage css values.
+        if(_this.$clone.css(property) !== val) {
+          _this.$clone.css(property, val);
         }
-    }, $.expandingTextarea || {});
+      });
+    },
 
-    var cloneCSSProperties = [
-        'lineHeight', 'textDecoration', 'letterSpacing',
-        'fontSize', 'fontFamily', 'fontStyle',
-        'fontWeight', 'textTransform', 'textAlign',
-        'direction', 'wordSpacing', 'fontSizeAdjust',
-        'wordWrap', 'word-break',
-        'borderLeftWidth', 'borderRightWidth',
-        'borderTopWidth','borderBottomWidth',
-        'paddingLeft', 'paddingRight',
-        'paddingTop','paddingBottom',
-        'marginLeft', 'marginRight',
-        'marginTop','marginBottom',
-        'boxSizing', 'webkitBoxSizing', 'mozBoxSizing', 'msBoxSizing'
-    ];
-
-    var textareaCSS = {
+    _setTextareaStyles: function() {
+      this.$textarea.css({
         position: "absolute",
+        top: 0,
+        left: 0,
         height: "100%",
-        resize: "none"
-    };
+        resize: "none",
+        overflow: "auto"
+      });
+    }
+  };
 
-    var preCSS = {
-        visibility: "hidden",
-        border: "0 solid"
-    };
+  $.expanding = $.extend({
+    autoInitialize: true,
+    initialSelector: "textarea.expanding",
+    opts: {
+      update: function() { }
+    }
+  }, $.expanding || {});
 
-    var containerCSS = {
-        position: "relative"
-    };
+  $.fn.expanding = function(o) {
 
-    function resize() {
-        $(this).closest('.expandingText').find("div").text(this.value.replace(/\r\n/g, "\n") + ' ');
-        $(this).trigger("resize.expanding");
+    if (o === "destroy") {
+      this.each(function() {
+        var instance = Expanding.getExpandingInstance(this);
+        if (instance) instance.destroy();
+      });
+      return this;
     }
 
-    $.fn.expandingTextarea = function(o) {
+    // Checks to see if any of the given DOM nodes have the
+    // expanding behaviour.
+    if (o === "active") {
+      return !!this.filter(function() {
+        return !!Expanding.getExpandingInstance(this);
+      }).length;
+    }
 
-        var opts = $.extend({ }, $.expandingTextarea.opts, o);
+    var opts = $.extend({ }, $.expanding.opts, o);
 
-        if (o === "resize") {
-            return this.trigger("input.expanding");
-        }
-
-        if (o === "destroy") {
-            this.filter(".expanding-init").each(function() {
-                var textarea = $(this).removeClass('expanding-init');
-                var container = textarea.closest('.expandingText');
-
-                container.before(textarea).remove();
-                textarea
-                    .attr('style', textarea.data('expanding-styles') || '')
-                    .removeData('expanding-styles');
-            });
-
-            return this;
-        }
-
-        this.filter("textarea").not(".expanding-init").addClass("expanding-init").each(function() {
-            var textarea = $(this);
-
-            textarea.wrap("<div class='expandingText'></div>");
-            textarea.after("<pre class='textareaClone'><div></div></pre>");
-
-            var container = textarea.parent().css(containerCSS);
-            var pre = container.find("pre").css(preCSS);
-
-            pre.css(textarea.attr("wrap") === "off" ? {overflowX: "scroll"} : {whiteSpace: "pre-wrap"});
-
-            // Store the original styles in case of destroying.
-            textarea.data('expanding-styles', textarea.attr('style'));
-            textarea.css(textareaCSS);
-
-            $.each(cloneCSSProperties, function(i, p) {
-                var val = textarea.css(p);
-
-                // Only set if different to prevent overriding percentage css values.
-                if (pre.css(p) !== val) {
-                    pre.css(p, val);
-                }
-            });
-            container.css({"min-height": textarea.outerHeight(true)});
-
-            textarea.bind("input.expanding propertychange.expanding keyup.expanding change.expanding", resize);
-            resize.apply(this);
-
-            if (opts.resize) {
-                textarea.bind("resize.expanding", opts.resize);
-            }
-        });
-
-        return this;
-    };
-
-    $(function () {
-        if ($.expandingTextarea.autoInitialize) {
-            $($.expandingTextarea.initialSelector).expandingTextarea();
-        }
+    this.filter("textarea").each(function() {
+      if(!Expanding.getExpandingInstance(this)) {
+        new Expanding($(this), opts);
+      }
     });
+    return this;
+  };
+
+  $(function () {
+    if ($.expanding.autoInitialize) {
+      $($.expanding.initialSelector).expanding();
+    }
+  });
 
 }));

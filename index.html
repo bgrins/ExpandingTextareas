@@ -44,8 +44,18 @@ h1, h2, h3 {
     box-shadow: 0 0 2px #001;
 }
 
-/* Note: None of these rules are necessary to have this plugin work! */
+/*
+  Make expanding textareas behave like block level elements.
+  These properties are also set by the plugin, but are set here for fallback. */
 
+textarea.expanding {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Note: None of these rules are necessary to have this plugin work! */
 
 textarea {
   padding: .5em;
@@ -57,14 +67,7 @@ textarea {
   margin: .5em 0;
 }
 
-textarea {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  width: 100%;
-}
-
-.exampleStaticWidth textarea, .exampleStaticWidth .textareaClone {
+.exampleStaticWidth .expanding-wrapper {
     width: 400px;
 }
 
@@ -76,11 +79,11 @@ textarea {
   font-size: 1.75em;
 }
 
-.exampleMinHeight textarea, .exampleMinHeight .textareaClone {
+.exampleMinHeight textarea, .exampleMinHeight .expanding-clone {
   min-height: 6em;
 }
 
-.exampleMaxHeight textarea, .exampleMaxHeight .textareaClone {
+.exampleMaxHeight textarea, .exampleMaxHeight .expanding-clone {
   max-height: 8em;
 }
 
@@ -89,16 +92,16 @@ textarea {
     border-radius: 5px;
 }
 
-/* Need to include .textareaClone if the rule uses percentages.
-   This way everything can stay in sync without extra javascript */
-.exampleProportional textarea,
-.exampleProportional .textareaClone {
-    padding: 1em;
-    margin: 1em;
+.exampleProportional .expanding-wrapper {
     width: 50%;
 }
+.exampleProportional textarea,
+.exampleProportional .expanding-clone {
+    padding: 1em;
+    margin: 1em;
+}
 
-.exampleCentered .expandingText {
+.exampleCentered .expanding-wrapper {
     width: 75%;
     margin: 0 auto;
 }
@@ -111,12 +114,12 @@ textarea {
   word-wrap: normal;
 }
 
-#resizeLog {
+#updateLog {
     display: none;
 }
 
 </style>
-<script type='text/javascript' src='libs/jquery-1.7.js'></script>
+<script type='text/javascript' src='libs/jquery-1.11.0.js'></script>
 <script type='text/javascript' src='expanding.js'></script>
 </head>
 <body>
@@ -153,7 +156,7 @@ textarea {
     If you'd like to manually call the plugin instead, use:
 
 <pre><code>&lt;script&gt;
-    $("#element").expandingTextarea();
+    $("#element").expanding();
 &lt;/script&gt;</code></pre>
 
     See the <a href='http://github.com/bgrins/ExpandingTextareas'>project page</a> for an explanation of how it works.
@@ -187,7 +190,7 @@ textarea {
 
     <h2>Examples</h2>
     <p>
-    Almost all customization of the expandingTextareas plugin is simply done in CSS.
+    Almost all customization of the expanding plugin is simply done in CSS.
     Here are some of the things you can do:
     </p>
 
@@ -195,10 +198,10 @@ textarea {
       <h3>Minimum Height</h3>
       <p>
         Sometimes you may want to start off with a couple of lines to make it obvious that there is a textarea.
-        This is easy - just use CSS to add a min height to the textarea and the .textareaClone, like so:
+        This is easy - just use CSS to add a min height to the textarea, like so:
       </p>
 <pre><code>
-textarea, .textareaClone {
+textarea {
     min-height: 6em;
 }</code></pre>
 
@@ -209,10 +212,10 @@ textarea, .textareaClone {
       <h3>Maximum Height</h3>
       <p>
         Set a <code>max-height</code> on the textarea to get scrolling after a certain size.
-        This is done just like the min height example above:
+        This is done by applying a max height declaration to both the textarea and clone:
       </p>
 <pre><code>
-textarea, .textareaClone {
+textarea, .expanding-clone {
     max-height: 8em;
 }</code></pre>
 
@@ -222,11 +225,11 @@ textarea, .textareaClone {
     <div class='example exampleStaticWidth'>
       <h3>Static Width</h3>
       <p>
-        Just set a static width on the textarea, and the pre tag will snap to fit it!
+        Just set a static width on the wrapper:
 
       </p>
 <pre><code>
-textarea, .textareaClone {
+.expanding-wrapper {
     width: 400px;
 }</code></pre>
 
@@ -258,13 +261,15 @@ textarea, .textareaClone {
       <p>
         Percentages are a little tricky.  <em>Firefox seems to have some problems rendering percentage paddings and margins on textareas, it is probably best if you avoid this technique.</em>  Using ems for margin and padding seems to work fine.
 
-        You can use percentages on widths in all browsers, as you place the CSS rule on both elements, like so:
+        You can use percentages on widths in all browsers, as you place the CSS rule on the wrapper, like so:
       </p>
 <pre><code>
-textarea, .textareaClone {
+.expanding-wrapper {
+    width: 50%;
+}
+textarea {
     padding: 1em;
     margin: 1em;
-    width: 50%;
 }</code></pre>
       <textarea class='expanding' placeholder='Enter Some Text'></textarea>
     </div>
@@ -272,19 +277,12 @@ textarea, .textareaClone {
 
     <div class='example exampleCentered'>
       <h3>Centering</h3>
-      <p>Centering the textarea is actually pretty easy, just set a width and a <code>margin: 0 auto;</code> on the container.  Make sure your textarea has 100% width with border-box sizing too!</p>
+      <p>Centering the textarea is actually pretty easy, just set a width and a <code>margin: 0 auto;</code> on the wrapper.</p>
 
 <pre><code>
-.expandingText {
+.expanding-wrapper {
     width: 75%;
     margin: 0 auto;
-}
-
-textarea {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  width: 100%;
 }</code></pre>
 
       <textarea class='expanding' placeholder='Enter Some Text'></textarea>
@@ -295,7 +293,7 @@ textarea {
       <p>Allows for removing the expanding functionality.</p>
 
 <pre><code>&lt;script&gt;
-    $("#element").expandingTextarea('destroy');
+    $("#element").expanding('destroy');
 &lt;/script&gt;</code></pre>
 
       <textarea class='expanding'>This textarea
@@ -309,12 +307,12 @@ textarea {
         $(function() {
             $('.exampleDestroy button').click(function() {
                 var textarea = $('.exampleDestroy .expanding');
-                if (textarea.hasClass("expanding-init")) {
-                    textarea.expandingTextarea('destroy');
+                if (textarea.expanding("active")) {
+                    textarea.expanding('destroy');
                     $(this).text("Renable...");
                 }
                 else {
-                    textarea.expandingTextarea();
+                    textarea.expanding();
                     $(this).text("Remove...");
                 }
             });
@@ -323,12 +321,19 @@ textarea {
     </div>
 
     <div class='example exampleEvents'>
+      <h3>Rows</h3>
+      <p>The plugin respects the <code>rows</code> attribute, adjusting the clone's min height accordingly:</p>
+      <textarea class="expanding" rows="10">Textarea with 10 rows</textarea>
+      <textarea class="expanding" rows="1">Textarea with 1 row</textarea>
+    </div>
+
+    <div class='example exampleEvents'>
         <h3>Callbacks</h3>
-        <h4><code>resize</code></h4>
+        <h4><code>update</code></h4>
         <p>Sometimes other parts of your application need to be notified when a textarea changes its height (e.g., to move out of its way!).  You can dispatch such notifications through callback functions passed in when you first initialize the plug-in, like so:</p>
 <pre><code>&lt;script&gt;
-    $("#element").expandingTextarea({
-        resize: callback
+    $("#element").expanding({
+        update: callback
     });
 &lt;/script&gt;</code></pre>
 
@@ -337,12 +342,12 @@ textarea {
         will log changes below
         &darr; </textarea>
       <br />
-      <div id='resizeLog'>Current Height: <em></em></div>
+      <div id='updateLog'>Current Height: <em></em></div>
       <script type='text/javascript'>
         $(function() {
-            $('.exampleEvents textarea').expandingTextarea({
-                resize: function(h) {
-                    $("#resizeLog").show().find("em").text($(this).height() + "px");
+            $('.exampleEvents textarea').expanding({
+                update: function(h) {
+                    $("#updateLog").show().find("em").text($(this).height() + "px");
                 }
             });
         });
@@ -356,7 +361,7 @@ textarea {
 <pre><code>
 &lt;textarea wrap="off"&gt;&lt;/textarea&gt;
 &lt;script&gt;
-    $("#element").expandingTextarea();
+    $("#element").expanding();
 &lt;/script&gt;</code></pre>
 
 
@@ -366,7 +371,7 @@ No word wrap going to happen here, even if the line is extremely long... No word
       <br />
       <script type='text/javascript'>
         $(function() {
-            $('.exampleWrapOff textarea').expandingTextarea();
+            $('.exampleWrapOff textarea').expanding();
         });
       </script>
     </div>

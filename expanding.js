@@ -1,4 +1,5 @@
-// Expanding Textareas
+// Expanding Textareas v0.1.0
+// MIT License
 // https://github.com/bgrins/ExpandingTextareas
 
 (function(factory) {

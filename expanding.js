@@ -50,9 +50,9 @@
 
     function resize() {
         var maxHeight = parseInt($(this).css('max-height'));
-		if(maxHeight > 0 && parseInt($(this).closest('.expandingText').find("pre").height()) >= maxHeight) {
-			return;
-		}
+        if(maxHeight > 0 && parseInt($(this).closest('.expandingText').find("pre").height()) >= maxHeight) {
+            return;
+        }
 		$(this).closest('.expandingText').find("div").text(this.value.replace(/\r\n/g, "\n") + ' ');
         $(this).trigger("resize.expanding");
     }

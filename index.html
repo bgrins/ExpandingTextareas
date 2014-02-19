@@ -212,12 +212,18 @@ textarea {
       <h3>Maximum Height</h3>
       <p>
         Set a <code>max-height</code> on the textarea to get scrolling after a certain size.
-        This is done by applying a max height declaration to both the textarea and clone:
+        This is done by applying a max height declaration to both the textarea and clone or only textarea:
       </p>
 <pre><code>
 textarea, .expanding-clone {
     max-height: 8em;
 }</code></pre>
+
+or
+
+<pre><code>
+&lt;textarea style="max-height:200px"&gt;Text&lt;/textarea&gt;
+</code></pre>
 
       <textarea class='expanding' placeholder='Enter Some Text'></textarea>
     </div>

@@ -39,6 +39,10 @@ To test whether a jQuery selection has expanding behaviour:
 
 Note: this behaves like `.hasClass()`: it will return `true` if _any_ of the nodes in the selection have expanding behaviour.
 
+### Textareas outside the DOM
+
+The plugin creates a textarea clone with identical dimensions to that of the original. It therefore requires that the textarea be in place in the DOM for these dimensions to be correct. Calling `expanding()` on a textarea outside the DOM will have no effect.
+
 ## How it works
 
 See the [original article](http://www.alistapart.com/articles/expanding-text-areas-made-elegant/) for a great explanation of how this technique works.

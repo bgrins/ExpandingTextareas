@@ -57,7 +57,7 @@ test('Sets the clone CSS `visibility` property', 1, function() {
 
 test('Copies the textarea CSS on to the clone', function() {
   var _this = this,
-    $pre = this.$textarea.siblings('pre');
+      $pre = this.$textarea.siblings('pre');
 
   var properties = [
     'lineHeight', 'textDecoration', 'letterSpacing',
@@ -80,8 +80,8 @@ test('Copies the textarea CSS on to the clone', function() {
 });
 
 test('Ensures the clone is at least as tall as the textarea', 1, function() {
-  var $textarea = $('<textarea rows="10" />').appendTo('#qunit-fixture');
-  expected = $textarea.outerHeight(); // cache textarea height
+  var $textarea = $('<textarea rows="10" />').appendTo('#qunit-fixture'),
+      expected = $textarea.outerHeight(); // cache textarea height
   $textarea.expanding();
   equal($textarea.siblings('pre').outerHeight(), expected,
     'Textarea wrapper CSS `min-height` set to textarea outer height');
@@ -130,7 +130,7 @@ test('Sets the textarea wrapper CSS', 1, function() {
 
 test('Textarea maintains its coordinates after expanding init', function() {
   var $textarea = $('<textarea style="margin: 0" />').appendTo('#qunit-fixture'),
-    expected = $textarea.offset();
+      expected = $textarea.offset();
   $textarea.expanding();
   deepEqual($textarea.offset(), expected,
     'Textarea offset remained the same after init');
@@ -149,8 +149,8 @@ test('Updates the clone text on input', 1, function() {
 
 test('Clone and wrapper grow with textarea when long text inserted', 4, function() {
   var $clone = this.$textarea.siblings('pre'),
-    $wrapper = this.$textarea.parent(),
-    longText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+      $wrapper = this.$textarea.parent(),
+      longText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
   for (var i = 0; i < 5; i++) {
     longText += longText + longText;
   }

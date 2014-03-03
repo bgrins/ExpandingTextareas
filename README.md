@@ -25,13 +25,13 @@ If you'd like to change the initial selector to grab ALL textareas on load, you 
 
     $.fn.expanding.initialSelector = "textarea";
 
-### destroy
+### `destroy`
 
 Once attached, the expanding behaviour can be removed as follows:
 
     $(".element").expanding('destroy');
 
-### active
+### `active`
 
 To test whether a jQuery selection has expanding behaviour:
 

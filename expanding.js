@@ -193,7 +193,7 @@
     var opts = $.extend({ }, $.expanding.opts, o);
 
     this.filter("textarea").each(function() {
-      if(!Expanding.getExpandingInstance(this)) {
+      if($.contains(document.body, this) && !Expanding.getExpandingInstance(this)) {
         new Expanding($(this), opts);
       }
     });

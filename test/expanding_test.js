@@ -19,11 +19,12 @@ test('Ignores non-textarea elements', 1, function() {
     'Non-textarea element not wrapped');
 });
 
-test('Ignores textareas outside the DOM', 1, function() {
-  var $textarea = $('<textarea />').expanding();
+test('Ignores invisible textareas and textareas outside the DOM', 2, function() {
+  var $outside = $('<textarea />').expanding(),
+      $invisible = $('<textarea />').css('display', 'none').expanding();
 
-  equal($textarea.parents().length, 0,
-    'Newly created textarea not wrapped');
+  equal($outside.parents().length, 0, 'Newly created textarea not wrapped');
+  equal($invisible.parents().length, 0, 'Invisible textarea not wrapped');
 });
 
 test('Prevents initializing more than once', 1, function() {

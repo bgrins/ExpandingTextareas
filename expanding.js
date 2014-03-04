@@ -193,12 +193,21 @@
     var opts = $.extend({ }, $.expanding.opts, o);
 
     this.filter("textarea").each(function() {
-      if(!Expanding.getExpandingInstance(this)) {
-        new Expanding($(this), opts);
+      var visible = this.offsetWidth > 0 || this.offsetHeight > 0,
+          initialized = Expanding.getExpandingInstance(this);
+
+      if(visible && !initialized) new Expanding($(this), opts);
+      else {
+        if(!visible) _warn("ExpandingTextareas: attempt to initialize an invisible textarea. Call expanding() again once it has been inserted into the page and/or is visible.");
+        if(initialized) _warn("ExpandingTextareas: attempt to initialize a textarea that has already been initialized. Subsequent calls are ignored.");
       }
     });
     return this;
   };
+
+  function _warn(text) {
+    if(window.console && console.warn) console.warn(text);
+  }
 
   $(function () {
     if ($.expanding.autoInitialize) {

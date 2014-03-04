@@ -14,9 +14,17 @@ test('Returns the jQuery object', 1, function() {
 // ========
 
 test('Ignores non-textarea elements', 1, function() {
-  var $input = $('<input />').expanding();
-  equal($input.parents().length, 0,
+  var $input = $('<input />').appendTo('#qunit-fixture').expanding();
+  ok($input.parent().is('#qunit-fixture'),
     'Non-textarea element not wrapped');
+});
+
+test('Ignores invisible textareas and textareas outside the DOM', 2, function() {
+  var $outside = $('<textarea />').expanding(),
+      $invisible = $('<textarea />').css('display', 'none').expanding();
+
+  equal($outside.parents().length, 0, 'Newly created textarea not wrapped');
+  equal($invisible.parents().length, 0, 'Invisible textarea not wrapped');
 });
 
 test('Prevents initializing more than once', 1, function() {
@@ -50,7 +58,7 @@ test('Sets the clone CSS `visibility` property', 1, function() {
 
 test('Copies the textarea CSS on to the clone', function() {
   var _this = this,
-    $pre = this.$textarea.siblings('pre');
+      $pre = this.$textarea.siblings('pre');
 
   var properties = [
     'lineHeight', 'textDecoration', 'letterSpacing',
@@ -73,8 +81,8 @@ test('Copies the textarea CSS on to the clone', function() {
 });
 
 test('Ensures the clone is at least as tall as the textarea', 1, function() {
-  var $textarea = $('<textarea rows="10" />').appendTo('#qunit-fixture');
-  expected = $textarea.outerHeight(); // cache textarea height
+  var $textarea = $('<textarea rows="10" />').appendTo('#qunit-fixture'),
+      expected = $textarea.outerHeight(); // cache textarea height
   $textarea.expanding();
   equal($textarea.siblings('pre').outerHeight(), expected,
     'Textarea wrapper CSS `min-height` set to textarea outer height');
@@ -87,8 +95,8 @@ test('Sets clone CSS `white-space` property when `textarea[wrap]` is not "off"',
 });
 
 test('Sets the clone CSS `overflow-x` property when `textarea[wrap=off]`', 1, function() {
-  var $textarea = $('<textarea wrap="off" />').expanding(),
-    $pre = $textarea.siblings('pre');
+  var $textarea = $('<textarea wrap="off" />').appendTo('#qunit-fixture').expanding(),
+      $pre = $textarea.siblings('pre');
   equal($pre.css('overflow-x'), 'scroll',
     'Clone CSS `overflow-x` property to `scroll`');
 });
@@ -123,7 +131,7 @@ test('Sets the textarea wrapper CSS', 1, function() {
 
 test('Textarea maintains its coordinates after expanding init', function() {
   var $textarea = $('<textarea style="margin: 0" />').appendTo('#qunit-fixture'),
-    expected = $textarea.offset();
+      expected = $textarea.offset();
   $textarea.expanding();
   deepEqual($textarea.offset(), expected,
     'Textarea offset remained the same after init');
@@ -142,8 +150,8 @@ test('Updates the clone text on input', 1, function() {
 
 test('Clone and wrapper grow with textarea when long text inserted', 4, function() {
   var $clone = this.$textarea.siblings('pre'),
-    $wrapper = this.$textarea.parent(),
-    longText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+      $wrapper = this.$textarea.parent(),
+      longText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
   for (var i = 0; i < 5; i++) {
     longText += longText + longText;
   }
@@ -174,7 +182,7 @@ test('Clone and wrapper grow with textarea when long text inserted', 4, function
 
   if(inputSupported) {
     test('Invokes `options.update` callback called once on keypress', 1, function() {
-      var $textarea = $('<textarea />').expanding({
+      var $textarea = $('<textarea />').appendTo('#qunit-fixture').expanding({
         update: function callback() {
           ok(true, '`options.update` callback called');
         }
@@ -188,7 +196,7 @@ test('Clone and wrapper grow with textarea when long text inserted', 4, function
   }
   else {
     test('Invokes `options.update` callback called once on keyup', 1, function() {
-      var $textarea = $('<textarea />').expanding({
+      var $textarea = $('<textarea />').appendTo('#qunit-fixture').expanding({
         update: function callback() {
           ok(true, '`options.update` callback called');
         }
@@ -208,7 +216,8 @@ test('Clone and wrapper grow with textarea when long text inserted', 4, function
 
 test('Destroy resets the textarea attributes', 2, function() {
   var height = '100px',
-    $textarea = $('<textarea style="height: '+ height +'" />').expanding();
+      $textarea = $('<textarea style="height: '+ height +'" />')
+        .appendTo('#qunit-fixture').expanding();
 
   // Prevent false positives
   equal($textarea[0].style.height, '100%',

@@ -25,19 +25,23 @@ If you'd like to change the initial selector to grab ALL textareas on load, you 
 
     $.fn.expanding.initialSelector = "textarea";
 
-### destroy
+### `destroy`
 
 Once attached, the expanding behaviour can be removed as follows:
 
     $(".element").expanding('destroy');
 
-### active
+### `active`
 
 To test whether a jQuery selection has expanding behaviour:
 
     $(".element").expanding('active');
 
 Note: this behaves like `.hasClass()`: it will return `true` if _any_ of the nodes in the selection have expanding behaviour.
+
+### Textareas outside the DOM
+
+The plugin creates a textarea clone with identical dimensions to that of the original. It therefore requires that the textarea be in place in the DOM for these dimensions to be correct. Calling `expanding()` on a textarea outside the DOM will have no effect.
 
 ## How it works
 

@@ -193,7 +193,7 @@
     var opts = $.extend({ }, $.expanding.opts, o);
 
     this.filter("textarea").each(function() {
-      var visible = this.offsetWidth && this.offsetHeight,
+      var visible = this.offsetWidth > 0 || this.offsetHeight > 0,
           initialized = Expanding.getExpandingInstance(this);
 
       if(visible && !initialized) new Expanding($(this), opts);

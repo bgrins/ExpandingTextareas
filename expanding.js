@@ -149,7 +149,7 @@
         // Prevent overriding percentage css values.
         if(_this.$clone.css(property) !== val) {
           _this.$clone.css(property, val);
-          if(property == 'maxHeight' && val) {
+          if(property === 'maxHeight' && val !== 'none') {
             _this.$clone.css('overflow', 'hidden');
           }
         }

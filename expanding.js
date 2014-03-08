@@ -122,6 +122,7 @@
         visibility: 'hidden',
         minHeight: this.$textarea.outerHeight()
       };
+
       if(this.$textarea.attr("wrap") === "off") css.overflowX = "scroll";
       else css.whiteSpace = "pre-wrap";
 
@@ -140,7 +141,7 @@
           'borderLeftWidth', 'borderRightWidth',
           'borderTopWidth','borderBottomWidth',
           'paddingLeft', 'paddingRight',
-          'paddingTop','paddingBottom'];
+          'paddingTop','paddingBottom', 'maxHeight'];
 
       $.each(properties, function(i, property) {
         var val = _this.$textarea.css(property);
@@ -148,6 +149,9 @@
         // Prevent overriding percentage css values.
         if(_this.$clone.css(property) !== val) {
           _this.$clone.css(property, val);
+          if(property === 'maxHeight' && val !== 'none') {
+            _this.$clone.css('overflow', 'hidden');
+          }
         }
       });
     },

@@ -162,7 +162,7 @@ test('Clone and wrapper grow with textarea when long text inserted', 4, function
   equal(this.$textarea.outerWidth(true), $wrapper.outerWidth());
 });
 
-test('Height does not update once textarea max-height is reached', function(){
+test('Height does not increase once textarea max-height is reached', function(){
   var maxHeight = 50,
       text = 'Hello world!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n',
       $textarea = $('<textarea />').appendTo('#qunit-fixture');
@@ -172,7 +172,7 @@ test('Height does not update once textarea max-height is reached', function(){
   $textarea.val(text).trigger('input');
 
   equal($textarea.outerHeight(), maxHeight);
-  equal($textarea.height(), $textarea.siblings('pre').height());
+  equal($textarea.outerHeight(), $textarea.siblings('pre').outerHeight());
 });
 
 // ============

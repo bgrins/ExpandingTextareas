@@ -5,7 +5,7 @@ Based off of work by [Neil Jenkins](http://nmjenkins.com/) that can be seen here
 ## Usage
 
 Start with markup like this:
-    
+
     <!-- jQuery 1.9+ required for best performance -->
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src='PATH/TO/expanding.js'></script>

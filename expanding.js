@@ -1,4 +1,4 @@
-// Expanding Textareas v0.1.0
+// Expanding Textareas v0.1.1
 // MIT License
 // https://github.com/bgrins/ExpandingTextareas
 
@@ -122,6 +122,7 @@
         visibility: 'hidden',
         minHeight: this.$textarea.outerHeight()
       };
+
       if(this.$textarea.attr("wrap") === "off") css.overflowX = "scroll";
       else css.whiteSpace = "pre-wrap";
 
@@ -140,7 +141,7 @@
           'borderLeftWidth', 'borderRightWidth',
           'borderTopWidth','borderBottomWidth',
           'paddingLeft', 'paddingRight',
-          'paddingTop','paddingBottom'];
+          'paddingTop','paddingBottom', 'maxHeight'];
 
       $.each(properties, function(i, property) {
         var val = _this.$textarea.css(property);
@@ -148,6 +149,9 @@
         // Prevent overriding percentage css values.
         if(_this.$clone.css(property) !== val) {
           _this.$clone.css(property, val);
+          if(property === 'maxHeight' && val !== 'none') {
+            _this.$clone.css('overflow', 'hidden');
+          }
         }
       });
     },
@@ -193,12 +197,21 @@
     var opts = $.extend({ }, $.expanding.opts, o);
 
     this.filter("textarea").each(function() {
-      if(!Expanding.getExpandingInstance(this)) {
-        new Expanding($(this), opts);
+      var visible = this.offsetWidth > 0 || this.offsetHeight > 0,
+          initialized = Expanding.getExpandingInstance(this);
+
+      if(visible && !initialized) new Expanding($(this), opts);
+      else {
+        if(!visible) _warn("ExpandingTextareas: attempt to initialize an invisible textarea. Call expanding() again once it has been inserted into the page and/or is visible.");
+        if(initialized) _warn("ExpandingTextareas: attempt to initialize a textarea that has already been initialized. Subsequent calls are ignored.");
       }
     });
     return this;
   };
+
+  function _warn(text) {
+    if(window.console && console.warn) console.warn(text);
+  }
 
   $(function () {
     if ($.expanding.autoInitialize) {

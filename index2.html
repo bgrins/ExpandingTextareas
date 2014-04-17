@@ -3,17 +3,53 @@
 <style>
 body {
   margin:5em 0 0 0;
+  background:grey;
 }
-#left {
+#demo {
   width:25em;
-  right:55%;
-  position:fixed;
+  margin:0 auto;
+  -webkit-perspective:1200;
+  -webkit-transform-origin:0 -50%;
+  height:20em;
+  -webkit-transition:all 1s;
 }
-textarea {font-size:250%;padding:0.2em;}
+
+.expanding, .expanding-clone {
+  font-size:250%;
+  padding:0.2em;
+  background:rgba(255,255,255,0.95);
+  -webkit-transition:all 1s;
+  -webkit-transition-delay:0;
+  max-height:7em;
+  -webkit-transition-delay:200ms;
+}
+.expanding{
+  z-index:1;
+}
+.expanding-clone {
+  transition:opacity 200ms;
+  opacity:0;
+}
+#demo:hover textarea {
+  -webkit-transition:all 1s;
+  -webkit-transform:  rotateY(28deg);
+}
+#demo pre {
+  opacity:0;
+  -webkit-transform:  rotateY(28deg) translateZ(-100px);
+  display:block !important;
+  z-index:-1;
+  visibility:visible !important;
+}
+#demo:hover pre {
+  opacity:1;
+  -webkit-transition: opacity 500ms;
+  -webkit-transition-delay:1s;
+}
 #right {
   width:40%;
+  margin: 0 auto;
   background:#f00;
-  margin-left:50%;
 }
 </style>
 
@@ -22,9 +58,9 @@ textarea {font-size:250%;padding:0.2em;}
 </head>
 <body>
 
-<div id="left">
+<div id="demo" class="persp">
   <textarea class="expanding">
-This is a textarea...</textarea>
+This is just a normal textarea...</textarea>
 </div>
 
 <div id="right">
@@ -38,6 +74,7 @@ This is a textarea...</textarea>
 
 
   <h2>How do I use it?</h2>
+  <button>Toggle</button>
   <p>Depends on jQuery. Automatically applies the plugin to any textarea with
     <code>expanding</code> class</p>
 
@@ -50,6 +87,7 @@ This is a textarea...</textarea>
 <script type='text/javascript'>
   $(function() {
       $('textarea').expanding();
+      $('button').click(function(){$('#demo').toggleClass('persp')})
   });
 
 function copyCode(){

@@ -1,8 +1,19 @@
 <!doctype html><html dl><head>
-
+<title>ExpandingTextarea</title>
 <style>
-textarea {
-
+body {
+  margin:5em 0 0 0;
+}
+#left {
+  width:25em;
+  right:55%;
+  position:fixed;
+}
+textarea {font-size:250%;padding:0.2em;}
+#right {
+  width:40%;
+  background:#f00;
+  margin-left:50%;
 }
 </style>
 
@@ -11,10 +22,9 @@ textarea {
 </head>
 <body>
 
-<div id="demo-area">
-<textarea class="expanding">
-This is a textarea...
-</textarea>
+<div id="left">
+  <textarea class="expanding">
+This is a textarea...</textarea>
 </div>
 
 <div id="right">

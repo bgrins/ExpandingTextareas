@@ -1,0 +1,50 @@
+<!doctype html><html dl><head>
+
+<style>
+textarea {
+
+}
+</style>
+
+<script type='text/javascript' src='libs/jquery-1.11.0.js'></script>
+<script type='text/javascript' src='expanding.js'></script>
+</head>
+<body>
+
+<div id="demo-area">
+<textarea class="expanding">
+This is a textarea...
+</textarea>
+</div>
+
+<div id="right">
+
+  <h1>Expanding Textareas</h1>
+  <p>By <a href="https://github.com/bgrins">@bgrins</a>.
+    <a href="https://github.com/bgrins/ExpandingTextareas">GitHub Project</a>.</p>
+
+  <h2>How does it work?</h2>
+  <p>Magic</p>
+
+
+  <h2>How do I use it?</h2>
+  <p>Depends on jQuery. Automatically applies the plugin to any textarea with
+    <code>expanding</code> class</p>
+
+  <pre><code>&lt;script src='expanding.js&gt;&lt;/script&gt;
+&lt;textarea class='expanding'&gt;&lt;/textarea&gt;</code></pre>
+
+
+</div>
+
+<script type='text/javascript'>
+  $(function() {
+      $('textarea').expanding();
+  });
+
+function copyCode(){
+  $('#source-code').html($('#demo-area').html().replace(/</g, '&lt;').replace(/>/g, '&gt;'))
+}
+</script>
+</body>
+</html>

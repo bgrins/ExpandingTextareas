@@ -1,391 +1,312 @@
-<!doctype html>
-<html>
-<head>
-<title>Expanding Textareas jQuery Plugin</title>
+<!doctype html><html dl><head>
+<title>ExpandingTextarea</title>
 <style>
-
 body {
-  background-color: #f4f4f4;
-  background-image: -webkit-linear-gradient(0, transparent 50%, rgba(255,255,255,.3) 50%);
-  background-image: -moz-linear-gradient(0, transparent 50%, rgba(255,255,255,.3) 50%);
-  background-image: linear-gradient(0, transparent 50%, rgba(255,255,255,.3) 50%);
-  background-size: 50px;
-  color: #333;
-  font-family: Lucida Sans, Droid Sans, Arial;
-  margin:20px;
+  margin:0;
+  background:#56565A;
+  font-family:'Helvetica Neue', Helvetica, sans-serif;
 }
 
-h1, h2, h3 {
-    font-family: Georgia, serif;
+body.demo-done #demo {
+  margin:5em auto 7em auto;
 }
 
-.container {
-    width: 80%;
-    margin: 5px auto;
+#demo {
+  width:25em;
+  margin:12em auto 9em auto;
+  -webkit-perspective:1200px;
+  -webkit-transform-origin:0 -50%;
+  -webkit-transition:all 1s;
+  perspective:1200px;
+  transform-origin:0 -50%;
+  transition:all 1s;
 }
 
-.example {
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-    margin-left: 15px;
-    border-bottom: dotted 1px;
+.expanding, .expanding-clone {
+  font-size:250%;
+  font-family:'Helvetica-Neue',Helvetica,sans-serif;
+  padding:0.2em;
+  background:rgba(255,255,255,0.95);
+  max-height:10.4em;
+  -webkit-transition:all 1s;
+  -webkit-transition-delay:0;
+  -webkit-transition-delay:200ms;
+  transition:all 1s;
+  transition-delay:0;
+  transition-delay:200ms;
 }
-.example p {
-    padding:0;
-    margin: 5px 0;
+.expanding{
+  z-index:1;
 }
-.group {
-    background: rgba(128, 128, 128, .1);
-    padding:0 4px;
-    border: solid 2px #fff;
-    border-radius: 4px;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0 0 2px #001;
+.expanding-clone {
+  transition:opacity 200ms;
+  opacity:0;
 }
-
-/*
-  Make expanding textareas behave like block level elements.
-  These properties are also set by the plugin, but are set here for fallback. */
-
-textarea.expanding {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  width: 100%;
+#demo.persp textarea {
+  -webkit-transition:all 1s;
+  -webkit-transform:  rotateY(28deg);
+  transition:all 1s;
+  transform:  rotateY(28deg);
 }
-
-/* Note: None of these rules are necessary to have this plugin work! */
-
-textarea {
-  padding: .5em;
-  background: #fff;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  font-size: 1em;
-  line-height: 1.5em;
-  margin: .5em 0;
+#demo pre {
+  opacity:0;
+  -webkit-transform:  rotateY(28deg) translateZ(-100px);
+  transform:  rotateY(28deg) translateZ(-100px);
+  display:block !important;
+  z-index:-1;
+  visibility:visible !important;
 }
-
-.exampleStaticWidth .expanding-wrapper {
-    width: 400px;
+#demo.persp pre {
+  opacity:0.2;
+  -webkit-transition: opacity 500ms;
+  -webkit-transition-delay:1s;
+  transition: opacity 500ms;
+  transition-delay:1s;
 }
-
-.exampleFonts textarea {
-  font-family: Arial;
-  color: orange;
-  letter-spacing: 2px;
-  font-style: italic;
-  font-size: 1.75em;
+#narrative {
+  width:40%;
+  margin: 0 auto 5em auto;
+  opacity:0;
+  position:relative;
+  background:white;
+  color:#212121;
+  padding:30px;
 }
-
-.exampleMinHeight textarea, .exampleMinHeight .expanding-clone {
-  min-height: 6em;
+body.demo-done #narrative{
+  opacity:1;
+  top:0;
+  -webkit-transition:all 600ms;
+  transition:all 600ms;
 }
 
-.exampleMaxHeight textarea, .exampleMaxHeight .expanding-clone {
-  max-height: 8em;
+.top {
+  text-align:center;
 }
-
-.exampleBorder textarea {
-    border: double 8px #333;
-    border-radius: 5px;
+h1 {
+  font-weight:normal;
 }
-
-.exampleProportional .expanding-wrapper {
-    width: 50%;
+h2 {
+  font-weight:normal;
+  font-size:120%;
+  margin:2em 0 1em 0;
 }
-.exampleProportional textarea,
-.exampleProportional .expanding-clone {
-    padding: 1em;
-    margin: 1em;
+p{
+  font-size:95%;
+  line-height:1.5em;
 }
-
-.exampleCentered .expanding-wrapper {
-    width: 75%;
-    margin: 0 auto;
+code {
+  font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;
+  font-size:90%;
+  color:rgb(0,0,50);
 }
-
-.exampleDestroy textarea {
-    height: 120px;
+a {
+  color: grey;
 }
-.exampleWrapOff textarea {
-  white-space: pre;
-  word-wrap: normal;
+a.button {
+  font-size:80%;
+  border: 1px solid grey;
+  padding:0.3em 0.7em;
+  border-radius:1em;
+  line-height:1.4em;
+  text-decoration:none;
 }
-
-#updateLog {
-    display: none;
+a:hover {
+  color:blue;
+  border-color:blue;
 }
-
+.footer {
+  text-align:center;
+  padding-top:3em;
+  font-size:90%;
+  opacity:0.7;
+}
 </style>
+
 <script type='text/javascript' src='libs/jquery-1.11.0.js'></script>
 <script type='text/javascript' src='expanding.js'></script>
 </head>
 <body>
 
-
-<a href="http://github.com/bgrins/ExpandingTextareas"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
-
-
-<div class='container'>
-
-
-<h1>Expanding Textareas jQuery Plugin</h1>
-
-<div class='example'>
-  <textarea class='expanding' placeholder='Enter Some Text And Watch the Textarea Grow'></textarea>
+<div id="demo">
+  <textarea class="expanding"></textarea>
 </div>
 
-<div class='group'>
+<div id="narrative">
+<div class="top">
+  <h1>Expanding Textareas</h1>
+  <iframe src="http://ghbtns.com/github-btn.html?user=bgrins&amp;repo=ExpandingTextareas&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+</div>
 
-    <h2>Usage</h2>
-    <div class='example'>
 
-    <h3>Easy Way</h3>
-    <p>
+  <h2>How do they work?</h2>
+  <p>Based on Neil Jenkins' work at <a href="www.alistapart.com/articles/expanding-text-areas-made-elegant/">alistapart</a>,
+  an invisible clone pre element is maintained behind your textarea.  Whenever
+  the height of this pre changes, the textarea is updated.</p>
+  <a class="button" href="#">Toggle 3D</a>
 
-<pre><code>&lt;script src='expanding.js&gt;&lt;/script&gt;
+
+  <h2>Usage</h2>
+  <p>Include <code>expanding.js</code> and jQuery in your page.  Any textareas with the
+    <code>expanding</code> class will then be transformed.</p>
+
+  <pre><code>&lt;script src='expanding.js'&gt;&lt;/script&gt;
 &lt;textarea class='expanding'&gt;&lt;/textarea&gt;</code></pre>
 
-    No extra JavaScript calls needed if you already have the 'expanding' class on the textarea.
-    </p>
+  <p>Advanced usage details on the
+    <a href="https://github.com/bgrins/ExpandingTextareas">GitHub page</a>
+    (includes programmatic creation).</p>
 
-    <h3>Manual Initialization</h3>
-    </p>
-    If you'd like to manually call the plugin instead, use:
+  <h2>Styling</h2>
 
-<pre><code>&lt;script&gt;
-    $("#element").expanding();
-&lt;/script&gt;</code></pre>
+  <p>You can style the textarea however you like (including <code>max-height</code>)
+  This plugin has been tested in Chrome, Safari, Firefox, IE8, and mobile Safari.</p>
 
-    See the <a href='http://github.com/bgrins/ExpandingTextareas'>project page</a> for an explanation of how it works.
-    </p>
-    </div>
+
+  <p class="footer">By <a href="http://github.com/bgrins">@bgrins</a> with help
+    from the <a href="http://github.com/bgrins/ExpandingTextareas/graphs/contributors">contributors</a>.</p>
 
 </div>
 
+<script type='text/javascript'>
+  $(function() {
+    // initialisation stuff:
+    $('textarea').expanding().focus();
+    $('#demo').click(function(){
+      $('textarea').focus()
+    })
+    $('a.button').click(function(){$('#demo').toggleClass('persp'); return false})
 
-<div class='group'>
+    // intro before the narrative fades in.
+    var introSeq = new $.Deferred()
+    var introAnimation = new $.Deferred()
+    introSeq.done(function(){
+      // makes the narrative fade-in when the intro is done.
+      $('body').addClass('demo-done')
+      $('textarea').focus()
+      setTimeout(function(){introAnimation.resolve()}, 1000) // CSS animation
+    })
 
-    <h2>Highlights</h2>
-    <p>What makes this plugin cool?</p>
-    <ul>
-        <li><a href='http://www.alistapart.com/articles/expanding-text-areas-made-elegant/'>Expanding Text Areas Made Elegant</a></li>
-        <li>Mobile Friendly</li>
-        <li>Wide browser support.  Works in IE6+, Safari, Chrome, Firefox, Opera</li>
-        <li>No <code>cols</code> hacks, or counting characters</li>
-        <li>Easy to style</li>
-        <li>Resize Friendly.
-            Content automatically resizes <em>without using the window.resize event or JavaScript to calculate sizes</em>!
+    // start the ghost typing
+    setTimeout(function(){
+      new TuringType(
+        $('textarea')[0],
+        "This is just a normal textarea...\n\nexcept it expands when you type!",
+        { callback: function(){ introSeq.resolve(); }}
+      )
+    }, 500)
 
-            <textarea class='expanding'>Resize your browser window to make this switch from one line to two, or two lines to three.  Try copying and pasting more content in then resizing.</textarea>
-        </li>
+    // add the 3D effect mid-typing
+    setTimeout(function(){
+      $('#demo').addClass('persp')
+    }, 4000)
 
-    </ul>
-</div>
-
-
-<div class='group'>
-
-    <h2>Examples</h2>
-    <p>
-    Almost all customization of the expanding plugin is simply done in CSS.
-    Here are some of the things you can do:
-    </p>
-
-    <div class='example exampleMinHeight'>
-      <h3>Minimum Height</h3>
-      <p>
-        Sometimes you may want to start off with a couple of lines to make it obvious that there is a textarea.
-        This is easy - just use CSS to add a min height to the textarea, like so:
-      </p>
-<pre><code>
-textarea {
-    min-height: 6em;
-}</code></pre>
-
-
-      <textarea class='expanding' placeholder='Enter Some Text'></textarea>
-    </div>
-    <div class='example exampleMaxHeight'>
-      <h3>Maximum Height</h3>
-      <p>
-        Set a <code>max-height</code> on the textarea to get scrolling after a certain size.
-        This is done by applying a max height declaration to the textarea:
-      </p>
-<pre><code>
-textarea {
-    max-height: 8em;
-}</code></pre>
-
-or
-
-<pre><code>
-&lt;textarea style="max-height:200px"&gt;Text&lt;/textarea&gt;
-</code></pre>
-
-      <textarea class='expanding' placeholder='Enter Some Text'></textarea>
-    </div>
-
-    <div class='example exampleStaticWidth'>
-      <h3>Static Width</h3>
-      <p>
-        Just set a static width on the wrapper:
-
-      </p>
-<pre><code>
-.expanding-wrapper {
-    width: 400px;
-}</code></pre>
-
-
-      <textarea class='expanding' placeholder='Enter Some Text'></textarea>
-    </div>
-
-    <div class='example exampleFonts'>
-      <h3>
-        Custom font properties
-      </h3>
-        <p>
-            All fonts, colors, and spacings can be set to whatever you want, and the plugin will automatically copy the styles over to the invisible pre tag.
-        </p>
-      <textarea class='expanding'>This font is styled differently, but the resizing still works</textarea>
-    </div>
-
-    <div class='example exampleBorder'>
-      <h3>Custom borders</h3>
-      <p>
-        Custom border sizes on the textarea are handled as well
-      </p>
-
-      <textarea class='expanding' placeholder='Enter Some Text'></textarea>
-    </div>
-
-    <div class='example exampleProportional'>
-      <h3>Proportional paddings, margins, and widths</h3>
-      <p>
-        Percentages are a little tricky.  <em>Firefox seems to have some problems rendering percentage paddings and margins on textareas, it is probably best if you avoid this technique.</em>  Using ems for margin and padding seems to work fine.
-
-        You can use percentages on widths in all browsers, as you place the CSS rule on the wrapper, like so:
-      </p>
-<pre><code>
-.expanding-wrapper {
-    width: 50%;
-}
-textarea {
-    padding: 1em;
-    margin: 1em;
-}</code></pre>
-      <textarea class='expanding' placeholder='Enter Some Text'></textarea>
-    </div>
-
-
-    <div class='example exampleCentered'>
-      <h3>Centering</h3>
-      <p>Centering the textarea is actually pretty easy, just set a width and a <code>margin: 0 auto;</code> on the wrapper.</p>
-
-<pre><code>
-.expanding-wrapper {
-    width: 75%;
-    margin: 0 auto;
-}</code></pre>
-
-      <textarea class='expanding' placeholder='Enter Some Text'></textarea>
-    </div>
-
-    <div class='example exampleDestroy'>
-      <h3>Destroying</h3>
-      <p>Allows for removing the expanding functionality.</p>
-
-<pre><code>&lt;script&gt;
-    $("#element").expanding('destroy');
-&lt;/script&gt;</code></pre>
-
-      <textarea class='expanding'>This textarea
-        is currently
-            expanding...
-        But you
-            can change that.
-        &darr;</textarea>
-      <button>Remove the expanding functionality.  Right now.</button>
-      <script type='text/javascript'>
-        $(function() {
-            $('.exampleDestroy button').click(function() {
-                var textarea = $('.exampleDestroy .expanding');
-                if (textarea.expanding("active")) {
-                    textarea.expanding('destroy');
-                    $(this).text("Renable...");
-                }
-                else {
-                    textarea.expanding();
-                    $(this).text("Remove...");
-                }
-            });
-        });
-      </script>
-    </div>
-
-    <div class='example exampleEvents'>
-      <h3>Rows</h3>
-      <p>The plugin respects the <code>rows</code> attribute, adjusting the clone's min height accordingly:</p>
-      <textarea class="expanding" rows="10">Textarea with 10 rows</textarea>
-      <textarea class="expanding" rows="1">Textarea with 1 row</textarea>
-    </div>
-
-    <div class='example exampleEvents'>
-        <h3>Callbacks</h3>
-        <h4><code>update</code></h4>
-        <p>Sometimes other parts of your application need to be notified when a textarea changes its height (e.g., to move out of its way!).  You can dispatch such notifications through callback functions passed in when you first initialize the plug-in, like so:</p>
-<pre><code>&lt;script&gt;
-    $("#element").expanding({
-        update: callback
+    // immediately show narrative if user tries to scroll (prevents scrolling)
+    $(window).on('DOMMouseScroll mousewheel', function (e) {
+      if(e.originalEvent.detail > 0 || e.originalEvent.wheelDelta < 0)
+        introSeq.resolve()
+      return false;
     });
-&lt;/script&gt;</code></pre>
 
+    // re-allow scrolling when animation done
+    introAnimation.done(function(){
+      $(window).off('DOMMouseScroll mousewheel')
+    })
+  });
+</script>
 
-      <textarea>This textarea
-        will log changes below
-        &darr; </textarea>
-      <br />
-      <div id='updateLog'>Current Height: <em></em></div>
-      <script type='text/javascript'>
-        $(function() {
-            $('.exampleEvents textarea').expanding({
-                update: function(h) {
-                    $("#updateLog").show().find("em").text($(this).height() + "px");
-                }
-            });
-        });
-      </script>
-    </div>
+<!-- TuringType by @dmotz -->
+<script type='text/javascript'>
+// Generated by CoffeeScript 1.6.3
+(function() {
+  var floor, rand,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-    <div class='example exampleWrapOff'>
-        <h3>Word Wrap</h3>
-        <h4><code>wrap=off</code></h4>
-        <p>If the textarea has the wrap attribute set to 'off', then it will allow this behavior to work, even while still expanding on height changes.</p>
-<pre><code>
-&lt;textarea wrap="off"&gt;&lt;/textarea&gt;
-&lt;script&gt;
-    $("#element").expanding();
-&lt;/script&gt;</code></pre>
+  rand = Math.random;
 
+  floor = Math.floor;
 
-      <textarea wrap="off">
-No word wrap going to happen here, even if the line is extremely long... No word wrap going to happen here, even if the line is extremely long... No word wrap going to happen here, even if the line is extremely long... No word wrap going to happen here, even if the line is extremely long...
-      </textarea>
-      <br />
-      <script type='text/javascript'>
-        $(function() {
-            $('.exampleWrapOff textarea').expanding();
-        });
-      </script>
-    </div>
+  window.TuringType = (function() {
+    TuringType.prototype.int = 100;
 
-</div>
+    TuringType.prototype.accuracy = .95;
 
-</div>
+    TuringType.prototype.keys = 'qwertyuiop[]asdfghjklzxcvbnm,./;-='.split('');
 
+    function TuringType(el, text, options) {
+      var accuracy, interval, tag, _ref;
+      this.el = el;
+      this.text = text;
+      this.options = options != null ? options : {};
+      this.type = __bind(this.type, this);
+      if (!(this instanceof TuringType)) {
+        return (function(func, args, ctor) {
+          ctor.prototype = func.prototype;
+          var child = new ctor, result = func.apply(child, args);
+          return Object(result) === result ? result : child;
+        })(TuringType, arguments, function(){});
+      }
+      if (typeof this.el === 'string') {
+        this.el = document.querySelector(this.el);
+      }
+      this.len = this.text.length;
+      this.i = 0;
+      _ref = this.options, accuracy = _ref.accuracy, interval = _ref.interval, this.callback = _ref.callback;
+      this.accuracy = accuracy != null ? accuracy : this.accuracy;
+      this.int = interval != null ? interval : this.int;
+      if (tag = this.el.tagName.toLowerCase() === 'textarea' || tag === 'input') {
+        this.attr = 'value';
+        this.el.focus();
+      } else {
+        this.attr = 'innerText';
+      }
+      this.type();
+    }
+
+    TuringType.prototype.type = function() {
+      var _this = this;
+      if (this.i === this.len) {
+        return typeof this.callback === "function" ? this.callback() : void 0;
+      }
+      if (rand() > this.accuracy) {
+        this.el[this.attr] += this.keys[floor(rand() * this.keys.length)];
+        return this.timer = setTimeout(function() {
+          _this.el[_this.attr] = _this.text.slice(0, _this.i);
+          return _this.timer = setTimeout(_this.type, rand() * _this.int + _this.int * .8);
+        }, this.int * 1.5);
+      } else {
+        this.el[this.attr] += this.text[this.i++];
+        $(this.el).change() // CRUCIAL TO TRIGGER RESIZING
+        return this.timer = setTimeout(this.type, (function() {
+          var t;
+          t = rand() * _this.int + _this.int * .1;
+          if (_this.text[_this.i] === ' ') {
+            t += rand() * _this.int;
+          }
+          if (_this.text[_this.i] === '.' || _this.text[_this.i] === ',') {
+            t += rand() * _this.int * 3;
+          }
+          if (rand() > .97) {
+            t += _this.int * 2;
+          }
+          if (rand() > .95) {
+            t += _this.int;
+          }
+          return t;
+        })());
+      }
+    };
+
+    TuringType.prototype.pause = function() {
+      clearTimeout(this.timer);
+      return this.el[this.attr];
+    };
+
+    return TuringType;
+
+  })();
+
+}).call(this);
+</script>
 
 </body>
 </html>

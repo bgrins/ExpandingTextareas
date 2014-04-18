@@ -107,10 +107,12 @@ body.demo-done #narrative{
 
     // intro before the narrative fades in.
     var introSeq = new $.Deferred()
+    var introAnimation = new $.Deferred()
     introSeq.done(function(){
       // makes the narrative fade-in when the intro is done.
       $('body').addClass('demo-done')
       $('textarea').focus()
+      setTimeout(function(){introAnimation.resolve()}, 1000) // CSS animation
     })
 
     // start the ghost typing
@@ -126,6 +128,20 @@ body.demo-done #narrative{
     setTimeout(function(){
       $('#demo').addClass('persp')
     }, 4000)
+
+    // immediately show narrative if user tries to scroll (prevents scrolling)
+    $(window).on('DOMMouseScroll mousewheel', function (e) {
+      if(e.originalEvent.detail > 0 || e.originalEvent.wheelDelta < 0) {
+        introSeq.resolve()
+      }
+      //prevent page fom scrolling
+      return false;
+    });
+
+    // re-allow scrolling when animation done
+    introAnimation.done(function(){
+      $(window).off('DOMMouseScroll mousewheel')
+    })
   });
 </script>
 

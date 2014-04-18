@@ -63,10 +63,28 @@ body.demo-done #demo {
   transition: opacity 500ms;
   transition-delay:1s;
 }
+#downarrow {
+  text-align:center;
+  color:#bbb;
+  font-size:400%;
+  position:absolute;
+  width:100%;
+  cursor:pointer;
+  z-index:1;
+  -webkit-transition:all 200ms;
+  transition:all 200ms;
+}
+#downarrow:hover, body.demo-done #downarrow {
+  color:white;
+}
+body.demo-done #downarrow {
+  opacity:0;
+  z-index:0;
+}
 #narrative {
   width:40%;
   margin: 0 auto 5em auto;
-  opacity:0;
+  opacity:0.05;
   position:relative;
   background:white;
   color:#212121;
@@ -131,6 +149,7 @@ a:hover {
   <textarea class="expanding"></textarea>
 </div>
 
+<div id="downarrow">&caron;</div>
 <div id="narrative">
 <div class="top">
   <h1>Expanding Textareas</h1>
@@ -175,6 +194,7 @@ a:hover {
       $('textarea').focus()
     })
     $('a.button').click(function(){$('#demo').toggleClass('persp'); return false})
+    $('#downarrow').click(function(){ introSeq.resolve() })
 
     // intro before the narrative fades in.
     var introSeq = new $.Deferred()

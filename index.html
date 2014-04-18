@@ -14,10 +14,12 @@ body.demo-done #demo {
 #demo {
   width:25em;
   margin:12em auto 9em auto;
-  -webkit-perspective:1200;
+  -webkit-perspective:1200px;
   -webkit-transform-origin:0 -50%;
-/*  min-height:20em;*/
   -webkit-transition:all 1s;
+  perspective:1200px;
+  transform-origin:0 -50%;
+  transition:all 1s;
 }
 
 .expanding, .expanding-clone {
@@ -25,10 +27,13 @@ body.demo-done #demo {
   font-family:'Helvetica-Neue',Helvetica,sans-serif;
   padding:0.2em;
   background:rgba(255,255,255,0.95);
+  max-height:10.4em;
   -webkit-transition:all 1s;
   -webkit-transition-delay:0;
-  max-height:10.4em;
   -webkit-transition-delay:200ms;
+  transition:all 1s;
+  transition-delay:0;
+  transition-delay:200ms;
 }
 .expanding{
   z-index:1;
@@ -40,10 +45,13 @@ body.demo-done #demo {
 #demo.persp textarea {
   -webkit-transition:all 1s;
   -webkit-transform:  rotateY(28deg);
+  transition:all 1s;
+  transform:  rotateY(28deg);
 }
 #demo pre {
   opacity:0;
   -webkit-transform:  rotateY(28deg) translateZ(-100px);
+  transform:  rotateY(28deg) translateZ(-100px);
   display:block !important;
   z-index:-1;
   visibility:visible !important;
@@ -52,6 +60,8 @@ body.demo-done #demo {
   opacity:0.2;
   -webkit-transition: opacity 500ms;
   -webkit-transition-delay:1s;
+  transition: opacity 500ms;
+  transition-delay:1s;
 }
 #narrative {
   width:40%;
@@ -66,6 +76,7 @@ body.demo-done #narrative{
   opacity:1;
   top:0;
   -webkit-transition:all 600ms;
+  transition:all 600ms;
 }
 
 .top {

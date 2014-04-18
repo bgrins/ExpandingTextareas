@@ -3,7 +3,7 @@
 <style>
 body {
   margin:0;
-  background:grey;
+  background:#56565A;
 }
 
 body.demo-done #demo {
@@ -98,29 +98,35 @@ body.demo-done #narrative{
 
 <script type='text/javascript'>
   $(function() {
-      $('textarea').expanding().focus();
-      $('#demo').click(function(){
-        $('textarea').focus()
-      })
-      $('button').click(function(){$('#demo').toggleClass('persp')})
-      setTimeout(function(){
-          new TuringType($('textarea')[0],
-          "This is just a normal textarea...\n\nexcept it expands when you type!",
-        {
-          callback: function(){
-            $('body').addClass('demo-done')
-            $('textarea').focus()
-          }
-        })
-      }, 500)
-      setTimeout(function(){
-        $('#demo').addClass('persp')
-      }, 4000)
-  });
+    // initialisation stuff:
+    $('textarea').expanding().focus();
+    $('#demo').click(function(){
+      $('textarea').focus()
+    })
+    $('button').click(function(){$('#demo').toggleClass('persp')})
 
-function copyCode(){
-  $('#source-code').html($('#demo-area').html().replace(/</g, '&lt;').replace(/>/g, '&gt;'))
-}
+    // intro before the narrative fades in.
+    var introSeq = new $.Deferred()
+    introSeq.done(function(){
+      // makes the narrative fade-in when the intro is done.
+      $('body').addClass('demo-done')
+      $('textarea').focus()
+    })
+
+    // start the ghost typing
+    setTimeout(function(){
+      new TuringType(
+        $('textarea')[0],
+        "This is just a normal textarea...\n\nexcept it expands when you type!",
+        { callback: function(){ introSeq.resolve(); }}
+      )
+    }, 500)
+
+    // add the 3D effect mid-typing
+    setTimeout(function(){
+      $('#demo').addClass('persp')
+    }, 4000)
+  });
 </script>
 
 <!-- TuringType by @dmotz -->

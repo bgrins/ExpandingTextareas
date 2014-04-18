@@ -4,6 +4,7 @@
 body {
   margin:0;
   background:#56565A;
+  font-family:'Helvetica Neue', Helvetica, sans-serif;
 }
 
 body.demo-done #demo {
@@ -21,6 +22,7 @@ body.demo-done #demo {
 
 .expanding, .expanding-clone {
   font-size:250%;
+  font-family:'Helvetica-Neue',Helvetica,sans-serif;
   padding:0.2em;
   background:rgba(255,255,255,0.95);
   -webkit-transition:all 1s;
@@ -47,7 +49,7 @@ body.demo-done #demo {
   visibility:visible !important;
 }
 #demo.persp pre {
-  opacity:0.4;
+  opacity:0.2;
   -webkit-transition: opacity 500ms;
   -webkit-transition-delay:1s;
 }
@@ -57,12 +59,55 @@ body.demo-done #demo {
   opacity:0;
   position:relative;
   background:white;
+  color:#212121;
   padding:30px;
 }
 body.demo-done #narrative{
   opacity:1;
   top:0;
   -webkit-transition:all 600ms;
+}
+
+.top {
+  text-align:center;
+}
+h1 {
+  font-weight:normal;
+}
+h2 {
+  font-weight:normal;
+  font-size:120%;
+  margin:2em 0 1em 0;
+}
+p{
+  font-size:95%;
+  line-height:1.5em;
+}
+code {
+  font-family: Monaco, Menlo, Consolas, 'Courier New', monospace;
+  font-size:90%;
+  color:rgb(0,0,50);
+}
+a {
+  color: grey;
+}
+a.button {
+  font-size:80%;
+  border: 1px solid grey;
+  padding:0.3em 0.7em;
+  border-radius:1em;
+  line-height:1.4em;
+  text-decoration:none;
+}
+a:hover {
+  color:blue;
+  border-color:blue;
+}
+.footer {
+  text-align:center;
+  padding-top:3em;
+  font-size:90%;
+  opacity:0.7;
 }
 </style>
 
@@ -76,23 +121,38 @@ body.demo-done #narrative{
 </div>
 
 <div id="narrative">
-
+<div class="top">
   <h1>Expanding Textareas</h1>
-  <p>By <a href="https://github.com/bgrins">@bgrins</a>.
-    <a href="https://github.com/bgrins/ExpandingTextareas">GitHub Project</a>.</p>
-
-  <h2>How does it work?</h2>
-  <p>Magic</p>
+  <iframe src="http://ghbtns.com/github-btn.html?user=bgrins&amp;repo=ExpandingTextareas&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+</div>
 
 
-  <h2>How do I use it?</h2>
-  <button>Toggle</button>
-  <p>Depends on jQuery. Automatically applies the plugin to any textarea with
-    <code>expanding</code> class</p>
+  <h2>How do they work?</h2>
+  <p>Based on Neil Jenkins' work at <a href="www.alistapart.com/articles/expanding-text-areas-made-elegant/">alistapart</a>,
+  an invisible clone pre element is maintained behind your textarea.  Whenever
+  the height of this pre changes, the textarea is updated.</p>
+  <a class="button" href="#">Toggle 3D</a>
 
-  <pre><code>&lt;script src='expanding.js&gt;&lt;/script&gt;
+
+  <h2>Usage</h2>
+  <p>Include <code>expanding.js</code> and jQuery in your page.  Any textareas with the
+    <code>expanding</code> class will then be transformed.</p>
+
+  <pre><code>&lt;script src='expanding.js'&gt;&lt;/script&gt;
 &lt;textarea class='expanding'&gt;&lt;/textarea&gt;</code></pre>
 
+  <p>Advanced usage details on the
+    <a href="https://github.com/bgrins/ExpandingTextareas">GitHub page</a>
+    (includes programmatic creation).</p>
+
+  <h2>Styling</h2>
+
+  <p>You can style the textarea however you like (including <code>max-height</code>)
+  This plugin has been tested in Chrome, Safari, Firefox, IE8, and mobile Safari.</p>
+
+
+  <p class="footer">By <a href="http://github.com/bgrins">@bgrins</a> with help
+    from the <a href="http://github.com/bgrins/ExpandingTextareas/graphs/contributors">contributors</a>.</p>
 
 </div>
 
@@ -103,7 +163,7 @@ body.demo-done #narrative{
     $('#demo').click(function(){
       $('textarea').focus()
     })
-    $('button').click(function(){$('#demo').toggleClass('persp')})
+    $('a.button').click(function(){$('#demo').toggleClass('persp'); return false})
 
     // intro before the narrative fades in.
     var introSeq = new $.Deferred()
@@ -131,10 +191,8 @@ body.demo-done #narrative{
 
     // immediately show narrative if user tries to scroll (prevents scrolling)
     $(window).on('DOMMouseScroll mousewheel', function (e) {
-      if(e.originalEvent.detail > 0 || e.originalEvent.wheelDelta < 0) {
+      if(e.originalEvent.detail > 0 || e.originalEvent.wheelDelta < 0)
         introSeq.resolve()
-      }
-      //prevent page fom scrolling
       return false;
     });
 
@@ -202,12 +260,11 @@ body.demo-done #narrative{
         this.el[this.attr] += this.keys[floor(rand() * this.keys.length)];
         return this.timer = setTimeout(function() {
           _this.el[_this.attr] = _this.text.slice(0, _this.i);
-          // console.log(_this.text.slice(0, _this.i))
           return _this.timer = setTimeout(_this.type, rand() * _this.int + _this.int * .8);
         }, this.int * 1.5);
       } else {
         this.el[this.attr] += this.text[this.i++];
-        $(this.el).change()
+        $(this.el).change() // CRUCIAL TO TRIGGER RESIZING
         return this.timer = setTimeout(this.type, (function() {
           var t;
           t = rand() * _this.int + _this.int * .1;

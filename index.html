@@ -156,7 +156,7 @@ a:hover {
 <body>
 
 <div id="demo">
-  <textarea class="expanding"></textarea>
+  <textarea class="expanding" spellcheck="false"></textarea>
 </div>
 
 <div id="downarrow">&caron;</div>
@@ -205,11 +205,7 @@ jQuery.fn.extend({typetype:function(e,n){var t,u;return u=jQuery.extend({keypres
 <script type='text/javascript'>
   $(function() {
     // initialisation stuff:
-    $('textarea').expanding().focus();
-    $('#demo').click(function(){
-      $('textarea').focus()
-    })
-    $('a.button').click(function(){$('#demo').toggleClass('persp'); return false})
+    $('a.button').click(function(){$('#demo').toggleClass('persp'); $('textarea').focus(); return false})
     $('#downarrow').click(function(){ introSeq.resolve() })
 
     // intro before the narrative fades in.
@@ -218,12 +214,13 @@ jQuery.fn.extend({typetype:function(e,n){var t,u;return u=jQuery.extend({keypres
     introSeq.done(function(){
       // makes the narrative fade-in when the intro is done.
       $('body').addClass('demo-done')
-      $('textarea').focus()
       setTimeout(function(){introAnimation.resolve()}, 1000) // CSS animation
     })
 
     // start the ghost typing
     $('textarea').
+      expanding().
+      focus().
       delay(600).
       typetype("This is just a normal textarea...\n\n", {
         e:0, // no typing errors!

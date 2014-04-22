@@ -10,7 +10,10 @@ body {
 body.demo-done #demo {
   margin:5em auto 7em auto;
 }
-
+textarea {
+  font-family:'Helvetica-Neue',Helvetica,sans-serif;
+  padding:0.2em;
+}
 #demo {
   width:25em;
   margin:12em auto 9em auto;
@@ -21,19 +24,17 @@ body.demo-done #demo {
   transform-origin:0 -50%;
   transition:all 1s;
 }
-.expanding, .expanding-clone {
+#demo .expanding, #demo .expanding-clone {
   font-size:250%;
-  font-family:'Helvetica-Neue',Helvetica,sans-serif;
-  padding:0.2em;
   background:rgba(255,255,255,0.95);
   max-height:10.4em;
   -webkit-transition:all 1s;
   transition:all 1s;
 }
-.expanding{
+#demo .expanding{
   z-index:1;
 }
-.expanding-clone {
+#demo .expanding-clone {
   transition:opacity 200ms;
   opacity:0;
 }
@@ -181,13 +182,15 @@ a:hover {
   <pre><code>&lt;script src='expanding.js'&gt;&lt;/script&gt;
 &lt;textarea class='expanding'&gt;&lt;/textarea&gt;</code></pre>
 
+  <textarea class="expanding">Try typing here...</textarea>
+
   <p>Advanced usage details on the
     <a href="https://github.com/bgrins/ExpandingTextareas">GitHub page</a>
     (includes programmatic creation).</p>
 
   <h2>Styling</h2>
 
-  <p>You can style the textarea however you like (including <code>max-height</code>)
+  <p>You can style the textarea however you like (including <code>max-height</code>).
   This plugin has been tested in Chrome, Safari, Firefox, IE8, and mobile Safari.</p>
 
 
@@ -207,6 +210,7 @@ jQuery.fn.extend({typetype:function(e,n){var t,u;return u=jQuery.extend({keypres
     // initialisation stuff:
     $('a.button').click(function(){$('#demo').toggleClass('persp'); $('textarea').focus(); return false})
     $('#downarrow').click(function(){ introSeq.resolve() })
+    $('#demo textarea').val("")
 
     // intro before the narrative fades in.
     var introSeq = new $.Deferred()
@@ -218,8 +222,7 @@ jQuery.fn.extend({typetype:function(e,n){var t,u;return u=jQuery.extend({keypres
     })
 
     // start the ghost typing
-    $('textarea').
-      expanding().
+    $('#demo textarea').
       focus().
       delay(600).
       typetype("This is just a normal textarea...\n\n", {

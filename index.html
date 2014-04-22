@@ -24,18 +24,17 @@ textarea {
   transform-origin:0 -50%;
   transition:all 1s;
 }
-#demo .expanding, #demo .expanding-clone {
+#demo textarea.expanding, #demo pre.expanding-clone {
   font-size:250%;
   background:rgba(255,255,255,0.95);
   max-height:10.4em;
   -webkit-transition:all 1s;
   transition:all 1s;
 }
-#demo .expanding{
+#demo textarea.expanding{
   z-index:1;
 }
-#demo .expanding-clone {
-  transition:opacity 200ms;
+#demo pre.expanding-clone {
   opacity:0;
 }
 #demo.persp textarea {
@@ -52,20 +51,21 @@ textarea {
   transform:  rotateY(0deg);
   opacity:1;
 }
-#demo pre {
+#demo pre.expanding-clone {
   -webkit-transform:  rotateY(0deg) translateZ(-100px);
   transform:  rotateY(0deg) translateZ(-100px);
+  -webkit-transition: all 1s;
   transition: all 1s;
   visibility:visible !important;
 }
-#demo.persp pre {
+#demo.persp pre.expanding-clone {
   opacity:0.2;
   -webkit-transform:  rotateY(28deg) translateZ(-100px);
   transform:  rotateY(28deg) translateZ(-100px);
-  -webkit-transition: opacity 500ms;
+  -webkit-transition: all 1s;
   transition: all 1s;
 }
-#demo:hover pre {
+#demo:hover pre.expanding-clone {
   opacity:0;
   -webkit-transform:  rotateY(0deg) translateZ(-100px);
   transform:  rotateY(0deg) translateZ(-100px);
@@ -208,7 +208,11 @@ jQuery.fn.extend({typetype:function(e,n){var t,u;return u=jQuery.extend({keypres
 <script type='text/javascript'>
   $(function() {
     // initialisation stuff:
-    $('a.button').click(function(){$('#demo').toggleClass('persp'); $('textarea').focus(); return false})
+    $('a.button').click(function(){
+      $('#demo').toggleClass('persp');
+      $('#demo textarea').focus();
+      return false
+    })
     $('#downarrow').click(function(){ introSeq.resolve() })
     $('#demo textarea').val("")
 

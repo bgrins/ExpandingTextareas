@@ -25,42 +25,35 @@ If you'd like to change the initial selector to grab ALL textareas on load, you 
 
     $.fn.expanding.initialSelector = "textarea";
 
+## Callbacks
+
+### `update`
+
+    $("#element").expanding({
+        update: function() {
+          // Textarea has been updated, size may have changed.
+        }
+    });
+
+## Methods
+
 ### `destroy`
 
 Once attached, the expanding behaviour can be removed as follows:
 
-    $(".element").expanding('destroy');
+    $("#element").expanding('destroy');
 
 ### `active`
 
 To test whether a jQuery selection has expanding behaviour:
 
-    $(".element").expanding('active');
+    $("#element").expanding('active');
 
 Note: this behaves like `.hasClass()`: it will return `true` if _any_ of the nodes in the selection have expanding behaviour.
 
 ### Textareas outside the DOM
 
 The plugin creates a textarea clone with identical dimensions to that of the original. It therefore requires that the textarea be in place in the DOM for these dimensions to be correct. Calling `expanding()` on a textarea outside the DOM will have no effect.
-
-## How it works
-
-See the [original article](http://www.alistapart.com/articles/expanding-text-areas-made-elegant/) for a great explanation of how this technique works.
-
-The plugin will automatically find this textarea, and turn it into an expanding one.  The final (generated) markup will look something like this:
-
-    <div class="expanding-wrapper">
-      <textarea class="expanding"></textarea>
-      <pre class="expanding-clone"><div></div></pre>
-    </div>
-
-The way it works is that as the user types, the text content is copied into the div inside the pre (which is actually providing the height of the textarea).  So it could look like this:
-
-    <div class="expanding-wrapper">
-      <textarea class="expanding">Some Content\nWas Entered</textarea>
-      <pre class="expanding-clone"><div>Some Content
-      Was Entered</div></pre>
-    </div>
 
 ## Styling
 
@@ -88,7 +81,26 @@ See the [demo](http://bgrins.github.com/ExpandingTextareas/) to see the plugin i
 
 This has been checked in Chrome, Safari, Firefox, IE8, and mobile Safari and it works in all of them.
 
-## Running Tests
+## How it works
+
+See the [original article](http://www.alistapart.com/articles/expanding-text-areas-made-elegant/) for a great explanation of how this technique works.
+
+The plugin will automatically find this textarea, and turn it into an expanding one.  The final (generated) markup will look something like this:
+
+    <div class="expanding-wrapper">
+      <textarea class="expanding"></textarea>
+      <pre class="expanding-clone"><div></div></pre>
+    </div>
+
+The way it works is that as the user types, the text content is copied into the div inside the pre (which is actually providing the height of the textarea).  So it could look like this:
+
+    <div class="expanding-wrapper">
+      <textarea class="expanding">Some Content\nWas Entered</textarea>
+      <pre class="expanding-clone"><div>Some Content
+      Was Entered</div></pre>
+    </div>
+
+## Running Tests Locally
 
 **Browser**: open `test/index.html`
 
@@ -103,3 +115,5 @@ Followed by:
 ## Continuous Deployment
 
 View tests online at: https://travis-ci.org/bgrins/ExpandingTextareas.
+
+[![Build Status](https://travis-ci.org/bgrins/ExpandingTextareas.svg?branch=master)](https://travis-ci.org/bgrins/ExpandingTextareas)

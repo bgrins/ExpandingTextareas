@@ -8,10 +8,9 @@ Based off of work by [Neil Jenkins](http://nmjenkins.com/) that can be seen here
 
 Start with markup like this:
 
-    <!-- jQuery 1.9+ required for best performance -->
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src='PATH/TO/expanding.js'></script>
-    <textarea **class='expanding'**></textarea>
+    <textarea class='expanding'></textarea>
 
 *And that's it*.  The plugin finds textareas with the `expanding` class on page load and initializes them for you.  These textareas will automatically resize now as the user changes the value.
 
@@ -34,7 +33,7 @@ If you'd like to change the value by code and have it resize manually, you can d
 
 ## Options
 
-There aren't many options needed for this plugin.  If your textarea has certain attributes, the plugin will handle them gracefully.
+There aren't any options needed for this plugin.  If your textarea has certain attributes, the plugin will handle them gracefully.
 
 * `<textarea wrap=off></text>`: wrapping will not happen, but if a newline is entered the height will be updated.
 * `<textarea rows=10></text>`: The plugin respects the rows attribute, adjusting the clone's min height accordingly.
@@ -61,7 +60,7 @@ Once attached, the expanding behaviour can be removed as follows:
 
 To test whether a jQuery selection has expanding behaviour:
 
-    $("#element").expanding('active');
+    $("#element").expanding('active'); // -> boolean
 
 Note: this behaves like `.hasClass()`: it will return `true` if _any_ of the nodes in the selection have expanding behaviour.
 

@@ -4,26 +4,40 @@ Based off of work by [Neil Jenkins](http://nmjenkins.com/) that can be seen here
 
 ## Usage
 
+### Automatic
+
 Start with markup like this:
 
     <!-- jQuery 1.9+ required for best performance -->
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src='PATH/TO/expanding.js'></script>
-    <textarea class='expanding'></textarea>
+    <textarea **class='expanding'**></textarea>
 
-*And that's it*.  The plugin finds textareas with the 'expanding' class on page load and initializes them for you.  If you would prefer to initialize the textareas on your own, do something like this:
+*And that's it*.  The plugin finds textareas with the `expanding` class on page load and initializes them for you.  These textareas will automatically resize now as the user changes the value.
+
+If you'd like to change the initial selector to grab ALL textareas on load, you can change this property:
+
+    $.fn.expanding.initialSelector = "textarea";
+
+### Manual
+
+If you would prefer to initialize the textareas on your own, do something like this:
 
     <script type='text/javascript'>
         $("#element").expanding();
     </script>
 
-The textareas will automatically resize now as the user changes the value.  If you'd like to change the value by code and have it resize manually, you can do:
+If you'd like to change the value by code and have it resize manually, you can do:
 
     $('textarea').val('New\nValue!').change()
 
-If you'd like to change the initial selector to grab ALL textareas on load, you can change this property:
 
-    $.fn.expanding.initialSelector = "textarea";
+## Options
+
+There aren't many options needed for this plugin.  If your textarea has certain attributes, the plugin will handle them gracefully.
+
+* `<textarea wrap=off></text>`: wrapping will not happen, but if a newline is entered the height will be updated.
+* `<textarea rows=10></text>`: The plugin respects the rows attribute, adjusting the clone's min height accordingly.
 
 ## Callbacks
 

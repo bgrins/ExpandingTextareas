@@ -12,22 +12,21 @@ textarea {
   font-family:'Helvetica-Neue',Helvetica,sans-serif;
   padding:0.2em;
 }
+
 #demo {
   width:25em;
   margin:12em auto 9em auto;
+}
+#demo .expanding-wrapper {
   -webkit-perspective:1200px;
-  -webkit-transform-origin:0 -50%;
-  -webkit-transition:all 1s;
   perspective:1200px;
-  transform-origin:0 -50%;
+  -webkit-transition:all 1s;
   transition:all 1s;
 }
 #demo textarea.expanding, #demo pre.expanding-clone {
   font-size:250%;
   background:rgba(255,255,255,0.95);
   max-height:10.4em;
-  -webkit-transition:all 1s;
-  transition:all 1s;
 }
 #demo textarea.expanding{
   z-index:1;

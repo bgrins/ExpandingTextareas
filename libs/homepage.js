@@ -5,11 +5,6 @@ jQuery.fn.extend({typetype:function(e,n){var t,u;return u=jQuery.extend({keypres
 // home page
 $(function() {
   // initialisation stuff:
-  $('a.button').click(function(){
-    $('#demo').toggleClass('persp');
-    $('#demo textarea').focus();
-    return false
-  })
   $('#downarrow').click(function(){ introSeq.resolve() })
   $('#demo textarea').val("")
 

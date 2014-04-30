@@ -16,6 +16,8 @@ textarea {
 #demo {
   width:25em;
   margin:12em auto 9em auto;
+  -webkit-transition:all 1s;
+  transition:all 1s;
 }
 #demo .expanding-wrapper {
   -webkit-perspective:1200px;

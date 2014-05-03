@@ -224,6 +224,27 @@ test('Height does not increase once textarea max-height is reached', function(){
 })();
 
 // ===========
+// = Refresh =
+// ===========
+
+test('Refresh restyles the additional elements', function() {
+  var $clone = this.$textarea.siblings('pre'),
+      newFontSize = '35px';
+
+  // Ensure newFontSize is different from existing font size
+  notEqual(this.$textarea.css('font-size'), newFontSize);
+
+  this.$textarea.css({'font-size': newFontSize});
+  this.$textarea.expanding('refresh');
+
+  equal($clone.css('font-size'), this.$textarea.css('font-size'));
+});
+
+test('Refresh returns the jQuery object', 1, function() {
+  equal(this.$textarea.expanding('refresh'), this.$textarea);
+});
+
+// ===========
 // = Destroy =
 // ===========
 

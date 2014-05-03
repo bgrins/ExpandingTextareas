@@ -19,15 +19,12 @@
     this.$textCopy = $("<span />");
     this.$clone = $("<pre class='expanding-clone'><br /></pre>").prepend(this.$textCopy);
 
-    this._resetStyles();
-    this._setCloneStyles();
-    this._setTextareaStyles();
-
     $textarea
       .wrap($("<div class='expanding-wrapper' style='position:relative' />"))
       .after(this.$clone);
 
     this.attach();
+    this.setStyles();
     this.update();
     if (opts.update) $textarea.bind("update.expanding", opts.update);
   };
@@ -98,6 +95,12 @@
       if (index > -1) Expanding._registry.splice(index, 1);
       this.$textarea.unbind(
         'input.expanding change.expanding keyup.expanding update.expanding');
+    },
+
+    setStyles: function() {
+      this._resetStyles();
+      this._setCloneStyles();
+      this._setTextareaStyles();
     },
 
     // Applies reset styles to the textarea and clone
@@ -192,6 +195,15 @@
       return !!this.filter(function() {
         return !!Expanding.getExpandingInstance(this);
       }).length;
+    }
+
+    // Resets the styles on textarea and additional elements
+    if (o === "refresh") {
+      this.each(function() {
+        var instance = Expanding.getExpandingInstance(this);
+        if (instance) instance.setStyles();
+      });
+      return this;
     }
 
     var opts = $.extend({ }, $.expanding.opts, o);

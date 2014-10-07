@@ -1,0 +1,28 @@
+{
+  "name": "ExpandingTextareas",
+  "version": "0.1.2",
+  "homepage": "https://github.com/bgrins/ExpandingTextareas",
+  "authors": [
+    "Brian Grinstead <briangrinstead@gmail.com>"
+  ],
+  "description": "jQuery plugin for elegant expanding textareas",
+  "main": "expanding.js",
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
+  "dependencies": {
+    "jquery": ">=1.7.2"
+  },
+  "keywords": [
+    "jQuery",
+    "textarea"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "test",
+    "libs"
+  ]
+}

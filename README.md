@@ -16,7 +16,7 @@ Start with markup like this:
 
 If you'd like to change the initial selector to grab ALL textareas on load, you can change this property:
 
-    $.fn.expanding.initialSelector = "textarea";
+    $.expanding.initialSelector = "textarea";
 
 ### Manual
 

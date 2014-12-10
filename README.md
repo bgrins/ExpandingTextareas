@@ -33,7 +33,10 @@ If you'd like to change the value by code and have it resize manually, you can d
 
 ## Options
 
-There aren't any options needed for this plugin.  If your textarea has certain attributes, the plugin will handle them gracefully.
+### `delay`
+    Throttle the number for calls - mircoseconds.
+
+If your textarea has certain attributes, the plugin will handle them gracefully.
 
 * `<textarea wrap=off></text>`: wrapping will not happen, but if a newline is entered the height will be updated.
 * `<textarea rows=10></text>`: The plugin respects the rows attribute, adjusting the clone's min height accordingly.

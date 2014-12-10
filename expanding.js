@@ -17,6 +17,7 @@
 
     this.$textarea = $textarea;
     this.$textCopy = $("<span />");
+    this.delay = (parseInt(opts.delay, 10) || 100);
     this.$clone = $("<pre class='expanding-clone'><br /></pre>").prepend(this.$textCopy);
 
     $textarea
@@ -76,10 +77,19 @@
 
     // Updates the clone with the textarea value
     update: function() {
-      this.$textCopy.text(this.$textarea.val().replace(/\r\n/g, "\n"));
+      var _this = this;
+      if (!_this.expandingTimeout) {
+          console.log(_this.delay);
+          _this.expandingTimeout = setTimeout(function() {
+              _this.$textCopy.text(_this.$textarea.val().replace(/\r\n/g, "\n"));
 
-      // Use `triggerHandler` to prevent conflicts with `update` in Prototype.js
-      this.$textarea.triggerHandler("update.expanding");
+              // Use `triggerHandler` to prevent conflicts with `update` in Prototype.js
+              _this.$textarea.triggerHandler("update.expanding");
+
+              clearTimeout(_this.expandingTimeout);
+              _this.expandingTimeout = null;
+          }, _this.delay);
+      }
     },
 
     // Tears down the plugin: removes generated elements, applies styles
@@ -144,7 +154,7 @@
           'borderLeftWidth', 'borderRightWidth',
           'borderTopWidth','borderBottomWidth',
           'paddingLeft', 'paddingRight',
-          'paddingTop','paddingBottom', 'maxHeight'];
+          'paddingTop','paddingBottom', 'maxHeight', 'minHeight'];
 
       $.each(properties, function(i, property) {
         var val = _this.$textarea.css(property);

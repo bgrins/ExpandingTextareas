@@ -34,7 +34,7 @@ If you'd like to change the value by code and have it resize manually, you can d
 ## Options
 
 ### `delay`
-    Throttle the number for calls - mircoseconds.
+    Throttle the number of calls to once every so many mircoseconds.
 
 If your textarea has certain attributes, the plugin will handle them gracefully.
 

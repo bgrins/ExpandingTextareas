@@ -214,8 +214,8 @@
 
       if(visible && !initialized) new Expanding($(this), opts);
       else {
-        if(!visible) _warn("ExpandingTextareas: attempt to initialize an invisible textarea. Call expanding() again once it has been inserted into the page and/or is visible.");
-        if(initialized) _warn("ExpandingTextareas: attempt to initialize a textarea that has already been initialized. Subsequent calls are ignored.");
+        if(!visible) _warn('ExpandingTextareas: attempt to initialize an invisible textarea. ' +
+                           'Call expanding() again once it has been inserted into the page and/or is visible.');
       }
     });
     return this;

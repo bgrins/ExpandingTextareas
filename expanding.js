@@ -12,9 +12,10 @@
   }
 }(function ($) {
 
-  var Expanding = function($textarea, opts) {
-    Expanding._registry.push(this);
+  // Class Definition
+  // ================
 
+  var Expanding = function($textarea, opts) {
     this.$textarea = $textarea;
     this.$textCopy = $("<span />");
     this.$clone = $("<pre class='expanding-clone'><br /></pre>").prepend(this.$textCopy);
@@ -29,17 +30,12 @@
     if (opts.update) $textarea.bind("update.expanding", opts.update);
   };
 
-  // Stores (active) `Expanding` instances
-  // Destroyed instances are removed
-  Expanding._registry = [];
-
-  // Returns the `Expanding` instance given a DOM node
-  Expanding.getExpandingInstance = function(textarea) {
-    var $textareas = $.map(Expanding._registry, function(instance) {
-        return instance.$textarea[0];
-      }),
-      index = $.inArray(textarea, $textareas);
-    return index > -1 ? Expanding._registry[index] : null;
+  Expanding.DEFAULTS = {
+    autoInitialize: true,
+    initialSelector: "textarea.expanding",
+    opts: {
+      update: function() { }
+    }
   };
 
   // Returns the version of Internet Explorer or -1
@@ -83,18 +79,16 @@
     },
 
     // Tears down the plugin: removes generated elements, applies styles
-    // that were prevously present, removes instance from registry,
-    // unbinds events
+    // that were prevously present, removes instance from data, unbinds events
     destroy: function() {
       this.$clone.remove();
       this.$textarea
         .unwrap()
-        .attr('style', this._oldTextareaStyles || '');
+        .attr('style', this._oldTextareaStyles || '')
+        .removeData('expanding')
+        .unbind('input.expanding change.expanding keyup.expanding update.expanding');
+
       delete this._oldTextareaStyles;
-      var index = $.inArray(this, Expanding._registry);
-      if (index > -1) Expanding._registry.splice(index, 1);
-      this.$textarea.unbind(
-        'input.expanding change.expanding keyup.expanding update.expanding');
     },
 
     setStyles: function() {
@@ -171,55 +165,42 @@
     }
   };
 
-  $.expanding = $.extend({
-    autoInitialize: true,
-    initialSelector: "textarea.expanding",
-    opts: {
-      update: function() { }
-    }
-  }, $.expanding || {});
 
-  $.fn.expanding = function(o) {
+  // Plugin Definition
+  // =================
 
-    if (o === "destroy") {
-      this.each(function() {
-        var instance = Expanding.getExpandingInstance(this);
-        if (instance) instance.destroy();
-      });
-      return this;
-    }
+  function Plugin(option) {
+    if (option === 'active') { return !!this.data('expanding'); }
 
-    // Checks to see if any of the given DOM nodes have the
-    // expanding behaviour.
-    if (o === "active") {
-      return !!this.filter(function() {
-        return !!Expanding.getExpandingInstance(this);
-      }).length;
-    }
+    this.filter('textarea').each(function () {
+      var $this = $(this);
 
-    // Resets the styles on textarea and additional elements
-    if (o === "refresh") {
-      this.each(function() {
-        var instance = Expanding.getExpandingInstance(this);
-        if (instance) instance.setStyles();
-      });
-      return this;
-    }
+      var instance = $this.data('expanding');
 
-    var opts = $.extend({ }, $.expanding.opts, o);
+      if (instance && option === 'destroy') {
+        return instance.destroy();
+      }
 
-    this.filter("textarea").each(function() {
-      var visible = this.offsetWidth > 0 || this.offsetHeight > 0,
-          initialized = Expanding.getExpandingInstance(this);
+      if (instance && option === 'refresh') {
+        return instance.setStyles();
+      }
 
-      if(visible && !initialized) new Expanding($(this), opts);
-      else {
-        if(!visible) _warn('ExpandingTextareas: attempt to initialize an invisible textarea. ' +
-                           'Call expanding() again once it has been inserted into the page and/or is visible.');
+      var visible = this.offsetWidth > 0 || this.offsetHeight > 0;
+
+      if(!visible) _warn('ExpandingTextareas: attempt to initialize an invisible textarea. ' +
+                         'Call expanding() again once it has been inserted into the page and/or is visible.');
+
+      if (!instance && visible) {
+        var options = $.extend({}, Expanding.DEFAULTS, $.expanding, typeof option === 'object' && option);
+        $this.data('expanding', new Expanding($this, options));
       }
     });
     return this;
-  };
+  }
+
+  $.expanding = $.expanding || {};
+  $.fn.expanding = Plugin;
+  $.fn.expanding.Constructor = Expanding;
 
   function _warn(text) {
     if(window.console && console.warn) console.warn(text);

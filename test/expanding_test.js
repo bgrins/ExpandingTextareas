@@ -9,6 +9,10 @@ test('Returns the jQuery object', 1, function() {
   equal($textarea.expanding(), $textarea);
 });
 
+test('`data(\'expanding\')` returns an Expanding instance', 1, function() {
+  ok(this.$textarea.data('expanding') instanceof $.fn.expanding.Constructor);
+});
+
 // ========
 // = Init =
 // ========

@@ -15,7 +15,7 @@
   // Class Definition
   // ================
 
-  var Expanding = function($textarea, opts) {
+  var Expanding = function($textarea, options) {
     this.$textarea = $textarea;
     this.$textCopy = $("<span />");
     this.$clone = $("<pre class='expanding-clone'><br /></pre>").prepend(this.$textCopy);
@@ -27,15 +27,12 @@
     this.attach();
     this.setStyles();
     this.update();
-    if (opts.update) $textarea.bind("update.expanding", opts.update);
+    if (options.update) $textarea.bind("update.expanding", options.update);
   };
 
   Expanding.DEFAULTS = {
     autoInitialize: true,
-    initialSelector: "textarea.expanding",
-    opts: {
-      update: function() { }
-    }
+    initialSelector: "textarea.expanding"
   };
 
   // Returns the version of Internet Explorer or -1

@@ -38,6 +38,8 @@
     initialSelector: 'textarea.expanding'
   };
 
+  $.expanding = $.extend({}, Expanding.DEFAULTS, $.expanding || {});
+
   // Returns the version of Internet Explorer or -1
   // (indicating the use of another browser).
   // From: http://msdn.microsoft.com/en-us/library/ms537509(v=vs.85).aspx#ParsingUA
@@ -188,14 +190,13 @@
                           'Call expanding() again once it has been inserted into the page and/or is visible.');
 
       if (!instance && visible) {
-        var options = $.extend({}, Expanding.DEFAULTS, $.expanding, typeof option === 'object' && option);
+        var options = $.extend({}, $.expanding, typeof option === 'object' && option);
         $this.data('expanding', new Expanding($this, options));
       }
     });
     return this;
   }
 
-  $.expanding = $.expanding || {};
   $.fn.expanding = Plugin;
   $.fn.expanding.Constructor = Expanding;
 

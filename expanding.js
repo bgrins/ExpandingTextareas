@@ -2,12 +2,12 @@
 // MIT License
 // https://github.com/bgrins/ExpandingTextareas
 
-(function(factory) {
-  // Add jQuery via AMD registration or browser globals
+(function (factory) {
   if (typeof define === 'function' && define.amd) {
-    define([ 'jquery' ], factory);
-  }
-  else {
+    // AMD. Register as an anonymous module.
+    define(['jquery'], factory);
+  } else {
+    // Browser globals
     factory(jQuery);
   }
 }(function ($) {
@@ -15,34 +15,37 @@
   // Class Definition
   // ================
 
-  var Expanding = function($textarea, options) {
+  var Expanding = function ($textarea, options) {
     this.$textarea = $textarea;
-    this.$textCopy = $("<span />");
-    this.$clone = $("<pre class='expanding-clone'><br /></pre>").prepend(this.$textCopy);
+    this.$textCopy = $('<span />');
+    this.$clone = $('<pre class="expanding-clone"><br /></pre>').prepend(this.$textCopy);
 
     $textarea
-      .wrap($("<div class='expanding-wrapper' style='position:relative' />"))
+      .wrap($('<div class="expanding-wrapper" style="position:relative" />'))
       .after(this.$clone);
 
     this.attach();
     this.setStyles();
     this.update();
-    if (options.update) $textarea.bind("update.expanding", options.update);
+
+    if (typeof options.update === 'function') {
+      $textarea.bind('update.expanding', options.update);
+    }
   };
 
   Expanding.DEFAULTS = {
     autoInitialize: true,
-    initialSelector: "textarea.expanding"
+    initialSelector: 'textarea.expanding'
   };
 
   // Returns the version of Internet Explorer or -1
   // (indicating the use of another browser).
   // From: http://msdn.microsoft.com/en-us/library/ms537509(v=vs.85).aspx#ParsingUA
-  var ieVersion = (function() {
+  var ieVersion = (function () {
     var v = -1;
-    if (navigator.appName === "Microsoft Internet Explorer") {
+    if (navigator.appName === 'Microsoft Internet Explorer') {
       var ua = navigator.userAgent;
-      var re = new RegExp("MSIE ([0-9]{1,}[\\.0-9]{0,})");
+      var re = new RegExp('MSIE ([0-9]{1,}[\\.0-9]{0,})');
       if (re.exec(ua) !== null) v = parseFloat(RegExp.$1);
     }
     return v;
@@ -54,30 +57,30 @@
   // attached with `attachEvent`
   // (see: http://stackoverflow.com/questions/18436424/ie-onpropertychange-event-doesnt-fire),
   // and so is avoided altogether.
-  var inputSupported = "oninput" in document.createElement("input") && ieVersion !== 9;
+  var inputSupported = 'oninput' in document.createElement('input') && ieVersion !== 9;
 
   Expanding.prototype = {
 
     // Attaches input events
     // Only attaches `keyup` events if `input` is not fully suported
-    attach: function() {
+    attach: function () {
       var events = 'input.expanding change.expanding',
         _this = this;
-      if(!inputSupported) events += ' keyup.expanding';
-      this.$textarea.bind(events, function() { _this.update(); });
+      if (!inputSupported) events += ' keyup.expanding';
+      this.$textarea.bind(events, function () { _this.update(); });
     },
 
     // Updates the clone with the textarea value
-    update: function() {
-      this.$textCopy.text(this.$textarea.val().replace(/\r\n/g, "\n"));
+    update: function () {
+      this.$textCopy.text(this.$textarea.val().replace(/\r\n/g, '\n'));
 
       // Use `triggerHandler` to prevent conflicts with `update` in Prototype.js
-      this.$textarea.triggerHandler("update.expanding");
+      this.$textarea.triggerHandler('update.expanding');
     },
 
     // Tears down the plugin: removes generated elements, applies styles
     // that were prevously present, removes instance from data, unbinds events
-    destroy: function() {
+    destroy: function () {
       this.$clone.remove();
       this.$textarea
         .unwrap()
@@ -88,7 +91,7 @@
       delete this._oldTextareaStyles;
     },
 
-    setStyles: function() {
+    setStyles: function () {
       this._resetStyles();
       this._setCloneStyles();
       this._setTextareaStyles();
@@ -96,20 +99,20 @@
 
     // Applies reset styles to the textarea and clone
     // Stores the original textarea styles in case of destroying
-    _resetStyles: function() {
+    _resetStyles: function () {
       this._oldTextareaStyles = this.$textarea.attr('style');
 
       this.$textarea.add(this.$clone).css({
         margin: 0,
-        webkitBoxSizing: "border-box",
-        mozBoxSizing: "border-box",
-        boxSizing: "border-box",
-        width: "100%"
+        webkitBoxSizing: 'border-box',
+        mozBoxSizing: 'border-box',
+        boxSizing: 'border-box',
+        width: '100%'
       });
     },
 
     // Sets the basic clone styles and copies styles over from the textarea
-    _setCloneStyles: function() {
+    _setCloneStyles: function () {
       var css = {
         display: 'block',
         border: '0 solid',
@@ -117,14 +120,14 @@
         minHeight: this.$textarea.outerHeight()
       };
 
-      if(this.$textarea.attr("wrap") === "off") css.overflowX = "scroll";
-      else css.whiteSpace = "pre-wrap";
+      if (this.$textarea.attr('wrap') === 'off') css.overflowX = 'scroll';
+      else css.whiteSpace = 'pre-wrap';
 
       this.$clone.css(css);
       this._copyTextareaStylesToClone();
     },
 
-    _copyTextareaStylesToClone: function() {
+    _copyTextareaStylesToClone: function () {
       var _this = this,
         properties = [
           'lineHeight', 'textDecoration', 'letterSpacing',
@@ -133,31 +136,32 @@
           'direction', 'wordSpacing', 'fontSizeAdjust',
           'wordWrap', 'word-break',
           'borderLeftWidth', 'borderRightWidth',
-          'borderTopWidth','borderBottomWidth',
+          'borderTopWidth', 'borderBottomWidth',
           'paddingLeft', 'paddingRight',
-          'paddingTop','paddingBottom', 'maxHeight'];
+          'paddingTop', 'paddingBottom', 'maxHeight'
+        ];
 
-      $.each(properties, function(i, property) {
+      $.each(properties, function (i, property) {
         var val = _this.$textarea.css(property);
 
         // Prevent overriding percentage css values.
-        if(_this.$clone.css(property) !== val) {
+        if (_this.$clone.css(property) !== val) {
           _this.$clone.css(property, val);
-          if(property === 'maxHeight' && val !== 'none') {
+          if (property === 'maxHeight' && val !== 'none') {
             _this.$clone.css('overflow', 'hidden');
           }
         }
       });
     },
 
-    _setTextareaStyles: function() {
+    _setTextareaStyles: function () {
       this.$textarea.css({
-        position: "absolute",
+        position: 'absolute',
         top: 0,
         left: 0,
-        height: "100%",
-        resize: "none",
-        overflow: "auto"
+        height: '100%',
+        resize: 'none',
+        overflow: 'auto'
       });
     }
   };
@@ -167,25 +171,21 @@
   // =================
 
   function Plugin(option) {
-    if (option === 'active') { return !!this.data('expanding'); }
+    if (option === 'active') return !!this.data('expanding');
 
     this.filter('textarea').each(function () {
       var $this = $(this);
 
       var instance = $this.data('expanding');
 
-      if (instance && option === 'destroy') {
-        return instance.destroy();
-      }
+      if (instance && option === 'destroy') return instance.destroy();
 
-      if (instance && option === 'refresh') {
-        return instance.setStyles();
-      }
+      if (instance && option === 'refresh') return instance.setStyles();
 
       var visible = this.offsetWidth > 0 || this.offsetHeight > 0;
 
-      if(!visible) _warn('ExpandingTextareas: attempt to initialize an invisible textarea. ' +
-                         'Call expanding() again once it has been inserted into the page and/or is visible.');
+      if (!visible) _warn('ExpandingTextareas: attempt to initialize an invisible textarea. ' +
+                          'Call expanding() again once it has been inserted into the page and/or is visible.');
 
       if (!instance && visible) {
         var options = $.extend({}, Expanding.DEFAULTS, $.expanding, typeof option === 'object' && option);
@@ -200,7 +200,7 @@
   $.fn.expanding.Constructor = Expanding;
 
   function _warn(text) {
-    if(window.console && console.warn) console.warn(text);
+    if (window.console && console.warn) console.warn(text);
   }
 
   $(function () {

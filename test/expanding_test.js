@@ -1,15 +1,15 @@
 module('ExpandingTextareas', {
-  setup: function() {
+  setup: function () {
     this.$textarea = $('textarea.manual').expanding();
   }
 });
 
-test('Returns the jQuery object', 1, function() {
+test('Returns the jQuery object', 1, function () {
   var $textarea = $('<textarea />');
   equal($textarea.expanding(), $textarea);
 });
 
-test('`data(\'expanding\')` returns an Expanding instance', 1, function() {
+test('`data(\'expanding\')` returns an Expanding instance', 1, function () {
   ok(this.$textarea.data('expanding') instanceof $.fn.expanding.Constructor);
 });
 
@@ -17,13 +17,13 @@ test('`data(\'expanding\')` returns an Expanding instance', 1, function() {
 // = Init =
 // ========
 
-test('Ignores non-textarea elements', 1, function() {
+test('Ignores non-textarea elements', 1, function () {
   var $input = $('<input />').appendTo('#qunit-fixture').expanding();
   ok($input.parent().is('#qunit-fixture'),
     'Non-textarea element not wrapped');
 });
 
-test('Ignores invisible textareas and textareas outside the DOM', 2, function() {
+test('Ignores invisible textareas and textareas outside the DOM', 2, function () {
   var $outside = $('<textarea />').expanding(),
       $invisible = $('<textarea />').css('display', 'none').expanding();
 
@@ -31,18 +31,18 @@ test('Ignores invisible textareas and textareas outside the DOM', 2, function() 
   equal($invisible.parents().length, 0, 'Invisible textarea not wrapped');
 });
 
-test('Prevents initializing more than once', 1, function() {
+test('Prevents initializing more than once', 1, function () {
   this.$textarea.expanding();
   equal(this.$textarea.parents('div.expanding-wrapper').length, 1,
     'Textarea has a single `div.expanding-wrapper` parent when `expanding()` called twice');
 });
 
-test('Wraps the textarea', function() {
+test('Wraps the textarea', function () {
   ok(this.$textarea.parent().is('div.expanding-wrapper'),
     'Textarea wrapped in `div.expanding-wrapper`');
 });
 
-test('Creates a textarea clone', 4, function() {
+test('Creates a textarea clone', 4, function () {
   var $pre = this.$textarea.siblings('pre');
   equal($pre.length, 1, 'Textarea has a `pre` sibling (clone)');
   ok($pre.hasClass('expanding-clone'), 'Clone has `expanding-clone` class');
@@ -50,17 +50,17 @@ test('Creates a textarea clone', 4, function() {
   equal($pre.find('br').length, 1, 'Textarea clone contains a br');
 });
 
-test('Sets the clone’s initial text value', function() {
+test('Sets the clone’s initial text value', function () {
   equal(this.$textarea.siblings('pre').text(), this.$textarea.val());
 });
 
-test('Sets the clone CSS `visibility` property', 1, function() {
+test('Sets the clone CSS `visibility` property', 1, function () {
   var $pre = this.$textarea.siblings('pre');
   equal($pre.css('visibility'), 'hidden',
     'Clone CSS `visibility` property set to `hidden`');
 });
 
-test('Copies the textarea CSS on to the clone', function() {
+test('Copies the textarea CSS on to the clone', function () {
   var _this = this,
       $pre = this.$textarea.siblings('pre');
 
@@ -71,20 +71,21 @@ test('Copies the textarea CSS on to the clone', function() {
     'direction', 'wordSpacing', 'fontSizeAdjust',
     'wordWrap', 'word-break',
     'borderLeftWidth', 'borderRightWidth',
-    'borderTopWidth','borderBottomWidth',
+    'borderTopWidth', 'borderBottomWidth',
     'paddingLeft', 'paddingRight',
-    'paddingTop','paddingBottom',
+    'paddingTop', 'paddingBottom',
     'marginLeft', 'marginRight',
-    'marginTop','marginBottom',
-    'boxSizing', 'webkitBoxSizing', 'mozBoxSizing', 'msBoxSizing'];
+    'marginTop', 'marginBottom',
+    'boxSizing', 'webkitBoxSizing', 'mozBoxSizing', 'msBoxSizing'
+  ];
 
-  $.each(properties, function(i, property) {
+  $.each(properties, function (i, property) {
     equal($pre.css(property), _this.$textarea.css(property),
       'Clone CSS `' + property + '` property equal to that of the textarea');
   });
 });
 
-test('Ensures the clone is at least as tall as the textarea', 1, function() {
+test('Ensures the clone is at least as tall as the textarea', 1, function () {
   var $textarea = $('<textarea rows="10" />').appendTo('#qunit-fixture'),
       expected = $textarea.outerHeight(); // cache textarea height
   $textarea.expanding();
@@ -92,30 +93,30 @@ test('Ensures the clone is at least as tall as the textarea', 1, function() {
     'Textarea wrapper CSS `min-height` set to textarea outer height');
 });
 
-test('Sets clone CSS `white-space` property when `textarea[wrap]` is not "off"', 2, function() {
+test('Sets clone CSS `white-space` property when `textarea[wrap]` is not "off"', 2, function () {
   ok(this.$textarea.attr('wrap') !== 'off');
   equal(this.$textarea.siblings('pre').css('white-space'), 'pre-wrap',
     'Clone CSS `white-space` property set to `pre-wrap`');
 });
 
-test('Sets the clone CSS `overflow-x` property when `textarea[wrap=off]`', 1, function() {
+test('Sets the clone CSS `overflow-x` property when `textarea[wrap=off]`', 1, function () {
   var $textarea = $('<textarea wrap="off" />').appendTo('#qunit-fixture').expanding(),
       $pre = $textarea.siblings('pre');
   equal($pre.css('overflow-x'), 'scroll',
     'Clone CSS `overflow-x` property to `scroll`');
 });
 
-test('Clone occupies the same coordinates as the textarea', function() {
+test('Clone occupies the same coordinates as the textarea', function () {
   deepEqual(this.$textarea.offset(), this.$textarea.siblings('pre').offset());
 });
 
-test('Clone dimensions match those of the textarea', 2, function() {
+test('Clone dimensions match those of the textarea', 2, function () {
   var $clone = this.$textarea.siblings('pre');
   equal(this.$textarea.outerHeight(true), $clone.outerHeight(true));
   equal(this.$textarea.outerWidth(true), $clone.outerWidth(true));
 });
 
-test('Sets the textarea CSS', 4, function() {
+test('Sets the textarea CSS', 4, function () {
   var style = this.$textarea[0].style;
   equal(style.position, 'absolute',
     'Textarea CSS `position` property set to `absolute`');
@@ -127,13 +128,13 @@ test('Sets the textarea CSS', 4, function() {
     'Textarea CSS `overflow` property set to `auto`');
 });
 
-test('Sets the textarea wrapper CSS', 1, function() {
+test('Sets the textarea wrapper CSS', 1, function () {
   var $wrapper = this.$textarea.parent();
   equal($wrapper.css('position'), 'relative',
     'Textarea wrapper CSS `position` set to `relative`');
 });
 
-test('Textarea maintains its coordinates after expanding init', function() {
+test('Textarea maintains its coordinates after expanding init', function () {
   var $textarea = $('<textarea style="margin: 0" />').appendTo('#qunit-fixture'),
       expected = $textarea.offset();
   $textarea.expanding();
@@ -145,14 +146,14 @@ test('Textarea maintains its coordinates after expanding init', function() {
 // = Update =
 // ==========
 
-test('Updates the clone text on input', 1, function() {
+test('Updates the clone text on input', 1, function () {
   var text = 'Hello world!';
   this.$textarea.val(text).trigger('input');
   equal(this.$textarea.siblings('pre').find('span').text(), text,
     'Clone’s `span` element updated with the textarea’s value');
 });
 
-test('Clone and wrapper grow with textarea when long text inserted', 4, function() {
+test('Clone and wrapper grow with textarea when long text inserted', 4, function () {
   var $clone = this.$textarea.siblings('pre'),
       $wrapper = this.$textarea.parent(),
       longText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
@@ -166,7 +167,7 @@ test('Clone and wrapper grow with textarea when long text inserted', 4, function
   equal(this.$textarea.outerWidth(true), $wrapper.outerWidth());
 });
 
-test('Height does not increase once textarea max-height is reached', function(){
+test('Height does not increase once textarea max-height is reached', function () {
   var maxHeight = 50,
       text = 'Hello world!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n',
       $textarea = $('<textarea />').appendTo('#qunit-fixture');
@@ -183,22 +184,22 @@ test('Height does not increase once textarea max-height is reached', function(){
 // = Callback =
 // ============
 
-(function() {
+(function () {
   // Returns the version of Internet Explorer or -1
-  var ieVersion = (function() {
+  var ieVersion = (function () {
     var v = -1;
-    if (navigator.appName === "Microsoft Internet Explorer") {
+    if (navigator.appName === 'Microsoft Internet Explorer') {
       var ua = navigator.userAgent;
-      var re = new RegExp("MSIE ([0-9]{1,}[\\.0-9]{0,})");
+      var re = new RegExp('MSIE ([0-9]{1,}[\\.0-9]{0,})');
       if (re.exec(ua) !== null) v = parseFloat(RegExp.$1);
     }
     return v;
   })();
 
-  var inputSupported = "oninput" in document.createElement("input") && ieVersion !== 9;
+  var inputSupported = 'oninput' in document.createElement('input') && ieVersion !== 9;
 
-  if(inputSupported) {
-    test('Invokes `options.update` callback called once on keypress', 1, function() {
+  if (inputSupported) {
+    test('Invokes `options.update` callback called once on keypress', 1, function () {
       var $textarea = $('<textarea />').appendTo('#qunit-fixture').expanding({
         update: function callback() {
           ok(true, '`options.update` callback called');
@@ -212,7 +213,7 @@ test('Height does not increase once textarea max-height is reached', function(){
     });
   }
   else {
-    test('Invokes `options.update` callback called once on keyup', 1, function() {
+    test('Invokes `options.update` callback called once on keyup', 1, function () {
       var $textarea = $('<textarea />').appendTo('#qunit-fixture').expanding({
         update: function callback() {
           ok(true, '`options.update` callback called');
@@ -231,7 +232,7 @@ test('Height does not increase once textarea max-height is reached', function(){
 // = Refresh =
 // ===========
 
-test('Refresh restyles the additional elements', function() {
+test('Refresh restyles the additional elements', function () {
   var $clone = this.$textarea.siblings('pre'),
       newFontSize = '35px';
 
@@ -244,7 +245,7 @@ test('Refresh restyles the additional elements', function() {
   equal($clone.css('font-size'), this.$textarea.css('font-size'));
 });
 
-test('Refresh returns the jQuery object', 1, function() {
+test('Refresh returns the jQuery object', 1, function () {
   equal(this.$textarea.expanding('refresh'), this.$textarea);
 });
 
@@ -252,9 +253,9 @@ test('Refresh returns the jQuery object', 1, function() {
 // = Destroy =
 // ===========
 
-test('Destroy resets the textarea attributes', 2, function() {
+test('Destroy resets the textarea attributes', 2, function () {
   var height = '100px',
-      $textarea = $('<textarea style="height: '+ height +'" />')
+      $textarea = $('<textarea style="height: ' + height + '" />')
         .appendTo('#qunit-fixture').expanding();
 
   // Prevent false positives
@@ -266,37 +267,38 @@ test('Destroy resets the textarea attributes', 2, function() {
     'Textarea’s CSS `height` property reset to ' + height + ' on destroy');
 });
 
-test('Destroy removes the clone', 1, function() {
+test('Destroy removes the clone', 1, function () {
   this.$textarea.expanding('destroy');
   ok(!this.$textarea.siblings('pre').length,
     'Clone removed');
 });
 
-test('Destroy removes the textarea wrapper', 1, function() {
+test('Destroy removes the textarea wrapper', 1, function () {
   this.$textarea.expanding('destroy');
   ok(!this.$textarea.parent().hasClass('expanding-wrapper'),
     'Textarea wrapper removed');
 });
 
-test('Destroy unbinds events', function() {
+test('Destroy unbinds events', function () {
   this.$textarea.expanding('destroy');
-  ok(!$._data( this.$textarea[0], 'events'),
+  ok(!$._data(this.$textarea[0], 'events'),
     'Textarea events unbound');
 });
 
-test('Destroy called on an uninitialized node', function() {
+test('Destroy called on an uninitialized node', function () {
   $('<textarea />').expanding('destroy');
-  ok(true, 'Calling destroy on an uninitialized jQuery object should not raise an exception');
+  ok(true,
+    'Calling destroy on an uninitialized jQuery object should not raise an exception');
 });
 
-// ===============
+// ==========
 // = Active =
-// ===============
+// ==========
 
-test('active returns true when expanding initialized', function() {
+test('active returns true when expanding initialized', function () {
   equal(this.$textarea.expanding('active'), true);
 });
 
-test('active returns false when expanding is not initialized', function() {
+test('active returns false when expanding is not initialized', function () {
   equal($('<textarea />').expanding('active'), false);
 });

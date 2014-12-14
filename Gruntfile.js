@@ -1,20 +1,20 @@
 module.exports = function (grunt) {
-	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-qunit');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-qunit');
 
-	grunt.initConfig({
-		jshint: {
-			all: ['*.js', 'test/*.js'],
+  grunt.initConfig({
+    jshint: {
+      all: ['*.js', 'test/*.js'],
 
-			options: {
-				jshintrc: true
-			}
-		},
-		qunit: {
-			all: ['test/index.html']
-		}
-	});
+      options: {
+        jshintrc: true
+      }
+    },
+    qunit: {
+      all: ['test/index.html']
+    }
+  });
 
-	grunt.registerTask('test', ['jshint', 'qunit']);
-	grunt.registerTask('default', ['test']);
+  grunt.registerTask('test', ['jshint', 'qunit']);
+  grunt.registerTask('default', ['test']);
 };

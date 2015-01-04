@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Expanding Textarea Document Ready Test</title>
+  <link rel="stylesheet" href="../libs/qunit.css">
+</head>
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture">
+    <textarea class="expanding">My textarea</textarea>
+  </div>
+  <script src="../libs/jquery-1.11.0.js"></script>
+  <script src="../libs/qunit.js"></script>
+
+  <script src="../expanding.js"></script>
+  <script>
+  test('textareas with the `expanding` class are initialized on document ready', 1, function () {
+    ok($('.expanding').expanding('active'));
+  });
+  </script>
+</body>
+</html>

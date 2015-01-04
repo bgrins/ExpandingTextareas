@@ -13,6 +13,18 @@ test('`data(\'expanding\')` returns an Expanding instance', 1, function () {
   ok(this.$textarea.data('expanding') instanceof $.fn.expanding.Constructor);
 });
 
+// ============
+// = Defaults =
+// ============
+
+test('Auto-initialize option', 1, function () {
+  ok($.expanding.autoInitialize);
+});
+
+test('Initial selector option', 1, function () {
+  equal($.expanding.initialSelector, 'textarea.expanding');
+});
+
 // ========
 // = Init =
 // ========

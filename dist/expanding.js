@@ -181,6 +181,7 @@ TextareaClone.prototype = {
 // ================
 
 var Expanding = function (textarea) {
+  var _this = this;
   this.textarea = new Textarea(textarea);
   this.textareaClone = new TextareaClone();
   this.textarea.oldStyleAttribute = textarea.getAttribute('style');
@@ -196,7 +197,12 @@ var Expanding = function (textarea) {
   this.wrapper.appendChild(textarea);
   this.wrapper.appendChild(this.textareaClone.element);
 
-  this.attach();
+  function inputHandler () {
+    _this.update.apply(_this, arguments);
+  }
+  this.textarea.on(inputEvent, inputHandler);
+  this.textarea.on('change', inputHandler);
+
   this.update();
 };
 
@@ -208,26 +214,14 @@ Expanding.DEFAULTS = {
 $.expanding = $.extend({}, Expanding.DEFAULTS, $.expanding || {});
 
 Expanding.prototype = {
-
-  // Attaches input events
-  attach: function () {
-    var _this = this;
-    var events = [inputEvent, 'change'];
-    function handler () { _this.update(); }
-
-    for (var i = 0; i < events.length; i++) {
-      this.textarea.on(events[i], handler);
-    }
-  },
-
-  refresh: function () {
-    setStyles.call(this);
-  },
-
   // Updates the clone with the textarea value
   update: function () {
     this.textareaClone.value(this.textarea.value());
     dispatch('expanding:update', { target: this.textarea.element });
+  },
+
+  refresh: function () {
+    setStyles.call(this);
   },
 
   // Tears down the plugin: removes generated elements, applies styles

@@ -12,7 +12,7 @@
   "eqnull": true,
   "indent": 2,
   "jquery": true,
-  "latedef": true,
+  "latedef": false,
   "node": true,
   "quotmark": "single",
   "undef": true,

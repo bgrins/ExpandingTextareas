@@ -18,15 +18,17 @@
     "name": "Brian Grinstead",
     "web": "http://briangrinstead.com/"
   },
-  "main": "./expanding.js",
+  "main": "dist/expanding.js",
   "scripts": {
+    "build": "rollup -c",
     "test": "grunt test"
   },
   "dependencies": {},
   "devDependencies": {
-    "qunit": "~0.5.15",
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-qunit": "~0.2.1",
-    "qunitjs": "~1.11.0"
+    "qunit": "~0.5.15",
+    "qunitjs": "~1.11.0",
+    "rollup": "^0.34.11"
   }
 }

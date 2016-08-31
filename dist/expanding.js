@@ -1,3 +1,9 @@
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global.Expanding = factory());
+}(this, (function () { 'use strict';
+
 // Expanding Textareas v0.2.0
 // MIT License
 // https://github.com/bgrins/ExpandingTextareas
@@ -230,4 +236,6 @@ $(function () {
   }
 });
 
-export default Expanding;
+return Expanding;
+
+})));

@@ -206,13 +206,6 @@ function Expanding (textarea) {
   this.update();
 }
 
-Expanding.DEFAULTS = {
-  autoInitialize: true,
-  initialSelector: 'textarea.expanding'
-};
-
-$.expanding = $.extend({}, Expanding.DEFAULTS, $.expanding || {});
-
 Expanding.prototype = {
   // Updates the clone with the textarea value
   update: function () {
@@ -293,13 +286,17 @@ function Plugin(option) {
   return this;
 }
 
+var defaults = {
+  autoInitialize: true,
+  initialSelector: 'textarea.expanding'
+};
+$.expanding = $.extend({}, defaults, $.expanding || {});
+
 $.fn.expanding = Plugin;
 $.fn.expanding.Constructor = Expanding;
 
 $(function () {
-  if ($.expanding.autoInitialize) {
-    $($.expanding.initialSelector).expanding();
-  }
+  if ($.expanding.autoInitialize) $($.expanding.initialSelector).expanding();
 });
 
 return Expanding;

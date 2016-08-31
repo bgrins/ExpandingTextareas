@@ -14,7 +14,7 @@ var Expanding = function (textarea) {
   this.textareaClone = new TextareaClone();
   this.textarea.oldStyleAttribute = textarea.getAttribute('style');
   resetStyles.call(this);
-  this.setStyles();
+  setStyles.call(this);
 
   this.wrapper = document.createElement('div');
   this.wrapper.className = 'expanding-wrapper';
@@ -49,9 +49,8 @@ Expanding.prototype = {
     }
   },
 
-  setStyles: function () {
-    this.textareaClone.style(this.textareaClone.styles(this.textarea.element));
-    this.textarea.style(this.textarea.styles());
+  refresh: function () {
+    setStyles.call(this);
   },
 
   // Updates the clone with the textarea value
@@ -86,6 +85,11 @@ function resetStyles () {
   this.textarea.style(styles);
 }
 
+function setStyles () {
+  this.textareaClone.style(this.textareaClone.styles(this.textarea.element));
+  this.textarea.style(this.textarea.styles());
+}
+
 // Plugin Definition
 // =================
 
@@ -102,7 +106,7 @@ function Plugin(option) {
       return instance.destroy();
     }
 
-    if (instance && option === 'refresh') return instance.setStyles();
+    if (instance && option === 'refresh') return instance.refresh();
 
     var visible = this.offsetWidth > 0 || this.offsetHeight > 0;
 

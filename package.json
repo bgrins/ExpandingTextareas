@@ -21,11 +21,12 @@
   "main": "dist/expanding.js",
   "scripts": {
     "build": "rollup -c",
-    "test": "npm run build && node-qunit-phantomjs ./test/index.html"
+    "test": "npm run build && standard src/*.js && node-qunit-phantomjs ./test/index.html"
   },
   "dependencies": {},
   "devDependencies": {
     "node-qunit-phantomjs": "^1.4.0",
-    "rollup": "^0.34.11"
+    "rollup": "^0.34.11",
+    "standard": "^8.0.0"
   }
 }

@@ -1,5 +1,6 @@
-import { inputEvent, style, dispatch, warn } from './src/helpers';
+import { inputEvent, dispatch, warn } from './src/helpers';
 import Textarea from './src/textarea';
+import TextareaClone from './src/textarea-clone';
 
 // Expanding Textareas v0.2.0
 // MIT License
@@ -10,11 +11,9 @@ import Textarea from './src/textarea';
 
 var Expanding = function (textarea) {
   this.textarea = new Textarea(textarea);
-  this.textCopy = document.createElement('span');
-  this.clone = document.createElement('pre');
-  this.clone.className = 'expanding-clone';
-  this.clone.appendChild(this.textCopy);
-  this.clone.appendChild(document.createElement('br'));
+  this.textareaClone = new TextareaClone();
+  this.textarea.oldStyleAttribute = textarea.getAttribute('style');
+
   this.wrapper = document.createElement('div');
   this.wrapper.className = 'expanding-wrapper';
   this.wrapper.style.position = 'relative';
@@ -22,9 +21,7 @@ var Expanding = function (textarea) {
   // Wrap
   textarea.parentNode.insertBefore(this.wrapper, textarea);
   this.wrapper.appendChild(textarea);
-  this.wrapper.appendChild(this.clone);
-
-  this.textarea.oldStyleAttribute = textarea.getAttribute('style');
+  this.wrapper.appendChild(this.textareaClone.element);
 
   this.attach();
   this.setStyles();
@@ -53,14 +50,14 @@ Expanding.prototype = {
 
   // Updates the clone with the textarea value
   update: function () {
-    this.textCopy.textContent = this.textarea.value();
+    this.textareaClone.value(this.textarea.value());
     dispatch('expanding:update', { target: this.textarea.element });
   },
 
   // Tears down the plugin: removes generated elements, applies styles
   // that were prevously present, removes instance from data, unbinds events
   destroy: function () {
-    this.wrapper.removeChild(this.clone);
+    this.wrapper.removeChild(this.textareaClone.element);
     this.wrapper.parentNode.insertBefore(this.textarea.element, this.wrapper);
     this.wrapper.parentNode.removeChild(this.wrapper);
     this.textarea.destroy();
@@ -75,63 +72,24 @@ Expanding.prototype = {
   // Applies reset styles to the textarea and clone
   // Stores the original textarea styles in case of destroying
   _resetStyles: function () {
-    var elements = [this.textarea.element, this.clone];
-    for (var i = 0; i < elements.length; i++) {
-      style(elements[i], {
-        margin: 0,
-        webkitBoxSizing: 'border-box',
-        mozBoxSizing: 'border-box',
-        boxSizing: 'border-box',
-        width: '100%'
-      });
-    }
+    var resetStyles = {
+      margin: 0,
+      webkitBoxSizing: 'border-box',
+      mozBoxSizing: 'border-box',
+      boxSizing: 'border-box',
+      width: '100%'
+    };
+    // Should only be called once i.e. on initialization
+    this.textareaClone.style({
+      minHeight: this.textarea.element.offsetHeight + 'px'
+    });
+    this.textareaClone.style(resetStyles);
+    this.textarea.style(resetStyles);
   },
 
   // Sets the basic clone styles and copies styles over from the textarea
   _setCloneStyles: function () {
-    var css = {
-      display: 'block',
-      border: '0 solid',
-      visibility: 'hidden',
-      minHeight: this.textarea.element.offsetHeight + 'px'
-    };
-
-    if (this.textarea.element.getAttribute('wrap') === 'off') {
-      css.overflowX = 'scroll';
-    } else css.whiteSpace = 'pre-wrap';
-
-    style(this.clone, css);
-    this._copyTextareaStylesToClone();
-  },
-
-  _copyTextareaStylesToClone: function () {
-    var properties = [
-      'lineHeight', 'textDecoration', 'letterSpacing',
-      'fontSize', 'fontFamily', 'fontStyle',
-      'fontWeight', 'textTransform', 'textAlign',
-      'direction', 'wordSpacing', 'fontSizeAdjust',
-      'wordWrap', 'word-break',
-      'borderLeftWidth', 'borderRightWidth',
-      'borderTopWidth', 'borderBottomWidth',
-      'paddingLeft', 'paddingRight',
-      'paddingTop', 'paddingBottom', 'maxHeight'
-    ];
-    var computedTextareaStyles = window.getComputedStyle(this.textarea.element);
-    var computedCloneStyles = window.getComputedStyle(this.clone);
-
-    for (var i = 0; i < properties.length; i++) {
-      var property = properties[i];
-      var computedTextareaStyle = computedTextareaStyles[property];
-      var computedCloneStyle = computedCloneStyles[property];
-
-      // Prevent overriding percentage css values.
-      if (computedCloneStyle !== computedTextareaStyle) {
-        this.clone.style[property] = computedTextareaStyle;
-        if (property === 'maxHeight' && computedTextareaStyle !== 'none') {
-          this.clone.style.overflow = 'hidden';
-        }
-      }
-    }
+    this.textareaClone.style(this.textareaClone.styles(this.textarea.element));
   },
 
   _setTextareaStyles: function () {

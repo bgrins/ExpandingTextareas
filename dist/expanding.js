@@ -4,18 +4,19 @@
   (global.Expanding = factory());
 }(this, (function () { 'use strict';
 
+var userAgent = window.navigator.userAgent
+
 // Returns the version of Internet Explorer or -1
 // (indicating the use of another browser).
 // From: http://msdn.microsoft.com/en-us/library/ms537509(v=vs.85).aspx#ParsingUA
 var ieVersion = (function () {
-  var v = -1;
-  if (navigator.appName === 'Microsoft Internet Explorer') {
-    var ua = navigator.userAgent;
-    var re = new RegExp('MSIE ([0-9]{1,}[\\.0-9]{0,})');
-    if (re.exec(ua) !== null) v = parseFloat(RegExp.$1);
+  var version = -1
+  if (window.navigator.appName === 'Microsoft Internet Explorer') {
+    var regExp = new RegExp('MSIE ([0-9]{1,}[\\.0-9]{0,})')
+    if (regExp.exec(userAgent) !== null) version = parseFloat(RegExp.$1)
   }
-  return v;
-})();
+  return version
+})()
 
 // Check for oninput support
 // IE9 supports oninput, but not when deleting text, so keyup is used.
@@ -23,11 +24,13 @@ var ieVersion = (function () {
 // attached with `attachEvent`
 // (see: http://stackoverflow.com/questions/18436424/ie-onpropertychange-event-doesnt-fire),
 // and so is avoided altogether.
-var inputSupported = (
+var inputEventSupported = (
   'oninput' in document.createElement('input') && ieVersion !== 9
-);
+)
 
-var inputEvent = inputSupported ? 'input' : 'keyup';
+var inputEvent = inputEventSupported ? 'input' : 'keyup'
+
+var isIosDevice = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream
 
 function style (element, styles) {
   for (var property in styles) element.style[property] = styles[property];
@@ -98,6 +101,78 @@ Textarea.prototype = {
   }
 }
 
+var styleProperties = {
+  borderBottomWidth: null,
+  borderLeftWidth: null,
+  borderRightWidth: null,
+  borderTopWidth: null,
+  direction: null,
+  fontFamily: null,
+  fontSize: null,
+  fontSizeAdjust: null,
+  fontStyle: null,
+  fontWeight: null,
+  letterSpacing: null,
+  lineHeight: null,
+  maxHeight: null,
+  paddingBottom: null,
+  paddingLeft: paddingHorizontal,
+  paddingRight: paddingHorizontal,
+  paddingTop: null,
+  textAlign: null,
+  textDecoration: null,
+  textTransform: null,
+  wordBreak: null,
+  wordSpacing: null,
+  wordWrap: null
+}
+
+function paddingHorizontal (computedStyle) {
+  return isIosDevice ? (parseFloat(computedStyle) + 3) + 'px' : computedStyle
+}
+
+function TextareaClone () {
+  this.element = document.createElement('pre')
+  this.element.className = 'expanding-clone'
+  this.innerElement = document.createElement('span')
+  this.element.appendChild(this.innerElement)
+  this.element.appendChild(document.createElement('br'))
+}
+
+TextareaClone.prototype = {
+  value: function (value) {
+    if (arguments.length === 0) return this.innerElement.textContent
+    else this.innerElement.textContent = value
+  },
+
+  style: function (styles) {
+    style(this.element, styles)
+  },
+
+  styles: function (textarea) {
+    var wrap = textarea.getAttribute('wrap')
+    var styles = {
+      display: 'block',
+      border: '0 solid',
+      visibility: 'hidden',
+      overflowX: wrap === 'off' ? 'scroll' : 'hidden',
+      whiteSpace: wrap === 'off' ? 'pre' : 'pre-wrap'
+    }
+
+    var computedStyles = window.getComputedStyle(textarea)
+
+    for (var property in styleProperties) {
+      var valueFunction = styleProperties[property]
+      var computedStyle = computedStyles[property]
+      styles[property] = (
+        valueFunction ? valueFunction(computedStyle) : computedStyle
+      )
+    }
+
+    return styles
+  }
+}
+
 // Expanding Textareas v0.2.0
 // MIT License
 // https://github.com/bgrins/ExpandingTextareas
@@ -107,11 +182,9 @@ Textarea.prototype = {
 
 var Expanding = function (textarea) {
   this.textarea = new Textarea(textarea);
-  this.textCopy = document.createElement('span');
-  this.clone = document.createElement('pre');
-  this.clone.className = 'expanding-clone';
-  this.clone.appendChild(this.textCopy);
-  this.clone.appendChild(document.createElement('br'));
+  this.textareaClone = new TextareaClone();
+  this.textarea.oldStyleAttribute = textarea.getAttribute('style');
+
   this.wrapper = document.createElement('div');
   this.wrapper.className = 'expanding-wrapper';
   this.wrapper.style.position = 'relative';
@@ -119,9 +192,7 @@ var Expanding = function (textarea) {
   // Wrap
   textarea.parentNode.insertBefore(this.wrapper, textarea);
   this.wrapper.appendChild(textarea);
-  this.wrapper.appendChild(this.clone);
-
-  this.textarea.oldStyleAttribute = textarea.getAttribute('style')
+  this.wrapper.appendChild(this.textareaClone.element);
 
   this.attach();
   this.setStyles();
@@ -150,14 +221,14 @@ Expanding.prototype = {
 
   // Updates the clone with the textarea value
   update: function () {
-    this.textCopy.textContent = this.textarea.value();
+    this.textareaClone.value(this.textarea.value());
     dispatch('expanding:update', { target: this.textarea.element });
   },
 
   // Tears down the plugin: removes generated elements, applies styles
   // that were prevously present, removes instance from data, unbinds events
   destroy: function () {
-    this.wrapper.removeChild(this.clone);
+    this.wrapper.removeChild(this.textareaClone.element);
     this.wrapper.parentNode.insertBefore(this.textarea.element, this.wrapper);
     this.wrapper.parentNode.removeChild(this.wrapper);
     this.textarea.destroy();
@@ -172,63 +243,24 @@ Expanding.prototype = {
   // Applies reset styles to the textarea and clone
   // Stores the original textarea styles in case of destroying
   _resetStyles: function () {
-    var elements = [this.textarea.element, this.clone];
-    for (var i = 0; i < elements.length; i++) {
-      style(elements[i], {
-        margin: 0,
-        webkitBoxSizing: 'border-box',
-        mozBoxSizing: 'border-box',
-        boxSizing: 'border-box',
-        width: '100%'
-      });
-    }
+    var resetStyles = {
+      margin: 0,
+      webkitBoxSizing: 'border-box',
+      mozBoxSizing: 'border-box',
+      boxSizing: 'border-box',
+      width: '100%'
+    };
+    // Should only be called once i.e. on initialization
+    this.textareaClone.style({
+      minHeight: this.textarea.element.offsetHeight + 'px'
+    });
+    this.textareaClone.style(resetStyles);
+    this.textarea.style(resetStyles);
   },
 
   // Sets the basic clone styles and copies styles over from the textarea
   _setCloneStyles: function () {
-    var css = {
-      display: 'block',
-      border: '0 solid',
-      visibility: 'hidden',
-      minHeight: this.textarea.element.offsetHeight + 'px'
-    };
-
-    if (this.textarea.element.getAttribute('wrap') === 'off') {
-      css.overflowX = 'scroll';
-    } else css.whiteSpace = 'pre-wrap';
-
-    style(this.clone, css);
-    this._copyTextareaStylesToClone();
-  },
-
-  _copyTextareaStylesToClone: function () {
-    var properties = [
-      'lineHeight', 'textDecoration', 'letterSpacing',
-      'fontSize', 'fontFamily', 'fontStyle',
-      'fontWeight', 'textTransform', 'textAlign',
-      'direction', 'wordSpacing', 'fontSizeAdjust',
-      'wordWrap', 'word-break',
-      'borderLeftWidth', 'borderRightWidth',
-      'borderTopWidth', 'borderBottomWidth',
-      'paddingLeft', 'paddingRight',
-      'paddingTop', 'paddingBottom', 'maxHeight'
-    ];
-    var computedTextareaStyles = window.getComputedStyle(this.textarea.element);
-    var computedCloneStyles = window.getComputedStyle(this.clone);
-
-    for (var i = 0; i < properties.length; i++) {
-      var property = properties[i];
-      var computedTextareaStyle = computedTextareaStyles[property];
-      var computedCloneStyle = computedCloneStyles[property];
-
-      // Prevent overriding percentage css values.
-      if (computedCloneStyle !== computedTextareaStyle) {
-        this.clone.style[property] = computedTextareaStyle;
-        if (property === 'maxHeight' && computedTextareaStyle !== 'none') {
-          this.clone.style.overflow = 'hidden';
-        }
-      }
-    }
+    this.textareaClone.style(this.textareaClone.styles(this.textarea.element));
   },
 
   _setTextareaStyles: function () {

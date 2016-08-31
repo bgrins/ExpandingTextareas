@@ -1,6 +1,6 @@
-import { wrap, inputEvent, dispatch, warn } from './src/helpers';
-import Textarea from './src/textarea';
-import TextareaClone from './src/textarea-clone';
+import { wrap, inputEvent, dispatch, warn } from './helpers';
+import Textarea from './textarea';
+import TextareaClone from './textarea-clone';
 
 // Expanding Textareas v0.2.0
 // MIT License

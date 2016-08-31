@@ -38,16 +38,6 @@ There aren't any options needed for this plugin.  If your textarea has certain a
 * `<textarea wrap=off></text>`: wrapping will not happen, but if a newline is entered the height will be updated.
 * `<textarea rows=10></text>`: The plugin respects the rows attribute, adjusting the clone's min height accordingly.
 
-## Callbacks
-
-### `update`
-
-    $("#element").expanding({
-        update: function() {
-          // Textarea has been updated, size may have changed.
-        }
-    });
-
 ## Methods
 
 ### `destroy`

@@ -1,4 +1,4 @@
-import { inputEvent, dispatch, warn } from './src/helpers';
+import { wrap, inputEvent, dispatch, warn } from './src/helpers';
 import Textarea from './src/textarea';
 import TextareaClone from './src/textarea-clone';
 
@@ -11,20 +11,15 @@ import TextareaClone from './src/textarea-clone';
 
 var Expanding = function (textarea) {
   var _this = this;
+  this.element = createElement();
   this.textarea = new Textarea(textarea);
   this.textareaClone = new TextareaClone();
   this.textarea.oldStyleAttribute = textarea.getAttribute('style');
   resetStyles.call(this);
   setStyles.call(this);
 
-  this.wrapper = document.createElement('div');
-  this.wrapper.className = 'expanding-wrapper';
-  this.wrapper.style.position = 'relative';
-
-  // Wrap
-  textarea.parentNode.insertBefore(this.wrapper, textarea);
-  this.wrapper.appendChild(textarea);
-  this.wrapper.appendChild(this.textareaClone.element);
+  wrap(textarea, this.element);
+  this.element.appendChild(this.textareaClone.element);
 
   function inputHandler () {
     _this.update.apply(_this, arguments);
@@ -56,12 +51,19 @@ Expanding.prototype = {
   // Tears down the plugin: removes generated elements, applies styles
   // that were prevously present, removes instance from data, unbinds events
   destroy: function () {
-    this.wrapper.removeChild(this.textareaClone.element);
-    this.wrapper.parentNode.insertBefore(this.textarea.element, this.wrapper);
-    this.wrapper.parentNode.removeChild(this.wrapper);
+    this.element.removeChild(this.textareaClone.element);
+    this.element.parentNode.insertBefore(this.textarea.element, this.element);
+    this.element.parentNode.removeChild(this.element);
     this.textarea.destroy();
   }
 };
+
+function createElement () {
+  var element = document.createElement('div');
+  element.className = 'expanding-wrapper';
+  element.style.position = 'relative';
+  return element;
+}
 
 function resetStyles () {
   var styles = {

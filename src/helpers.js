@@ -26,6 +26,11 @@ export var inputEvent = inputEventSupported ? 'input' : 'keyup'
 
 export var isIosDevice = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream
 
+export function wrap (element, wrapper) {
+  element.parentNode.insertBefore(wrapper, element)
+  wrapper.appendChild(element)
+}
+
 export function style (element, styles) {
   for (var property in styles) element.style[property] = styles[property];
 }

@@ -4,6 +4,48 @@
   (global.Expanding = factory());
 }(this, (function () { 'use strict';
 
+// Returns the version of Internet Explorer or -1
+// (indicating the use of another browser).
+// From: http://msdn.microsoft.com/en-us/library/ms537509(v=vs.85).aspx#ParsingUA
+var ieVersion = (function () {
+  var v = -1;
+  if (navigator.appName === 'Microsoft Internet Explorer') {
+    var ua = navigator.userAgent;
+    var re = new RegExp('MSIE ([0-9]{1,}[\\.0-9]{0,})');
+    if (re.exec(ua) !== null) v = parseFloat(RegExp.$1);
+  }
+  return v;
+})();
+
+// Check for oninput support
+// IE9 supports oninput, but not when deleting text, so keyup is used.
+// onpropertychange _is_ supported by IE8/9, but may not be fired unless
+// attached with `attachEvent`
+// (see: http://stackoverflow.com/questions/18436424/ie-onpropertychange-event-doesnt-fire),
+// and so is avoided altogether.
+var inputSupported = (
+  'oninput' in document.createElement('input') && ieVersion !== 9
+);
+
+var inputEvent = inputSupported ? 'input' : 'keyup';
+
+function style (element, styles) {
+  for (var property in styles) element.style[property] = styles[property];
+}
+
+function dispatch (eventName, options) {
+  options = options || {};
+  var event = document.createEvent('Event');
+  event.initEvent(eventName, true, options.cancelable === true);
+  event.data = options.data != null ? options.data : {};
+  var target = options.target != null ? options.target : document;
+  target.dispatchEvent(event);
+}
+
+function warn(text) {
+  if (window.console && console.warn) console.warn(text);
+}
+
 // Expanding Textareas v0.2.0
 // MIT License
 // https://github.com/bgrins/ExpandingTextareas
@@ -42,34 +84,13 @@ Expanding.DEFAULTS = {
 
 $.expanding = $.extend({}, Expanding.DEFAULTS, $.expanding || {});
 
-// Returns the version of Internet Explorer or -1
-// (indicating the use of another browser).
-// From: http://msdn.microsoft.com/en-us/library/ms537509(v=vs.85).aspx#ParsingUA
-var ieVersion = (function () {
-  var v = -1;
-  if (navigator.appName === 'Microsoft Internet Explorer') {
-    var ua = navigator.userAgent;
-    var re = new RegExp('MSIE ([0-9]{1,}[\\.0-9]{0,})');
-    if (re.exec(ua) !== null) v = parseFloat(RegExp.$1);
-  }
-  return v;
-})();
-
-// Check for oninput support
-// IE9 supports oninput, but not when deleting text, so keyup is used.
-// onpropertychange _is_ supported by IE8/9, but may not be fired unless
-// attached with `attachEvent`
-// (see: http://stackoverflow.com/questions/18436424/ie-onpropertychange-event-doesnt-fire),
-// and so is avoided altogether.
-var inputSupported = 'oninput' in document.createElement('input') && ieVersion !== 9;
-
 Expanding.prototype = {
 
   // Attaches input events
   // Only attaches `keyup` events if `input` is not fully suported
   attach: function () {
     var _this = this;
-    var events = [(inputSupported ? 'input' : 'keyup'), 'change'];
+    var events = [inputEvent, 'change'];
     function handler () { _this.update(); }
 
     for (var i = 0; i < events.length; i++) {
@@ -179,23 +200,6 @@ Expanding.prototype = {
   }
 };
 
-function style (element, styles) {
-  for (var property in styles) element.style[property] = styles[property];
-}
-
-function dispatch (eventName, options) {
-  options = options || {};
-  var event = document.createEvent('Event');
-  event.initEvent(eventName, true, options.cancelable === true);
-  event.data = options.data != null ? options.data : {};
-  var target = options.target != null ? options.target : document;
-  target.dispatchEvent(event);
-}
-
-function _warn(text) {
-  if (window.console && console.warn) console.warn(text);
-}
-
 // Plugin Definition
 // =================
 
@@ -216,7 +220,7 @@ function Plugin(option) {
 
     var visible = this.offsetWidth > 0 || this.offsetHeight > 0;
 
-    if (!visible) _warn('ExpandingTextareas: attempt to initialize an invisible textarea. ' +
+    if (!visible) warn('ExpandingTextareas: attempt to initialize an invisible textarea. ' +
                         'Call expanding() again once it has been inserted into the page and/or is visible.');
 
     if (!instance && visible) {

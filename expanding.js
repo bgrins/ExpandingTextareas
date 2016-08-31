@@ -15,22 +15,28 @@
   // Class Definition
   // ================
 
-  var Expanding = function ($textarea, options) {
-    this.$textarea = $textarea;
-    this.$textCopy = $('<span />');
-    this.$clone = $('<pre class="expanding-clone"><br /></pre>').prepend(this.$textCopy);
+  var Expanding = function (textarea) {
+    this.textarea = textarea;
+    this.textCopy = document.createElement('span');
+    this.clone = document.createElement('pre');
+    this.clone.className = 'expanding-clone';
+    this.clone.appendChild(this.textCopy);
+    this.clone.appendChild(document.createElement('br'));
+    this.wrapper = document.createElement('div');
+    this.wrapper.className = 'expanding-wrapper';
+    this.wrapper.style.position = 'relative';
 
-    $textarea
-      .wrap($('<div class="expanding-wrapper" style="position:relative" />'))
-      .after(this.$clone);
+    // Wrap
+    this.textarea.parentNode.insertBefore(this.wrapper, this.textarea);
+    this.wrapper.appendChild(this.textarea);
+    this.wrapper.appendChild(this.clone);
+
+    this._eventListeners = {};
+    this._oldTextareaStyles = this.textarea.getAttribute('style');
 
     this.attach();
     this.setStyles();
     this.update();
-
-    if (typeof options.update === 'function') {
-      $textarea.bind('update.expanding', options.update);
-    }
   };
 
   Expanding.DEFAULTS = {
@@ -66,31 +72,35 @@
     // Attaches input events
     // Only attaches `keyup` events if `input` is not fully suported
     attach: function () {
-      var events = 'input.expanding change.expanding',
-        _this = this;
-      if (!inputSupported) events += ' keyup.expanding';
-      this.$textarea.bind(events, function () { _this.update(); });
+      var _this = this;
+      var events = [(inputSupported ? 'input' : 'keyup'), 'change'];
+      function handler () { _this.update(); }
+
+      for (var i = 0; i < events.length; i++) {
+        var event = events[i];
+        this.textarea.addEventListener(event, handler);
+        this._eventListeners[event] = handler;
+      }
     },
 
     // Updates the clone with the textarea value
     update: function () {
-      this.$textCopy.text(this.$textarea.val().replace(/\r\n/g, '\n'));
-
-      // Use `triggerHandler` to prevent conflicts with `update` in Prototype.js
-      this.$textarea.triggerHandler('update.expanding');
+      this.textCopy.textContent = this.textarea.value.replace(/\r\n/g, '\n');
+      dispatch('expanding:update', { target: this.textarea });
     },
 
     // Tears down the plugin: removes generated elements, applies styles
     // that were prevously present, removes instance from data, unbinds events
     destroy: function () {
-      this.$clone.remove();
-      this.$textarea
-        .unwrap()
-        .attr('style', this._oldTextareaStyles || '')
-        .removeData('expanding')
-        .unbind('input.expanding change.expanding keyup.expanding update.expanding');
-
+      this.wrapper.removeChild(this.clone);
+      this.wrapper.parentNode.insertBefore(this.textarea, this.wrapper);
+      this.wrapper.parentNode.removeChild(this.wrapper);
+      this.textarea.setAttribute('style', this._oldTextareaStyles || '');
       delete this._oldTextareaStyles;
+
+      for (var event in this._eventListeners) {
+        this.textarea.removeEventListener(event, this._eventListeners[event]);
+      }
     },
 
     setStyles: function () {
@@ -102,15 +112,16 @@
     // Applies reset styles to the textarea and clone
     // Stores the original textarea styles in case of destroying
     _resetStyles: function () {
-      this._oldTextareaStyles = this.$textarea.attr('style');
-
-      this.$textarea.add(this.$clone).css({
-        margin: 0,
-        webkitBoxSizing: 'border-box',
-        mozBoxSizing: 'border-box',
-        boxSizing: 'border-box',
-        width: '100%'
-      });
+      var elements = [this.textarea, this.clone];
+      for (var i = 0; i < elements.length; i++) {
+        style(elements[i], {
+          margin: 0,
+          webkitBoxSizing: 'border-box',
+          mozBoxSizing: 'border-box',
+          boxSizing: 'border-box',
+          width: '100%'
+        });
+      }
     },
 
     // Sets the basic clone styles and copies styles over from the textarea
@@ -119,45 +130,49 @@
         display: 'block',
         border: '0 solid',
         visibility: 'hidden',
-        minHeight: this.$textarea.outerHeight()
+        minHeight: this.textarea.offsetHeight + 'px'
       };
 
-      if (this.$textarea.attr('wrap') === 'off') css.overflowX = 'scroll';
-      else css.whiteSpace = 'pre-wrap';
+      if (this.textarea.getAttribute('wrap') === 'off') {
+        css.overflowX = 'scroll';
+      } else css.whiteSpace = 'pre-wrap';
 
-      this.$clone.css(css);
+      style(this.clone, css);
       this._copyTextareaStylesToClone();
     },
 
     _copyTextareaStylesToClone: function () {
-      var _this = this,
-        properties = [
-          'lineHeight', 'textDecoration', 'letterSpacing',
-          'fontSize', 'fontFamily', 'fontStyle',
-          'fontWeight', 'textTransform', 'textAlign',
-          'direction', 'wordSpacing', 'fontSizeAdjust',
-          'wordWrap', 'word-break',
-          'borderLeftWidth', 'borderRightWidth',
-          'borderTopWidth', 'borderBottomWidth',
-          'paddingLeft', 'paddingRight',
-          'paddingTop', 'paddingBottom', 'maxHeight'
-        ];
+      var properties = [
+        'lineHeight', 'textDecoration', 'letterSpacing',
+        'fontSize', 'fontFamily', 'fontStyle',
+        'fontWeight', 'textTransform', 'textAlign',
+        'direction', 'wordSpacing', 'fontSizeAdjust',
+        'wordWrap', 'word-break',
+        'borderLeftWidth', 'borderRightWidth',
+        'borderTopWidth', 'borderBottomWidth',
+        'paddingLeft', 'paddingRight',
+        'paddingTop', 'paddingBottom', 'maxHeight'
+      ];
+      var computedTextareaStyles = window.getComputedStyle(this.textarea);
+      var computedCloneStyles = window.getComputedStyle(this.clone);
 
-      $.each(properties, function (i, property) {
-        var val = _this.$textarea.css(property);
+      for (var i = 0; i < properties.length; i++) {
+        var property = properties[i];
+        var computedTextareaStyle = computedTextareaStyles[property];
+        var computedCloneStyle = computedCloneStyles[property];
 
         // Prevent overriding percentage css values.
-        if (_this.$clone.css(property) !== val) {
-          _this.$clone.css(property, val);
-          if (property === 'maxHeight' && val !== 'none') {
-            _this.$clone.css('overflow', 'hidden');
+        if (computedCloneStyle !== computedTextareaStyle) {
+          this.clone.style[property] = computedTextareaStyle;
+          if (property === 'maxHeight' && computedTextareaStyle !== 'none') {
+            this.clone.style.overflow = 'hidden';
           }
         }
-      });
+      }
     },
 
     _setTextareaStyles: function () {
-      this.$textarea.css({
+      style(this.textarea, {
         position: 'absolute',
         top: 0,
         left: 0,
@@ -168,6 +183,22 @@
     }
   };
 
+  function style (element, styles) {
+    for (var property in styles) element.style[property] = styles[property];
+  }
+
+  function dispatch (eventName, options) {
+    options = options || {};
+    var event = document.createEvent('Event');
+    event.initEvent(eventName, true, options.cancelable === true);
+    event.data = options.data != null ? options.data : {};
+    var target = options.target != null ? options.target : document;
+    target.dispatchEvent(event);
+  }
+
+  function _warn(text) {
+    if (window.console && console.warn) console.warn(text);
+  }
 
   // Plugin Definition
   // =================
@@ -180,7 +211,10 @@
 
       var instance = $this.data('expanding');
 
-      if (instance && option === 'destroy') return instance.destroy();
+      if (instance && option === 'destroy') {
+        $this.removeData('expanding');
+        return instance.destroy();
+      }
 
       if (instance && option === 'refresh') return instance.setStyles();
 
@@ -191,7 +225,7 @@
 
       if (!instance && visible) {
         var options = $.extend({}, $.expanding, typeof option === 'object' && option);
-        $this.data('expanding', new Expanding($this, options));
+        $this.data('expanding', new Expanding($this[0], options));
       }
     });
     return this;
@@ -200,14 +234,9 @@
   $.fn.expanding = Plugin;
   $.fn.expanding.Constructor = Expanding;
 
-  function _warn(text) {
-    if (window.console && console.warn) console.warn(text);
-  }
-
   $(function () {
     if ($.expanding.autoInitialize) {
       $($.expanding.initialSelector).expanding();
     }
   });
-
 }));

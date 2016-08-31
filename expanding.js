@@ -9,7 +9,7 @@ import TextareaClone from './src/textarea-clone';
 // Class Definition
 // ================
 
-var Expanding = function (textarea) {
+function Expanding (textarea) {
   var _this = this;
   this.element = createElement();
   this.textarea = new Textarea(textarea);
@@ -28,7 +28,7 @@ var Expanding = function (textarea) {
   this.textarea.on('change', inputHandler);
 
   this.update();
-};
+}
 
 Expanding.DEFAULTS = {
   autoInitialize: true,

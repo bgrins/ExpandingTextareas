@@ -178,7 +178,7 @@ TextareaClone.prototype = {
   }
 }
 
-/* global $ */
+/* global jQuery */
 // Expanding Textareas v0.2.0
 // MIT License
 // https://github.com/bgrins/ExpandingTextareas
@@ -259,50 +259,52 @@ function setStyles () {
 // Plugin Definition
 // =================
 
-function Plugin (option) {
-  if (option === 'active') return !!this.data('expanding')
+;(function ($) {
+  function Plugin (option) {
+    if (option === 'active') return !!this.data('expanding')
 
-  this.filter('textarea').each(function () {
-    var $this = $(this)
+    this.filter('textarea').each(function () {
+      var $this = $(this)
 
-    var instance = $this.data('expanding')
+      var instance = $this.data('expanding')
 
-    if (instance && option === 'destroy') {
-      $this.removeData('expanding')
-      return instance.destroy()
-    }
+      if (instance && option === 'destroy') {
+        $this.removeData('expanding')
+        return instance.destroy()
+      }
 
-    if (instance && option === 'refresh') return instance.refresh()
+      if (instance && option === 'refresh') return instance.refresh()
 
-    var visible = this.offsetWidth > 0 || this.offsetHeight > 0
+      var visible = this.offsetWidth > 0 || this.offsetHeight > 0
 
-    if (!visible) {
-      warn(
-        'ExpandingTextareas: attempt to initialize an invisible textarea. ' +
-        'Call expanding() again once it has been inserted into the page and/or is visible.'
-      )
-    }
+      if (!visible) {
+        warn(
+          'ExpandingTextareas: attempt to initialize an invisible textarea. ' +
+          'Call expanding() again once it has been inserted into the page and/or is visible.'
+        )
+      }
 
-    if (!instance && visible) {
-      var options = $.extend({}, $.expanding, typeof option === 'object' && option)
-      $this.data('expanding', new Expanding($this[0], options))
-    }
+      if (!instance && visible) {
+        var options = $.extend({}, $.expanding, typeof option === 'object' && option)
+        $this.data('expanding', new Expanding($this[0], options))
+      }
+    })
+    return this
+  }
+
+  var defaults = {
+    autoInitialize: true,
+    initialSelector: 'textarea.expanding'
+  }
+  $.expanding = $.extend({}, defaults, $.expanding || {})
+
+  $.fn.expanding = Plugin
+  $.fn.expanding.Constructor = Expanding
+
+  $(function () {
+    if ($.expanding.autoInitialize) $($.expanding.initialSelector).expanding()
   })
-  return this
-}
-
-var defaults = {
-  autoInitialize: true,
-  initialSelector: 'textarea.expanding'
-}
-$.expanding = $.extend({}, defaults, $.expanding || {})
-
-$.fn.expanding = Plugin
-$.fn.expanding.Constructor = Expanding
-
-$(function () {
-  if ($.expanding.autoInitialize) $($.expanding.initialSelector).expanding()
-})
+})(jQuery)
 
 return Expanding;
 

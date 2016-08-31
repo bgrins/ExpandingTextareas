@@ -3,4 +3,4 @@ export default {
   dest: 'dist/expanding.js',
   format: 'umd',
   moduleName: 'Expanding'
-}
+};

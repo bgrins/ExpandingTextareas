@@ -17,5 +17,6 @@
   "quotmark": "single",
   "undef": true,
   "unused": true,
-  "white": true
+  "white": true,
+  "esnext": true
 }

@@ -20,7 +20,7 @@
   },
   "main": "dist/expanding.js",
   "scripts": {
-    "build": "rollup -c",
+    "build": "rollup -c rollup.config.jquery.js",
     "test": "npm run build && standard src/*.js && node-qunit-phantomjs ./test/index.html"
   },
   "dependencies": {},

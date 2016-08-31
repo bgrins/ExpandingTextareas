@@ -1,15 +1,16 @@
+var userAgent = window.navigator.userAgent
+
 // Returns the version of Internet Explorer or -1
 // (indicating the use of another browser).
 // From: http://msdn.microsoft.com/en-us/library/ms537509(v=vs.85).aspx#ParsingUA
 var ieVersion = (function () {
-  var v = -1;
-  if (navigator.appName === 'Microsoft Internet Explorer') {
-    var ua = navigator.userAgent;
-    var re = new RegExp('MSIE ([0-9]{1,}[\\.0-9]{0,})');
-    if (re.exec(ua) !== null) v = parseFloat(RegExp.$1);
+  var version = -1
+  if (window.navigator.appName === 'Microsoft Internet Explorer') {
+    var regExp = new RegExp('MSIE ([0-9]{1,}[\\.0-9]{0,})')
+    if (regExp.exec(userAgent) !== null) version = parseFloat(RegExp.$1)
   }
-  return v;
-})();
+  return version
+})()
 
 // Check for oninput support
 // IE9 supports oninput, but not when deleting text, so keyup is used.
@@ -17,11 +18,13 @@ var ieVersion = (function () {
 // attached with `attachEvent`
 // (see: http://stackoverflow.com/questions/18436424/ie-onpropertychange-event-doesnt-fire),
 // and so is avoided altogether.
-var inputSupported = (
+var inputEventSupported = (
   'oninput' in document.createElement('input') && ieVersion !== 9
-);
+)
 
-export var inputEvent = inputSupported ? 'input' : 'keyup';
+export var inputEvent = inputEventSupported ? 'input' : 'keyup'
+
+export var isIosDevice = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream
 
 export function style (element, styles) {
   for (var property in styles) element.style[property] = styles[property];

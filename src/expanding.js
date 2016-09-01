@@ -2,13 +2,6 @@ import { wrap, inputEvent, dispatch } from './helpers'
 import Textarea from './textarea'
 import TextareaClone from './textarea-clone'
 
-// Expanding Textareas v0.2.0
-// MIT License
-// https://github.com/bgrins/ExpandingTextareas
-
-// Class Definition
-// ================
-
 function Expanding (textarea) {
   var _this = this
   this.element = createElement()
@@ -31,7 +24,6 @@ function Expanding (textarea) {
 }
 
 Expanding.prototype = {
-  // Updates the clone with the textarea value
   update: function () {
     this.textareaClone.value(this.textarea.value())
     dispatch('expanding:update', { target: this.textarea.element })
@@ -41,8 +33,6 @@ Expanding.prototype = {
     setStyles.call(this)
   },
 
-  // Tears down the plugin: removes generated elements, applies styles
-  // that were prevously present, removes instance from data, unbinds events
   destroy: function () {
     this.element.removeChild(this.textareaClone.element)
     this.element.parentNode.insertBefore(this.textarea.element, this.element)

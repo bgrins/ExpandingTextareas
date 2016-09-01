@@ -1,3 +1,10 @@
+/*
+ * ExpandingTextareas 0.2.0
+ * Copyright © 2011+ Brian Grinstead
+ * Released under the MIT license
+ * http://bgrins.github.com/ExpandingTextareas/
+ */
+
 (function () {
 'use strict';
 
@@ -175,13 +182,6 @@ TextareaClone.prototype = {
   }
 }
 
-// Expanding Textareas v0.2.0
-// MIT License
-// https://github.com/bgrins/ExpandingTextareas
-
-// Class Definition
-// ================
-
 function Expanding (textarea) {
   var _this = this
   this.element = createElement()
@@ -204,7 +204,6 @@ function Expanding (textarea) {
 }
 
 Expanding.prototype = {
-  // Updates the clone with the textarea value
   update: function () {
     this.textareaClone.value(this.textarea.value())
     dispatch('expanding:update', { target: this.textarea.element })
@@ -214,8 +213,6 @@ Expanding.prototype = {
     setStyles.call(this)
   },
 
-  // Tears down the plugin: removes generated elements, applies styles
-  // that were prevously present, removes instance from data, unbinds events
   destroy: function () {
     this.element.removeChild(this.textareaClone.element)
     this.element.parentNode.insertBefore(this.textarea.element, this.element)

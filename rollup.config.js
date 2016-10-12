@@ -10,7 +10,7 @@ export default {
   banner: [
     '/*',
     ' * ' + pkg.name + ' ' + pkg.version,
-    ' * Copyright © 2011+ ' + pkg.author.name,
+    ' * Copyright © 2011+ ' + pkg.contributors[0].name,
     ' * Released under the ' + pkg.license + ' license',
     ' * ' + pkg.homepage,
     ' */',

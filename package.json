@@ -9,10 +9,16 @@
   },
   "bugs": "https://github.com/bgrins/ExpandingTextareas/issues",
   "license": "MIT",
-  "author": {
-    "name": "Brian Grinstead",
-    "web": "http://briangrinstead.com/"
-  },
+  "contributors": [
+    {
+      "name": "Brian Grinstead",
+      "url": "http://briangrinstead.com/"
+    },
+    {
+      "name": "Dom Christie",
+      "url": "http://www.domchristie.co.uk/"
+    }
+  ],
   "main": "dist/expanding.js",
   "scripts": {
     "build": "rollup -c && rollup -c rollup.config.jquery.js",

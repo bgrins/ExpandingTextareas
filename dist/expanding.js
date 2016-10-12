@@ -182,7 +182,6 @@ TextareaClone.prototype = {
 }
 
 function Expanding (textarea) {
-  var _this = this
   this.element = createElement()
   this.textarea = new Textarea(textarea)
   this.textareaClone = new TextareaClone()
@@ -193,9 +192,7 @@ function Expanding (textarea) {
   wrap(textarea, this.element)
   this.element.appendChild(this.textareaClone.element)
 
-  function inputHandler () {
-    _this.update.apply(_this, arguments)
-  }
+  var inputHandler = this.update.bind(this)
   this.textarea.on(inputEvent, inputHandler)
   this.textarea.on('change', inputHandler)
 

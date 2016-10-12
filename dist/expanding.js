@@ -1,5 +1,5 @@
 /*
- * ExpandingTextareas 0.2.0
+ * expanding-textareas 1.0.0
  * Copyright © 2011+ Brian Grinstead
  * Released under the MIT license
  * http://bgrins.github.com/ExpandingTextareas/

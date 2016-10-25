@@ -8,7 +8,7 @@ An elegant approach to making textareas automatically grow. Based on [Expanding 
 Installation
 ------------
 
-`Expanding` can be installed via NPM, Bower, or by downloading the script located at `dist/expanding.js. It can be required via CommonJS, AMD, or as a global (e.g. `window.Expanding`).
+`Expanding` can be installed via NPM, Bower, or by downloading the script located at `dist/expanding.js`. It can be required via CommonJS, AMD, or as a global (e.g. `window.Expanding`).
 
 via npm:
 

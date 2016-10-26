@@ -1,140 +1,195 @@
-# Expanding Textareas jQuery Plugin
+ExpandingTextareas
+==================
 
-Based off of work by [Neil Jenkins](http://nmjenkins.com/) that can be seen here: http://www.alistapart.com/articles/expanding-text-areas-made-elegant/
+[![Build Status](https://travis-ci.org/bgrins/ExpandingTextareas.svg?branch=master)](https://travis-ci.org/bgrins/ExpandingTextareas)
 
-## Usage
+An elegant approach to making textareas automatically grow. Based on [Expanding Text Areas Made Elegant](http://www.alistapart.com/articles/expanding-text-areas-made-elegant/) by [Neil Jenkins](http://nmjenkins.com/).
 
-### Automatic
+Installation
+------------
 
-Start with markup like this:
+`Expanding` can be installed via NPM, Bower, or by downloading the script located at `dist/expanding.js`. It can be required via CommonJS, AMD, or as a global (e.g. `window.Expanding`).
 
-    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script src='PATH/TO/expanding.js'></script>
-    <textarea class='expanding'></textarea>
+via npm:
 
-*And that's it*.  The plugin finds textareas with the `expanding` class on page load and initializes them for you.  These textareas will automatically resize now as the user changes the value.
+```
+npm install expanding-textareas
+…
+var Expanding = require('expanding-textareas')
+```
 
-If you'd like to change the initial selector to grab ALL textareas on load, you can change this property:
+via bower:
 
-    $.expanding.initialSelector = "textarea";
+```
+bower install expanding-textareas
+```
 
-### Manual
+The library is also available as a jQuery plugin (see below).
 
-If you would prefer to initialize the textareas on your own, do something like this:
+Usage
+-----
 
-    <script type='text/javascript'>
-        $("#element").expanding();
-    </script>
+`Expanding` is a constructor which takes a textarea DOM node as its only argument:
 
-If you'd like to change the value by code and have it resize manually, you can do:
+```js
+var textarea = document.querySelector('textarea')
+var expanding = new Expanding(textarea)
+```
 
-    $('textarea').val('New\nValue!').change()
-
-
-## Options
-
-There aren't any options needed for this plugin.  If your textarea has certain attributes, the plugin will handle them gracefully.
-
-* `<textarea wrap=off></text>`: wrapping will not happen, but if a newline is entered the height will be updated.
-* `<textarea rows=10></text>`: The plugin respects the rows attribute, adjusting the clone's min height accordingly.
-
-## Callbacks
+That's it! The textarea will now expand as the user types.
 
 ### `update`
 
-    $("#element").expanding({
-        update: function() {
-          // Textarea has been updated, size may have changed.
-        }
-    });
+Updates the textarea height. This method is called automatically when the user types, but when setting the textarea content programmatically, it can be used to ensure the height expands as needed. For example:
 
-## Methods
+```js
+var textarea = document.querySelector('textarea')
+var expanding = new Expanding(textarea)
 
-### `destroy`
-
-Once attached, the expanding behaviour can be removed as follows:
-
-    $("#element").expanding('destroy');
-
-### `active`
-
-To test whether a jQuery selection has expanding behaviour:
-
-    $("#element").expanding('active'); // -> boolean
-
-Note: this behaves like `.hasClass()`: it will return `true` if _any_ of the nodes in the selection have expanding behaviour.
+textarea.value = 'Hello\nworld!' // Height is not yet updated
+expanding.update() // Height is now updated
+```
 
 ### `refresh`
 
-Plugin styles can be refreshed as follows:
+Resets the styles of the internal elements to match those of the textarea. This may be useful if the textarea has percentage padding, and the browser window resizes, or if the textarea styles change after `Expanding is called`.
 
-    $(".element").expanding('refresh');
+### `destroy`
 
-This should be called after expanding textarea styles are updated, or box model dimensions are changed.
+Removes the behavior. It unbinds the internal event listeners and removes the DOM nodes created by the library.
 
-### Textareas outside the DOM
+jQuery Plugin
+-------------
 
-The plugin creates a textarea clone with identical dimensions to that of the original. It therefore requires that the textarea be in place in the DOM for these dimensions to be correct. Calling `expanding()` on a textarea outside the DOM will have no effect.
+Download the jQuery plugin located at `dist/expanding.jquery.js`, and include it in your page (after jQuery). For example:
 
-## Styling
+```html
+<script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script src='PATH/TO/expanding.js'></script>
+```
 
-You can style things how you'd like for the textarea, and they will automatically be copied over to the invisible pre tag, **with the exception of margins** (which are reset to 0, to ensure that the clone maintains the correct size and positioning).
+Then, include the `expanding` class in any textarea you wish to add the behavior to:
 
-**[Flash of unstyled content](http://en.wikipedia.org/wiki/Flash_of_unstyled_content) (FOUC)** can be avoided by adding the following styles to your stylesheet (adjust the selector if necessary):
+```html
+<textarea class="expanding"></textarea>
+```
 
-    textarea.expanding {
-      margin: 0;
-      -webkit-box-sizing: border-box;
-         -moz-box-sizing: border-box;
-              box-sizing: border-box;
-      width: 100%;
-    }
+The plugin will attach the behavior to every `.expanding` textarea when the DOM is ready.
 
-By default, the textarea will behave like a block-level element: its width will expand to fill its container. To restrict the textarea width, simply apply a width declaration to a parent element e.g. the textarea wrapper:
+### Customizing the Initial Selector
 
-    .expanding-wrapper {
-       width: 50%;
-    }
+To change the selector used for automatic initialization, modify `$.expanding.initialSelector`. For example:
 
-See the [demo](http://bgrins.github.com/ExpandingTextareas/) to see the plugin in action.
+```javascript
+$.expanding = {
+  initialSelector: '[data-behavior=expanding]'
+}
+```
 
-## Browser Support
+### Disabling Automatic Initialization
 
-This has been checked in Chrome, Safari, Firefox, IE8, and mobile Safari and it works in all of them.
+To disable auto-initialization, set `$.expanding.autoInitialize` to `false`:
 
-## How it works
+```
+$.expanding = {
+  autoInitialize: false
+}
+```
 
-See the [original article](http://www.alistapart.com/articles/expanding-text-areas-made-elegant/) for a great explanation of how this technique works.
+### Manual Initialization
 
-The plugin will automatically find this textarea, and turn it into an expanding one.  The final (generated) markup will look something like this:
+To manually initialize the plugin call `expanding()` on the jQuery selection. For example to apply the behavior to all textareas:
 
-    <div class="expanding-wrapper">
-      <textarea class="expanding"></textarea>
-      <pre class="expanding-clone"><div></div></pre>
-    </div>
+```javascript
+$('textarea').expanding()
+```
 
-The way it works is that as the user types, the text content is copied into the div inside the pre (which is actually providing the height of the textarea).  So it could look like this:
+### Options
 
-    <div class="expanding-wrapper">
-      <textarea class="expanding">Some Content\nWas Entered</textarea>
-      <pre class="expanding-clone"><div>Some Content
-      Was Entered</div></pre>
-    </div>
+#### `destroy`
 
-## Running Tests Locally
+`'destroy'` will remove the behavior:
 
-**Browser**: open `test/index.html`
+```js
+$('textarea').expanding('destroy')
+```
 
-**Command line**: make sure you have installed [node.js](http://nodejs.org/), and [grunt-cli](http://gruntjs.com/getting-started), then run:
+#### `active`
 
-    $ npm install
+`'active'` will check whether it has the expanding behavior applied:
 
-Followed by:
+```js
+$('textarea').expanding('active') // returns true or false
+```
 
-    $ grunt test
+Note: this behaves like `.hasClass()`: it will return `true` if _any_ of the nodes in the selection have the expanding behaviour.
 
-## Continuous Deployment
+#### `refresh`
 
-View tests online at: https://travis-ci.org/bgrins/ExpandingTextareas.
+`'refresh'` will update the styles (see above for more details):
 
-[![Build Status](https://travis-ci.org/bgrins/ExpandingTextareas.svg?branch=master)](https://travis-ci.org/bgrins/ExpandingTextareas)
+```javascript
+$('textarea').expanding('refresh')
+```
+
+Caveats
+-------
+
+Textareas must be visible for the library to function properly. The library creates a textarea clone with identical dimensions to that of the original. It therefore requires that the textarea be in place in the DOM for these dimensions to be correct.
+
+Any styling applied to the target textarea will be maintained with the exception of margins and widths. (Margins are reset to 0 to ensure that the textarea maintains the correct size and positioning.)
+
+After the expanding behavior has been applied, the textarea will appear like a block-level element: its width will expand to fill its container. To restrict the textarea width, apply a width declaration to a parent element. The library's wrapper (`.expanding-wrapper`) element may be useful in this case:
+
+```css
+.expanding-wrapper {
+   width: 50%;
+}
+```
+
+[Flash of unstyled content](http://en.wikipedia.org/wiki/Flash_of_unstyled_content) can be avoided by adding the following styles (adjust the selector as necessary):
+
+```css
+textarea.expanding {
+  margin: 0;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 100%;
+}
+```
+
+Browser Support
+---------------
+
+The library aims to support modern versions of the following browsers: Chrome, Firefox, IE (9+), Opera, and Safari (incl. iOS). View [the test suite](http://bgrins.github.io/ExpandingTextareas/test/) to see if check if your browser is fully supported. (If there are no failures then you're good to go!)
+
+Development & Testing
+---------------------
+
+This library has been developed with ES2015 modules and bundled with [Rollup](http://rollupjs.org). To get started with development, first clone the project:
+
+```
+git clone git@github.com:bgrins/ExpandingTextareas.git
+```
+
+Then navigate to the project and install the dependencies:
+
+```
+cd ExpandingTextareas
+npm install
+```
+
+To bundle the source files:
+
+```
+npm run build
+```
+
+And finally to test:
+
+```
+npm test
+```
+
+Run the tests in a browser by opening `test/index.html`.

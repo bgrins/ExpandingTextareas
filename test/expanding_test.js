@@ -4,6 +4,15 @@ module('ExpandingTextareas', {
   }
 });
 
+function dispatch (eventName, options) {
+  options = options || {};
+  var event = document.createEvent('Event');
+  event.initEvent(eventName, true, options.cancelable === true);
+  event.data = options.data != null ? options.data : {};
+  var target = options.target != null ? options.target : document;
+  target.dispatchEvent(event);
+}
+
 test('Returns the jQuery object', 1, function () {
   var $textarea = $('<textarea />');
   equal($textarea.expanding(), $textarea);
@@ -160,7 +169,8 @@ test('Textarea maintains its coordinates after expanding init', function () {
 
 test('Updates the clone text on input', 1, function () {
   var text = 'Hello world!';
-  this.$textarea.val(text).trigger('input');
+  this.$textarea.val(text);
+  dispatch('input', { target: this.$textarea[0] });
   equal(this.$textarea.siblings('pre').find('span').text(), text,
     'Clone’s `span` element updated with the textarea’s value');
 });
@@ -172,7 +182,8 @@ test('Clone and wrapper grow with textarea when long text inserted', 4, function
   for (var i = 0; i < 5; i++) {
     longText += longText + longText;
   }
-  this.$textarea.val(longText).trigger('input');
+  this.$textarea.val(longText);
+  dispatch('input', { target: this.$textarea[0] });
   equal(this.$textarea.outerHeight(true), $clone.outerHeight(true));
   equal(this.$textarea.outerWidth(true), $clone.outerWidth(true));
   equal(this.$textarea.outerHeight(true), $wrapper.outerHeight());
@@ -186,59 +197,12 @@ test('Height does not increase once textarea max-height is reached', function ()
 
   $textarea.css('maxHeight', maxHeight).expanding();
 
-  $textarea.val(text).trigger('input');
+  $textarea.val(text);
+  dispatch('input', { target: $textarea[0] });
 
   equal($textarea.outerHeight(), maxHeight);
   equal($textarea.outerHeight(), $textarea.siblings('pre').outerHeight());
 });
-
-// ============
-// = Callback =
-// ============
-
-(function () {
-  // Returns the version of Internet Explorer or -1
-  var ieVersion = (function () {
-    var v = -1;
-    if (navigator.appName === 'Microsoft Internet Explorer') {
-      var ua = navigator.userAgent;
-      var re = new RegExp('MSIE ([0-9]{1,}[\\.0-9]{0,})');
-      if (re.exec(ua) !== null) v = parseFloat(RegExp.$1);
-    }
-    return v;
-  })();
-
-  var inputSupported = 'oninput' in document.createElement('input') && ieVersion !== 9;
-
-  if (inputSupported) {
-    test('Invokes `options.update` callback called once on keypress', 1, function () {
-      var $textarea = $('<textarea />').appendTo('#qunit-fixture').expanding({
-        update: function callback() {
-          ok(true, '`options.update` callback called');
-        }
-      });
-      // Simulate keypress
-      $textarea
-        .trigger('keydown')
-        .trigger('input')
-        .trigger('keyup');
-    });
-  }
-  else {
-    test('Invokes `options.update` callback called once on keyup', 1, function () {
-      var $textarea = $('<textarea />').appendTo('#qunit-fixture').expanding({
-        update: function callback() {
-          ok(true, '`options.update` callback called');
-        }
-      });
-      // Simulate keypress for browesers that do no support oninput
-      $textarea
-        .trigger('keydown')
-        .trigger('keyup');
-    });
-  }
-
-})();
 
 // ===========
 // = Refresh =

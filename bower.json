@@ -6,7 +6,7 @@
     "Brian Grinstead <briangrinstead@gmail.com>"
   ],
   "description": "jQuery plugin for elegant expanding textareas",
-  "main": "expanding.js",
+  "main": "dist/expanding.js",
   "moduleType": [
     "amd",
     "globals"

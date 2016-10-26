@@ -1,32 +1,34 @@
 {
-  "name": "ExpandingTextareas",
-  "version": "0.3.0",
-  "description": "jQuery plugin for elegant expanding textareas",
+  "name": "expanding-textareas",
+  "version": "1.0.0",
+  "description": "An elegant approach to making textareas automatically grow.",
   "homepage": "http://bgrins.github.com/ExpandingTextareas/",
   "repository": {
     "type": "git",
     "url": "git://github.com/bgrins/ExpandingTextareas.git"
   },
   "bugs": "https://github.com/bgrins/ExpandingTextareas/issues",
-  "licenses": [
+  "license": "MIT",
+  "contributors": [
     {
-      "type": "MIT",
-      "url": "http://mit-license.org/"
+      "name": "Brian Grinstead",
+      "url": "http://briangrinstead.com/"
+    },
+    {
+      "name": "Dom Christie",
+      "url": "http://www.domchristie.co.uk/"
     }
   ],
-  "author": {
-    "name": "Brian Grinstead",
-    "web": "http://briangrinstead.com/"
-  },
-  "main": "./expanding.js",
+  "main": "dist/expanding.js",
   "scripts": {
-    "test": "grunt test"
+    "build": "rollup -c && rollup -c rollup.config.jquery.js",
+    "test": "standard src/*.js && node-qunit-phantomjs ./test/index.html"
   },
   "dependencies": {},
   "devDependencies": {
-    "qunit": "~0.5.15",
-    "grunt-contrib-jshint": "~0.10.0",
-    "grunt-contrib-qunit": "~0.2.1",
-    "qunitjs": "~1.11.0"
+    "node-qunit-phantomjs": "^1.4.0",
+    "rollup": "^0.34.11",
+    "rollup-plugin-json": "^2.0.1",
+    "standard": "^8.0.0"
   }
 }

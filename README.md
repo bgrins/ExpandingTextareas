@@ -52,7 +52,7 @@ expanding.update() // Height is now updated
 
 ### `refresh`
 
-Resets the styles of the internal elements to match those of the textarea. This may be useful if the textarea has percentage padding, and the browser window resizes, or if the textarea styles change after `Expanding is called`.
+Resets the styles of the internal elements to match those of the textarea. This may be useful if the textarea has percentage padding, and the browser window resizes, or if the textarea styles change after `Expanding` is called.
 
 ### `destroy`
 

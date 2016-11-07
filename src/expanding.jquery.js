@@ -31,6 +31,9 @@ import Expanding from './expanding'
 
       if (instance) {
         switch (option) {
+          case 'update':
+            instance.update()
+            return
           case 'destroy':
             $this.removeData('expanding')
             instance.destroy()

@@ -193,10 +193,7 @@ function Expanding (textarea) {
   wrap(textarea, this.element)
   this.element.appendChild(this.textareaClone.element)
 
-  var inputHandler = this.update.bind(this)
-  this.textarea.on(inputEvent, inputHandler)
-  this.textarea.on('change', inputHandler)
-
+  this.textarea.on(inputEvent, this.update.bind(this))
   this.update()
 }
 

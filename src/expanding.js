@@ -13,7 +13,13 @@ function Expanding (textarea) {
   wrap(textarea, this.element)
   this.element.appendChild(this.textareaClone.element)
 
-  this.textarea.on(inputEvent, this.update.bind(this))
+  var inputHandler = this.update.bind(this)
+  this.textarea.on(inputEvent, inputHandler)
+  if (inputEvent !== 'input') {
+    this.textarea.on('cut', inputHandler)
+    this.textarea.on('paste', inputHandler)
+  }
+
   this.update()
 }
 

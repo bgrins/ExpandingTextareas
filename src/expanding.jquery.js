@@ -38,6 +38,9 @@ import Expanding from './expanding'
           case 'refresh':
             instance.refresh()
             return
+          case 'update':
+            instance.update()
+            return
           default:
             return
         }

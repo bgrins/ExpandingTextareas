@@ -10,7 +10,7 @@
   "moduleType": [
     "amd",
     "globals",
-    "node",
+    "node"
   ],
   "keywords": [
     "expanding",

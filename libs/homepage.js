@@ -24,7 +24,7 @@ $(function() {
     typetype("This is just a normal textarea...\n\n", {
       e:0, // no typing errors!
       ms:90, // fast typing
-      keypress: function(){$(this).data('expanding').update()},
+      keypress: function(){$(this).expanding('update')},
       callback: function(){$('#demo').addClass('persp')}
     }).
     typetype("except it expands when you type!", {

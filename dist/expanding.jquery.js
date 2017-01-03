@@ -195,7 +195,10 @@ function Expanding (textarea) {
 
   var inputHandler = this.update.bind(this)
   this.textarea.on(inputEvent, inputHandler)
-  this.textarea.on('change', inputHandler)
+  if (inputEvent !== 'input') {
+    this.textarea.on('cut', inputHandler)
+    this.textarea.on('paste', inputHandler)
+  }
 
   this.update()
 }
@@ -275,6 +278,9 @@ function setStyles () {
 
       if (instance) {
         switch (option) {
+          case 'update':
+            instance.update()
+            return
           case 'destroy':
             $this.removeData('expanding')
             instance.destroy()

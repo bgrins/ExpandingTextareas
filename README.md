@@ -65,7 +65,7 @@ Download the jQuery plugin located at `dist/expanding.jquery.js`, and include it
 
 ```html
 <script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
-<script src='PATH/TO/expanding.js'></script>
+<script src='PATH/TO/expanding.jquery.js'></script>
 ```
 
 Then, include the `expanding` class in any textarea you wish to add the behavior to:

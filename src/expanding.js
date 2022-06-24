@@ -1,4 +1,4 @@
-import { wrap, inputEvent, dispatch } from './helpers'
+import { wrap, dispatch } from './helpers'
 import Textarea from './textarea'
 import TextareaClone from './textarea-clone'
 
@@ -14,8 +14,7 @@ function Expanding (textarea) {
   this.element.appendChild(this.textareaClone.element)
 
   var inputHandler = this.update.bind(this)
-  this.textarea.on(inputEvent, inputHandler)
-  this.textarea.on('change', inputHandler)
+  this.textarea.on('input', inputHandler)
 
   this.update()
 }

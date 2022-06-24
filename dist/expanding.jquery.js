@@ -8,34 +8,6 @@
 (function () {
 'use strict';
 
-var userAgent = window.navigator.userAgent
-
-// Returns the version of Internet Explorer or -1
-// (indicating the use of another browser).
-// From: http://msdn.microsoft.com/en-us/library/ms537509(v=vs.85).aspx#ParsingUA
-var ieVersion = (function () {
-  var version = -1
-  if (window.navigator.appName === 'Microsoft Internet Explorer') {
-    var regExp = new RegExp('MSIE ([0-9]{1,}[\\.0-9]{0,})')
-    if (regExp.exec(userAgent) !== null) version = parseFloat(RegExp.$1)
-  }
-  return version
-})()
-
-// Check for oninput support
-// IE9 supports oninput, but not when deleting text, so keyup is used.
-// onpropertychange _is_ supported by IE8/9, but may not be fired unless
-// attached with `attachEvent`
-// (see: http://stackoverflow.com/questions/18436424/ie-onpropertychange-event-doesnt-fire),
-// and so is avoided altogether.
-var inputEventSupported = (
-  'oninput' in document.createElement('input') && ieVersion !== 9
-)
-
-var inputEvent = inputEventSupported ? 'input' : 'keyup'
-
-var isIosDevice = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream
-
 function wrap (element, wrapper) {
   element.parentNode.insertBefore(wrapper, element)
   wrapper.appendChild(element)
@@ -125,8 +97,8 @@ var styleProperties = {
   lineHeight: null,
   maxHeight: null,
   paddingBottom: null,
-  paddingLeft: paddingHorizontal,
-  paddingRight: paddingHorizontal,
+  paddingLeft: null,
+  paddingRight: null,
   paddingTop: null,
   textAlign: null,
   textDecoration: null,
@@ -134,10 +106,6 @@ var styleProperties = {
   wordBreak: null,
   wordSpacing: null,
   wordWrap: null
-}
-
-function paddingHorizontal (computedStyle) {
-  return isIosDevice ? (parseFloat(computedStyle) + 3) + 'px' : computedStyle
 }
 
 function TextareaClone () {
@@ -194,8 +162,7 @@ function Expanding (textarea) {
   this.element.appendChild(this.textareaClone.element)
 
   var inputHandler = this.update.bind(this)
-  this.textarea.on(inputEvent, inputHandler)
-  this.textarea.on('change', inputHandler)
+  this.textarea.on('input', inputHandler)
 
   this.update()
 }

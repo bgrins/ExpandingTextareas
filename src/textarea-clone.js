@@ -1,4 +1,4 @@
-import { style, isIosDevice } from './helpers'
+import { style } from './helpers'
 
 var styleProperties = {
   borderBottomWidth: null,
@@ -15,8 +15,8 @@ var styleProperties = {
   lineHeight: null,
   maxHeight: null,
   paddingBottom: null,
-  paddingLeft: paddingHorizontal,
-  paddingRight: paddingHorizontal,
+  paddingLeft: null,
+  paddingRight: null,
   paddingTop: null,
   textAlign: null,
   textDecoration: null,
@@ -24,10 +24,6 @@ var styleProperties = {
   wordBreak: null,
   wordSpacing: null,
   wordWrap: null
-}
-
-function paddingHorizontal (computedStyle) {
-  return isIosDevice ? (parseFloat(computedStyle) + 3) + 'px' : computedStyle
 }
 
 export default function TextareaClone () {
